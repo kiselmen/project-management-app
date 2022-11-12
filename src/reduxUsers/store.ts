@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reducerIsLogging } from './reducers';
+import { rootReducer } from './reducers';
 import thunk from 'redux-thunk';
-import initialState from '../consts/initialState';
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
-  reducer: reducerIsLogging,
+  reducer: rootReducer,
   middleware: [thunk],
-  preloadedState: initialState,
 });
 
 export default store;

@@ -1,4 +1,4 @@
-import initialState from '../../consts/initialState';
+import initialState from '../initialState';
 import {
   ActionType,
   ActionTypes,
