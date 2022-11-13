@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.13",
     "@mui/styled-engine-sc": "^5.10.6",
     "@reduxjs/toolkit": "^1.9.0",
@@ -59,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-prettier": "^4.2.1",
