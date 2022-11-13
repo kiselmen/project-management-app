@@ -4,8 +4,8 @@ const CustomizedFlex = styled.div`
   color: white;
   text-decoration: none;
   display: flex;
-  column-gap: 5px;
   align-items: center;
+  margin: 0 10px 0 10px;
 `;
 
 export default CustomizedFlex;
