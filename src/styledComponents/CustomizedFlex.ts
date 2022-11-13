@@ -5,6 +5,7 @@ const CustomizedFlex = styled.div`
   text-decoration: none;
   display: flex;
   column-gap: 5px;
+  align-items: center;
 `;
 
 export default CustomizedFlex;

@@ -1,26 +1,54 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import HomeIcon from '@mui/icons-material/Home';
-import { CustomizedContainer, CustomizedTypography } from '../../styledComponents';
-import LoginIcon from '@mui/icons-material/Login';
-import Navigation from '../navigation/Navigation';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Link } from 'react-router-dom';
 
-const pages = ['BOARDS', 'NEW BOARD', 'PROFILE'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 
-function ResponsiveAppBar() {
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import QueueSharpIcon from '@mui/icons-material/QueueSharp';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
+
+import { CustomizedFlex } from '../../styledComponents';
+
+import { langs, pages } from '../../consts/consts';
+
+interface IPageName {
+  page: string;
+}
+
+const PageIcon = (props: IPageName) => {
+  const { page } = props;
+  const iconBoards = page === pages[0].name ? true : false;
+  const iconNewBoard = page === pages[1].name ? true : false;
+  const iconProfile = page === pages[2].name ? true : false;
+  const iconLogin = page === pages[3].name ? true : false;
+  const iconSignUp = page === pages[4].name ? true : false;
+  return (
+    <>
+      {iconBoards && <ListAltOutlinedIcon />}
+      {iconNewBoard && <QueueSharpIcon />}
+      {iconProfile && <ManageAccountsSharpIcon />}
+      {iconLogin && <LoginIcon />}
+      {iconSignUp && <PersonAddAltIcon />}
+    </>
+  );
+};
+
+function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -40,11 +68,27 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="sticky">
-      <CustomizedContainer maxWidth="xl">
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <CustomizedTypography variant="h6">ГЛАВНАЯ</CustomizedTypography>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Home page
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -76,15 +120,15 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <CustomizedTypography variant="h6" textAlign="center">
-                    {page}
-                  </CustomizedTypography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Link to={page.path} style={{ textDecoration: 'none' }}>
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <HomeIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -101,32 +145,30 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Home page
           </Typography>
-          <Navigation />
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Link to={page.path} key={page.name} style={{ textDecoration: 'none' }}>
+                <CustomizedFlex>
+                  <PageIcon page={page.name} />
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.name}
+                  </Button>
+                </CustomizedFlex>
+              </Link>
+            ))}
+          </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: '30px' }}>
-                <CustomizedTypography variant="h6">EN</CustomizedTypography>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                EN
               </IconButton>
             </Tooltip>
-
-            <Link to="/authorization">
-              <Button variant="outlined" component="span" color="inherit" startIcon={<LoginIcon />}>
-                Вход
-              </Button>
-            </Link>
-
-            <Link to="/registration">
-              <Button
-                variant="outlined"
-                component="span"
-                color="inherit"
-                startIcon={<PersonAddAltIcon />}
-              >
-                Регистрация
-              </Button>
-            </Link>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -143,16 +185,16 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {langs.map((lang) => (
+                <MenuItem key={lang} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{lang}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
         </Toolbar>
-      </CustomizedContainer>
+      </Container>
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;
