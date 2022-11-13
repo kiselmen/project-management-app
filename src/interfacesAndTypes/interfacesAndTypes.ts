@@ -15,3 +15,8 @@ type ActionType = ISetIsLogging;
 
 export { ActionTypes };
 export type { ActionType, ISetIsLogging, IInitialState };
+
+export type AuthPageValues = {
+  text: string;
+  password: string;
+};
