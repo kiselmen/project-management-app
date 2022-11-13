@@ -1,3 +1,5 @@
+import { AnyAction } from '@reduxjs/toolkit';
+
 interface IInitialState {
   isLogging: boolean;
 }
@@ -11,12 +13,13 @@ interface ISetIsLogging {
   value: boolean;
 }
 
-type ActionType = ISetIsLogging;
+type ActionType = ISetIsLogging | AnyAction;
 
 export { ActionTypes };
 export type { ActionType, ISetIsLogging, IInitialState };
 
 export type AuthPageValues = {
-  text: string;
+  name: string;
+  login: string;
   password: string;
 };

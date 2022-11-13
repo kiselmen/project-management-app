@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
+import { useCreateProductMutation } from '../../reduxUsers/api/createApiRequests';
 
 const FormContainerStyles = styled.div`
   text-align: center;
@@ -24,18 +25,23 @@ const FormStyles = styled.form`
 const CreateForm = () => {
   const validationSchema = yup.object({
     name: yup.string().max(15, 'Maximum 10 characters').required('Please enter your name'),
-    text: yup.string().max(15, 'Maximum 20 characters').required('Please enter your login'),
+    login: yup.string().max(15, 'Maximum 20 characters').required('Please enter your login'),
     password: yup.string().min(5, 'Minimum 5 characters').required('Please enter a valid password'),
   });
 
   const userAuthPageSubmit = (values: AuthPageValues) => {
-    alert(JSON.stringify(values, null, 2));
+    // alert(JSON.stringify(values, null, 2));
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    console.log(values);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useCreateProductMutation({ values });
   };
 
   const formik = useFormik({
     initialValues: {
       name: '',
-      text: '',
+      login: '',
       password: '',
     },
     validationSchema: validationSchema,
@@ -67,14 +73,14 @@ const CreateForm = () => {
           )}
           <TextField
             fullWidth
-            id="text"
-            name="text"
+            id="login"
+            name="login"
             label="Login"
             type="text"
-            value={formik.values.text}
+            value={formik.values.login}
             onChange={formik.handleChange}
-            error={formik.touched.text && Boolean(formik.errors.text)}
-            helperText={formik.touched.text && formik.errors.text}
+            error={formik.touched.login && Boolean(formik.errors.login)}
+            helperText={formik.touched.login && formik.errors.login}
           />
           <TextField
             fullWidth
