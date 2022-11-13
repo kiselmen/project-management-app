@@ -1,7 +1,7 @@
-import React from 'react';
+import CreateForm from '../components/forms/CreateForm';
 
-function UserRegistratePage() {
-  return <div>UserRegistratePage</div>;
-}
+const UserRegistratePage = () => {
+  return <CreateForm />;
+};
 
 export default UserRegistratePage;
