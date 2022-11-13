@@ -21,6 +21,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
+import Avatar from '@mui/material/Avatar';
 
 import { CustomizedFlex } from '../../styledComponents';
 
@@ -82,7 +83,7 @@ function Header() {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -147,7 +148,7 @@ function Header() {
           >
             Home page
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
             {pages.map((page) => (
               <Link to={page.path} key={page.name} style={{ textDecoration: 'none' }}>
                 <CustomizedFlex>
@@ -165,8 +166,20 @@ function Header() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                EN
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0, color: 'white', textAlign: 'center' }}
+              >
+                <Avatar
+                  sx={{
+                    bgcolor: 'transparent',
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                  }}
+                >
+                  EN
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
