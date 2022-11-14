@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
 import {
   Avatar,
   Box,
-  Button,
   Container,
   IconButton,
   Menu,
@@ -16,37 +14,11 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
-import LoginIcon from '@mui/icons-material/Login';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import QueueSharpIcon from '@mui/icons-material/QueueSharp';
-import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
-import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 
-import { CustomizedFlex } from '../../styledComponents';
+import { langs, pages } from '../../../consts/consts';
 
-import { langs, pages } from '../../consts/consts';
-
-interface IPageName {
-  page: string;
-}
-
-const PageIcon = (props: IPageName) => {
-  const { page } = props;
-  const iconBoards = page === pages[0].name ? true : false;
-  const iconNewBoard = page === pages[1].name ? true : false;
-  const iconProfile = page === pages[2].name ? true : false;
-  const iconLogin = page === pages[3].name ? true : false;
-  const iconSignUp = page === pages[4].name ? true : false;
-  return (
-    <>
-      {iconBoards && <ListAltOutlinedIcon />}
-      {iconNewBoard && <QueueSharpIcon />}
-      {iconProfile && <ManageAccountsSharpIcon />}
-      {iconLogin && <LoginIcon />}
-      {iconSignUp && <PersonAddAltIcon />}
-    </>
-  );
-};
+import ButtonLink from './buttonsLink/ButtonLink';
+import MenuPointLink from './buttonsLink/MenuPointLink';
 
 function HeaderContent() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -120,9 +92,7 @@ function HeaderContent() {
           >
             {pages.map((page) => (
               <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <Link to={page.path} style={{ textDecoration: 'none' }}>
-                  <Typography textAlign="center">{page.name}</Typography>
-                </Link>
+                <MenuPointLink page={page} />
               </MenuItem>
             ))}
           </Menu>
@@ -147,17 +117,7 @@ function HeaderContent() {
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pages.map((page) => (
-            <Link to={page.path} key={page.name} style={{ textDecoration: 'none' }}>
-              <CustomizedFlex>
-                <PageIcon page={page.name} />
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              </CustomizedFlex>
-            </Link>
+            <ButtonLink page={page} handleCloseNavMenu={handleCloseNavMenu} key={page.name} />
           ))}
         </Box>
 

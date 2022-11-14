@@ -12,6 +12,7 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <Header />
+        {/* TODO replace id to pages */}
         <div id="back-to-top-anchor"></div>
         <Routing />
         <BackToTop />

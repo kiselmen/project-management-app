@@ -1,17 +1,17 @@
 interface IInitialState {
-  isLogging: boolean;
+  isLogin: boolean;
 }
 
 enum ActionTypes {
   LOGIN = 'LOGIN',
 }
 
-interface ISetIsLogging {
+interface ISetisLogin {
   type: ActionTypes.LOGIN;
   value: boolean;
 }
 
-type ActionType = ISetIsLogging;
+type ActionType = ISetisLogin;
 
 export { ActionTypes };
-export type { ActionType, ISetIsLogging, IInitialState };
+export type { ActionType, ISetisLogin, IInitialState };

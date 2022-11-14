@@ -1,8 +1,7 @@
 import React from 'react';
-import CustomizedFlexssss from '../styledComponents/ccc';
 
 function SelectedBordPage() {
-  return <CustomizedFlexssss>SelectedBordPage</CustomizedFlexssss>;
+  return <div>SelectedBordPage</div>;
 }
 
 export default SelectedBordPage;

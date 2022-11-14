@@ -1,7 +1,7 @@
 import { IInitialState } from '../interfacesAndTypes/interfacesAndTypes';
 
 const initialState: IInitialState = {
-  isLogging: false,
+  isLogin: true,
 };
 
 export default initialState;
