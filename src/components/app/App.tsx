@@ -12,11 +12,11 @@ import {
   UserRegistratePage,
   WelcomePage,
 } from '../../pages';
-import store from '../../reduxUsers/store';
+import setupStore from '../../reduxUsers/store';
 
 function App() {
   return (
-    <Provider store={store}>
+    <Provider store={setupStore()}>
       <HashRouter>
         <Header />
         <Routes>

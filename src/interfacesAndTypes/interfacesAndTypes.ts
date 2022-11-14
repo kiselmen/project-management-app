@@ -19,7 +19,9 @@ export { ActionTypes };
 export type { ActionType, ISetIsLogging, IInitialState };
 
 export type AuthPageValues = {
-  name: string;
-  login: string;
-  password: string;
+  _id?: string;
+  name?: string;
+  login?: string;
+  password?: string;
+  isAuth?: boolean;
 };

@@ -7,7 +7,8 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { useCreateProductMutation } from '../../reduxUsers/api/createApiRequests';
+import { logIn, register } from '../../reduxUsers/actions/authActions';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 
 const FormContainerStyles = styled.div`
   text-align: center;
@@ -23,33 +24,54 @@ const FormStyles = styled.form`
 `;
 
 const CreateForm = () => {
-  const validationSchema = yup.object({
-    name: yup.string().max(15, 'Maximum 10 characters').required('Please enter your name'),
-    login: yup.string().max(15, 'Maximum 20 characters').required('Please enter your login'),
-    password: yup.string().min(5, 'Minimum 5 characters').required('Please enter a valid password'),
-  });
+  const location = useLocation();
+  const currentUrl = location.pathname === '/registration';
+
+  const dataFormValidation = {
+    auth: {
+      login: yup.string().required('Please enter your login'),
+      password: yup
+        .string()
+        .min(5, 'Minimum 5 characters')
+        .required('Please enter a valid password'),
+    },
+    authInitialValue: { login: '', password: '' },
+    register: {
+      name: yup.string().max(15, 'Maximum 10 characters').required('Please enter your name'),
+      login: yup
+        .string()
+        .min(2, 'Minimum 2 characters')
+        .max(15, 'Maximum 20 characters')
+        .required('Please enter your login'),
+      password: yup
+        .string()
+        .min(5, 'Minimum 5 characters')
+        .required('Please enter a valid password'),
+    },
+    registerInitialValue: { name: '', login: '', password: '' },
+  };
+
+  const validationSchema = yup.object(
+    !currentUrl ? dataFormValidation.auth : dataFormValidation.register
+  );
+
+  const dispatch = useAppDispatch();
 
   const userAuthPageSubmit = (values: AuthPageValues) => {
-    // alert(JSON.stringify(values, null, 2));
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log(values);
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useCreateProductMutation({ values });
+    dispatch(
+      currentUrl
+        ? register({ name: values.name, login: values.login, password: values.password })
+        : logIn({ name: values.name, login: values.login, password: values.password })
+    );
   };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      login: '',
-      password: '',
-    },
+    initialValues: !currentUrl
+      ? dataFormValidation.authInitialValue
+      : dataFormValidation.registerInitialValue,
     validationSchema: validationSchema,
     onSubmit: userAuthPageSubmit,
   });
-
-  const location = useLocation();
-  const currentUrl = location.pathname === '/registration';
 
   return (
     <>
