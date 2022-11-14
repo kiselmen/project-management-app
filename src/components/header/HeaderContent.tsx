@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+
 import {
+  Avatar,
   Box,
   Button,
   Container,
@@ -11,6 +13,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
@@ -18,7 +21,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import QueueSharpIcon from '@mui/icons-material/QueueSharp';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
-import Avatar from '@mui/material/Avatar';
+
 import { CustomizedFlex } from '../../styledComponents';
 
 import { langs, pages } from '../../consts/consts';

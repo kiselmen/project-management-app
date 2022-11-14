@@ -1,7 +1,8 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
-import { Header } from '..';
+import { Provider } from 'react-redux';
+
+import { BackToTop, Header } from '..';
 
 import store from '../../reduxUsers/store';
 import Routing from './Routing';
@@ -11,7 +12,9 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <Header />
+        <div id="back-to-top-anchor"></div>
         <Routing />
+        <BackToTop />
       </HashRouter>
     </Provider>
   );
