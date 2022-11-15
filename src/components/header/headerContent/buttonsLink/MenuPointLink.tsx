@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 
 import { IConstPageData } from '../../../../consts/consts';
-import { RootState } from '../../../../reduxUsers/store';
+import { state } from '../../../../reduxUsers/slices/authSlice';
 
 interface IMenuPointLinkProps {
   page: IConstPageData;
 }
 
 const MenuPointLink = (props: IMenuPointLinkProps) => {
-  const stateIsLogin = useSelector((state: RootState) => state.reduserIsLogin);
-  const { isLogin } = stateIsLogin;
+  const stateIsLogin = useSelector(state);
+  const isLogin = stateIsLogin.isAuth;
   const { page } = props;
   const visible = isLogin === page.isLoggin ? true : false;
 

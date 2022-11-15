@@ -14,7 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { CustomizedFlex } from '../../../../styledComponents';
 
 import { pages, IConstPageData } from '../../../../consts/consts';
-import { RootState } from '../../../../reduxUsers/store';
+import { state } from '../../../../reduxUsers/slices/authSlice';
 
 interface IPageName {
   page: string;
@@ -46,8 +46,8 @@ const PageIcon = (props: IPageName) => {
 };
 
 const ButtonLink = (props: IButtonLinkProps) => {
-  const stateIsLogin = useSelector((state: RootState) => state.reduserIsLogin);
-  const { isLogin } = stateIsLogin;
+  const stateIsLogin = useSelector(state);
+  const isLogin = stateIsLogin.isAuth;
   const { page, handleCloseNavMenu } = props;
   const visible = isLogin === page.isLoggin ? true : false;
 
