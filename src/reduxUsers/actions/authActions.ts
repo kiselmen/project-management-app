@@ -17,6 +17,7 @@ export const register = (data: AuthPageValues) => {
           login: response.data.login,
         })
       );
+      alert('Всё ты зареган, иди уже пили дальше');
     } catch (e) {
       alert('Лол ты уже зареган');
     }
@@ -36,6 +37,7 @@ export const logIn = (data: AuthPageValues) => {
           login: data.login,
         })
       );
+      alert('Всё ты залогинин, иди уже пили дальше');
     } catch (e) {
       alert('Такого аккаунта нет');
     }
