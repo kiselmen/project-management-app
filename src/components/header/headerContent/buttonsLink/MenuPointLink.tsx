@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { IConstPageData } from '../../../../consts/consts';
 import { state } from '../../../../reduxUsers/slices/authSlice';
@@ -11,6 +12,7 @@ interface IMenuPointLinkProps {
 }
 
 const MenuPointLink = (props: IMenuPointLinkProps) => {
+  const { t } = useTranslation();
   const stateIsLogin = useSelector(state);
   const isLogin = stateIsLogin.isAuth;
   const { page } = props;
@@ -19,7 +21,7 @@ const MenuPointLink = (props: IMenuPointLinkProps) => {
   if (visible) {
     return (
       <Link to={page.path} style={{ textDecoration: 'none' }}>
-        <Typography textAlign="center">{page.name}</Typography>
+        <Typography textAlign="center">{t(page.name)}</Typography>
       </Link>
     );
   } else {

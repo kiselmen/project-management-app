@@ -125,7 +125,7 @@ function HeaderContent() {
             textDecoration: 'none',
           }}
         >
-          Home page
+          {t('homePage')}
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pages.map((page) => (
