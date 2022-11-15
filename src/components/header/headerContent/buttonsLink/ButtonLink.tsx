@@ -52,7 +52,6 @@ const ButtonLink = (props: IButtonLinkProps) => {
   const isLogin = stateIsLogin.isAuth;
   const { page, handleCloseNavMenu } = props;
   const visible = isLogin === page.isLoggin ? true : false;
-  console.log(page);
 
   if (visible) {
     return (
