@@ -5,12 +5,12 @@ import {
   IInitialState,
 } from '../../interfacesAndTypes/interfacesAndTypes';
 
-const reducerIsLogging = (state = initialState, action: ActionType): IInitialState => {
+const reducerisLogin = (state = initialState, action: ActionType): IInitialState => {
   switch (action.type) {
     case ActionTypes.LOGIN:
       return {
         ...state,
-        isLogging: action.value,
+        isLogin: action.value,
       };
 
     default:
@@ -18,4 +18,4 @@ const reducerIsLogging = (state = initialState, action: ActionType): IInitialSta
   }
 };
 
-export { reducerIsLogging };
+export { reducerisLogin };

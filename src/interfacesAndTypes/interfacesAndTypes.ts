@@ -1,22 +1,22 @@
 import { AnyAction } from '@reduxjs/toolkit';
 
 interface IInitialState {
-  isLogging: boolean;
+  isLogin: boolean;
 }
 
 enum ActionTypes {
   LOGIN = 'LOGIN',
 }
 
-interface ISetIsLogging {
+interface ISetisLogin {
   type: ActionTypes.LOGIN;
   value: boolean;
 }
 
-type ActionType = ISetIsLogging | AnyAction;
+type ActionType = ISetisLogin | AnyAction;
 
 export { ActionTypes };
-export type { ActionType, ISetIsLogging, IInitialState };
+export type { ActionType, ISetisLogin, IInitialState };
 
 export type AuthPageValues = {
   token?: string;
