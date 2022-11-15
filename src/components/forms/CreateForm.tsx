@@ -1,5 +1,4 @@
 import { useFormik } from 'formik';
-import styled from 'styled-components';
 import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -9,19 +8,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { logIn, register } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-
-const FormContainerStyles = styled.div`
-  text-align: center;
-  padding-top: 2rem;
-  max-width: 20rem;
-  margin: 0 auto;
-`;
-const FormStyles = styled.form`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  padding: 1rem 0rem;
-`;
+import { FormContainerStyles, FormStyles } from './formsStyles';
 
 const CreateForm = () => {
   const location = useLocation();
@@ -57,11 +44,11 @@ const CreateForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const userAuthPageSubmit = (values: AuthPageValues) => {
-    dispatch(
+  const userAuthPageSubmit = async (values: AuthPageValues) => {
+    await dispatch(
       currentUrl
         ? register({ name: values.name, login: values.login, password: values.password })
-        : logIn({ name: values.name, login: values.login, password: values.password })
+        : logIn({ login: values.login, password: values.password })
     );
   };
 

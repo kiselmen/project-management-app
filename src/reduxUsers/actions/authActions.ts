@@ -1,6 +1,6 @@
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import axios from 'axios';
-import { login } from '../slices/authSlice';
+import { reg, login } from '../slices/authSlice';
 import { AppDispatch } from '../store';
 
 export const register = (data: AuthPageValues) => {
@@ -11,11 +11,10 @@ export const register = (data: AuthPageValues) => {
         data
       );
       dispatch(
-        login({
+        reg({
           _id: response.data._id,
-          name: data.name,
-          login: data.login,
-          password: data.password,
+          name: response.data.name,
+          login: response.data.login,
         })
       );
     } catch (e) {
@@ -33,14 +32,12 @@ export const logIn = (data: AuthPageValues) => {
       );
       dispatch(
         login({
-          _id: response.data._id,
-          name: data.name,
+          token: response.data.token,
           login: data.login,
-          password: data.password,
         })
       );
     } catch (e) {
-      alert('Лол ты уже зареган');
+      alert('Такого аккаунта нет');
     }
   };
 };

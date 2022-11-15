@@ -19,6 +19,7 @@ export { ActionTypes };
 export type { ActionType, ISetIsLogging, IInitialState };
 
 export type AuthPageValues = {
+  token?: string;
   _id?: string;
   name?: string;
   login?: string;
