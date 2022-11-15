@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 
 import { IConstPageData } from '../../../../consts/consts';
-
-import { RootState } from '../../../../reduxUsers/reducers';
+import { RootState } from '../../../../reduxUsers/store';
 
 interface IMenuPointLinkProps {
   page: IConstPageData;

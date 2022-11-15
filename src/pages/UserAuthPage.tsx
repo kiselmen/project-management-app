@@ -1,7 +1,11 @@
-import React from 'react';
+import CreateForm from '../components/forms/CreateForm';
 
-function UserAuthPage() {
-  return <div>UserAuthPage</div>;
-}
+const UserAuthPage = () => {
+  return (
+    <>
+      <CreateForm />
+    </>
+  );
+};
 
 export default UserAuthPage;

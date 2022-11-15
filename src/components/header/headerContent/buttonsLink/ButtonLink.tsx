@@ -14,8 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { CustomizedFlex } from '../../../../styledComponents';
 
 import { pages, IConstPageData } from '../../../../consts/consts';
-
-import { RootState } from '../../../../reduxUsers/reducers';
+import { RootState } from '../../../../reduxUsers/store';
 
 interface IPageName {
   page: string;
