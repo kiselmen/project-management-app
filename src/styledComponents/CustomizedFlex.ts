@@ -1,10 +1,21 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface IHeader {
+  children?: React.ReactNode;
+  iconAndButton?: boolean;
+}
 
 const CustomizedFlex = styled.div`
-  color: white;
-  text-decoration: none;
   display: flex;
-  column-gap: 5px;
+  align-items: center;
+  text-decoration: none;
+
+  ${(props: IHeader) =>
+    props.iconAndButton &&
+    css`
+      color: white;
+      margin: 0 10px 0 10px;
+    `}
 `;
 
 export default CustomizedFlex;

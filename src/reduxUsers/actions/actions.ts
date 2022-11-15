@@ -1,10 +1,10 @@
 import { ActionType, ActionTypes } from '../../interfacesAndTypes/interfacesAndTypes';
 
-const changeIsLogging = (isLogging: boolean): ActionType => {
+const changeisLogin = (payload: boolean): ActionType => {
   return {
     type: ActionTypes.LOGIN,
-    value: isLogging,
+    value: payload,
   };
 };
 
-export { changeIsLogging };
+export { changeisLogin };

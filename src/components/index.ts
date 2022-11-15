@@ -1,4 +1,5 @@
+import BackToTop from './backToTop/BackToTop';
 import Header from './header/Header';
-import Navigation from './navigation/Navigation';
+import HeaderContent from './header/headerContent/HeaderContent';
 
-export { Header, Navigation };
+export { BackToTop, Header, HeaderContent };
