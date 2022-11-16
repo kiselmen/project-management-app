@@ -16,6 +16,7 @@ const pagesAuth = [
   { name: 'LOG OUT', path: '/', isLoggin: true },
 ];
 const langs = ['EN', 'RU'];
+const BASE_URL = 'https://final-task-backend-production-08b7.up.railway.app/';
 
-export { pagesTotal, pagesAuth, langs };
+export { pagesTotal, pagesAuth, langs, BASE_URL };
 export type { IConstPageData };
