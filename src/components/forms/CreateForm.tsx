@@ -4,13 +4,17 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { logIn, register } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './FormStyles';
+import { useSelector } from 'react-redux';
+import { state } from '../../reduxUsers/slices/authSlice';
 
 const CreateForm = () => {
+  const stateIsLogin = useSelector(state);
+  const isLogin = stateIsLogin.isAuth;
   const location = useLocation();
   const currentUrl = location.pathname === '/registration';
 
@@ -59,6 +63,10 @@ const CreateForm = () => {
     validationSchema: validationSchema,
     onSubmit: userAuthPageSubmit,
   });
+
+  if (isLogin) {
+    return <Navigate to="/boards" />;
+  }
 
   return (
     <>

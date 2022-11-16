@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state._id = action.payload._id;
       state.name = action.payload.name;
       state.login = action.payload.login;
-      state.isAuth = Boolean(state.name);
+      state.isAuth = Boolean(action.payload._id);
       localStorage.setItem('userId', action.payload._id);
       localStorage.setItem('userName', action.payload.name);
     },
@@ -26,7 +26,7 @@ const authSlice = createSlice({
       state._id = action.payload._id;
       state.login = action.payload.login;
       state.token = action.payload.token;
-      state.isAuth = Boolean(state.name);
+      state.isAuth = Boolean(action.payload._id);
       localStorage.setItem('token', action.payload.token);
       localStorage.setItem('userId', action.payload._id);
     },
