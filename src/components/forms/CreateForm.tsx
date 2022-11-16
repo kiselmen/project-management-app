@@ -8,7 +8,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { logIn, register } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './formsStyles';
+import { FormContainerStyles, FormStyles } from './FormStyles';
 
 const CreateForm = () => {
   const location = useLocation();

@@ -5,6 +5,7 @@ export const FormContainerStyles = styled.div`
   padding-top: 2rem;
   max-width: 20rem;
   margin: 0 auto;
+  width: 100%;
 `;
 export const FormStyles = styled.form`
   display: flex;
