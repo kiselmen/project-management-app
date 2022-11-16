@@ -33,6 +33,7 @@ export const logIn = (data: AuthPageValues) => {
       );
       dispatch(
         login({
+          _id: response.data._id,
           token: response.data.token,
           login: data.login,
         })
