@@ -4,13 +4,17 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { logIn, register } from '../../reduxUsers/actions/authActions';
+import { signIn, signUp } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './formsStyles';
+import { FormContainerStyles, FormStyles } from './FormStyles';
+import { useSelector } from 'react-redux';
+import { state } from '../../reduxUsers/slices/authSlice';
 
 const CreateForm = () => {
+  const stateIsLogin = useSelector(state);
+  const isLogin = stateIsLogin.isAuth;
   const location = useLocation();
   const currentUrl = location.pathname === '/registration';
 
@@ -45,11 +49,10 @@ const CreateForm = () => {
   const dispatch = useAppDispatch();
 
   const userAuthPageSubmit = async (values: AuthPageValues) => {
-    await dispatch(
-      currentUrl
-        ? register({ name: values.name, login: values.login, password: values.password })
-        : logIn({ login: values.login, password: values.password })
-    );
+    if (currentUrl) {
+      await dispatch(signUp({ name: values.name, login: values.login, password: values.password }));
+    }
+    await dispatch(signIn({ login: values.login, password: values.password }));
   };
 
   const formik = useFormik({
@@ -59,6 +62,10 @@ const CreateForm = () => {
     validationSchema: validationSchema,
     onSubmit: userAuthPageSubmit,
   });
+
+  if (isLogin) {
+    return <Navigate to="/boards" />;
+  }
 
   return (
     <>

@@ -17,6 +17,7 @@ export const getAllUserBoards = (userId: string, token: string) => {
         },
       });
       dispatch(setAllUserBoards(response.data));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -34,6 +35,7 @@ export const addNewBoard = (board: BoardData, token: string) => {
         },
       });
       dispatch(addBoard(response.data));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));

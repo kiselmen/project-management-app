@@ -7,7 +7,7 @@ const CustomizedBoardContainer = styled(Container)`
   flex-direction: column;
   width: 100%;
   background-color: white;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 180px);
 `;
 
 export default CustomizedBoardContainer;

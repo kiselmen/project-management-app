@@ -1,9 +1,9 @@
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import axios from 'axios';
-import { reg, login } from '../slices/authSlice';
+import { login } from '../slices/authSlice';
 import { AppDispatch } from '../store';
 
-export const register = (data: AuthPageValues) => {
+export const signUp = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.post<AuthPageValues>(
@@ -11,20 +11,21 @@ export const register = (data: AuthPageValues) => {
         data
       );
       dispatch(
-        reg({
+        login({
           _id: response.data._id,
           name: response.data.name,
           login: response.data.login,
+          token: response.data.token || '',
         })
       );
-      alert('Всё ты зареган, иди уже пили дальше');
+      // alert('Всё ты зареган, иди уже пили дальше');
     } catch (e) {
       alert('Лол ты уже зареган');
     }
   };
 };
 
-export const logIn = (data: AuthPageValues) => {
+export const signIn = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.post<AuthPageValues>(
@@ -33,8 +34,10 @@ export const logIn = (data: AuthPageValues) => {
       );
       dispatch(
         login({
+          _id: response.data._id,
+          name: response.data.name,
+          login: response.data.login,
           token: response.data.token,
-          login: data.login,
         })
       );
       alert('Всё ты залогинин, иди уже пили дальше');

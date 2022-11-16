@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { addNewBoard } from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './formsStyles';
+import { FormContainerStyles, FormStyles } from './FormStyles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 
 const CreateForm = () => {

@@ -4,10 +4,13 @@ interface IConstPageData {
   isLoggin: boolean;
 }
 
-const pages = [
+const pagesTotal = [
   { name: 'BOARDS', path: '/boards', isLoggin: true },
   { name: 'NEW BOARD', path: '/board', isLoggin: true },
   { name: 'PROFILE', path: '/profile', isLoggin: true },
+];
+
+const pagesAuth = [
   { name: 'LOGIN', path: '/authorization', isLoggin: false },
   { name: 'SIGN UP', path: '/registration', isLoggin: false },
   { name: 'LOG OUT', path: '/', isLoggin: true },
@@ -15,5 +18,5 @@ const pages = [
 const langs = ['EN', 'RU'];
 const BASE_URL = 'https://final-task-backend-production-08b7.up.railway.app/';
 
-export { pages, langs, BASE_URL };
+export { pagesTotal, pagesAuth, langs, BASE_URL };
 export type { IConstPageData };

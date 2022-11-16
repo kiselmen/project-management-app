@@ -13,8 +13,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { CustomizedFlex } from '../../../../styledComponents';
 
-import { pages, IConstPageData } from '../../../../consts/consts';
-import { RootState } from '../../../../reduxUsers/store';
+import { pagesTotal, pagesAuth, IConstPageData } from '../../../../consts/consts';
+import { state } from '../../../../reduxUsers/slices/authSlice';
+import { useTranslation } from 'react-i18next';
 
 interface IPageName {
   page: string;
@@ -27,12 +28,12 @@ interface IButtonLinkProps {
 
 const PageIcon = (props: IPageName) => {
   const { page } = props;
-  const iconBoards = page === pages[0].name ? true : false;
-  const iconNewBoard = page === pages[1].name ? true : false;
-  const iconProfile = page === pages[2].name ? true : false;
-  const iconLogin = page === pages[3].name ? true : false;
-  const iconSignUp = page === pages[4].name ? true : false;
-  const iconLogOut = page === pages[5].name ? true : false;
+  const iconBoards = page === pagesTotal[0].name ? true : false;
+  const iconNewBoard = page === pagesTotal[1].name ? true : false;
+  const iconProfile = page === pagesTotal[2].name ? true : false;
+  const iconLogin = page === pagesAuth[0].name ? true : false;
+  const iconSignUp = page === pagesAuth[1].name ? true : false;
+  const iconLogOut = page === pagesAuth[2].name ? true : false;
   return (
     <>
       {iconBoards && <ListAltOutlinedIcon />}
@@ -46,8 +47,9 @@ const PageIcon = (props: IPageName) => {
 };
 
 const ButtonLink = (props: IButtonLinkProps) => {
-  const stateIsLogin = useSelector((state: RootState) => state.reduserIsLogin);
-  const { isLogin } = stateIsLogin;
+  const { t } = useTranslation();
+  const stateIsLogin = useSelector(state);
+  const isLogin = stateIsLogin.isAuth;
   const { page, handleCloseNavMenu } = props;
   const visible = isLogin === page.isLoggin ? true : false;
 
@@ -57,7 +59,7 @@ const ButtonLink = (props: IButtonLinkProps) => {
         <CustomizedFlex iconAndButton>
           <PageIcon page={page.name} />
           <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-            {page.name}
+            {t(page.name)}
           </Button>
         </CustomizedFlex>
       </Link>
