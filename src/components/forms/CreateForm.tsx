@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { logIn, register } from '../../reduxUsers/actions/authActions';
+import { signIn, signUp } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './FormStyles';
 import { useSelector } from 'react-redux';
@@ -49,11 +49,10 @@ const CreateForm = () => {
   const dispatch = useAppDispatch();
 
   const userAuthPageSubmit = async (values: AuthPageValues) => {
-    await dispatch(
-      currentUrl
-        ? register({ name: values.name, login: values.login, password: values.password })
-        : logIn({ login: values.login, password: values.password })
-    );
+    if (currentUrl) {
+      await dispatch(signUp({ name: values.name, login: values.login, password: values.password }));
+    }
+    await dispatch(signIn({ login: values.login, password: values.password }));
   };
 
   const formik = useFormik({
