@@ -1,4 +1,4 @@
-import { Stack, Divider } from '@mui/material';
+import { Stack, Divider, useMediaQuery } from '@mui/material';
 import Icon from '@mui/material/Icon';
 import Link from '@mui/material/Link';
 import { Container } from '@mui/system';
@@ -6,6 +6,7 @@ import { ReactComponent as RssIcon } from '../../assets/logo-rsschool3.svg';
 import { SpanStyle } from './Footer.styles';
 
 export const Footer = () => {
+  const matches = useMediaQuery('(max-width:400px)');
   return (
     <>
       <Container
@@ -14,12 +15,15 @@ export const Footer = () => {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
           background: 'rgba(25, 118, 210, 0.4)',
+          flexWrap: 'wrap',
+          rowGap: '10px',
+          padding: '15px 0px',
+          justifyContent: `${matches ? 'center' : 'space-between'}`,
         }}
       >
         <Link href="https://rs.school/react/" target="_blank" rel="noreferrer">
-          <Icon component={RssIcon} sx={{ width: '100px', height: '100px' }} />
+          <Icon component={RssIcon} sx={{ width: '100px', height: '60px' }} />
         </Link>
         <Stack
           direction="row"
