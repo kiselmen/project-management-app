@@ -7,6 +7,7 @@ import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { addNewBoard } from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './formsStyles';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
 
 const CreateForm = () => {
   const token = localStorage.getItem('token') as string;
@@ -16,8 +17,9 @@ const CreateForm = () => {
   const dataFormValidation = {
     newBoard: {
       title: yup.string().required(''),
+      subscribe: yup.string(),
     },
-    newBoardInitialValue: { title: '', owner: token, users: users },
+    newBoardInitialValue: { title: '', subscribe: '', owner: token, users: users },
   };
 
   const validationSchema = yup.object(dataFormValidation.newBoard);
@@ -25,7 +27,13 @@ const CreateForm = () => {
   const dispatch = useAppDispatch();
 
   const addPageSubmit = async (values: BoardData) => {
-    await dispatch(addNewBoard({ title: values.title, owner: _id, users: users }, token));
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    await dispatch(
+      addNewBoard(
+        { title: values.title, subscribe: values.subscribe, owner: _id, users: users },
+        token
+      )
+    );
   };
 
   const formik = useFormik({
@@ -51,6 +59,17 @@ const CreateForm = () => {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
+          />
+          <TextField
+            fullWidth
+            id="subscribe"
+            name="subscribe"
+            label="Subscribe"
+            type="text"
+            value={formik.values.subscribe}
+            onChange={formik.handleChange}
+            error={formik.touched.subscribe && Boolean(formik.errors.subscribe)}
+            helperText={formik.touched.subscribe && formik.errors.subscribe}
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
             {'Add'}

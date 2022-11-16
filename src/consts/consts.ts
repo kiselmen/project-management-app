@@ -13,6 +13,7 @@ const pages = [
   { name: 'LOG OUT', path: '/', isLoggin: true },
 ];
 const langs = ['EN', 'RU'];
+const BASE_URL = 'https://final-task-backend-production-08b7.up.railway.app/';
 
-export { pages, langs };
+export { pages, langs, BASE_URL };
 export type { IConstPageData };

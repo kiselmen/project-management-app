@@ -40,6 +40,11 @@ export type BoardValues = {
 export type BoardData = {
   _id?: string;
   title?: string;
+  subscribe?: string;
   owner?: string;
   users?: string[];
 };
+
+// export type ErrorValues = {
+//   errMessage?: string;
+// };
