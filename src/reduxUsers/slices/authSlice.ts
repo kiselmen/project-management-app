@@ -23,10 +23,12 @@ const authSlice = createSlice({
       localStorage.setItem('userName', action.payload.name);
     },
     login(state, action) {
+      state._id = action.payload._id;
       state.login = action.payload.login;
       state.token = action.payload.token;
       state.isAuth = Boolean(state.name);
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('userId', action.payload._id);
     },
     logout(state) {
       state._id = '';
