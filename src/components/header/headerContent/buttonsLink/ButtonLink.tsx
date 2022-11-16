@@ -13,7 +13,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { CustomizedFlex } from '../../../../styledComponents';
 
-import { pages, IConstPageData } from '../../../../consts/consts';
+import { pagesTotal, pagesAuth, IConstPageData } from '../../../../consts/consts';
 import { state } from '../../../../reduxUsers/slices/authSlice';
 import { useTranslation } from 'react-i18next';
 
@@ -28,12 +28,12 @@ interface IButtonLinkProps {
 
 const PageIcon = (props: IPageName) => {
   const { page } = props;
-  const iconBoards = page === pages[0].name ? true : false;
-  const iconNewBoard = page === pages[1].name ? true : false;
-  const iconProfile = page === pages[2].name ? true : false;
-  const iconLogin = page === pages[3].name ? true : false;
-  const iconSignUp = page === pages[4].name ? true : false;
-  const iconLogOut = page === pages[5].name ? true : false;
+  const iconBoards = page === pagesTotal[0].name ? true : false;
+  const iconNewBoard = page === pagesTotal[1].name ? true : false;
+  const iconProfile = page === pagesTotal[2].name ? true : false;
+  const iconLogin = page === pagesAuth[0].name ? true : false;
+  const iconSignUp = page === pagesAuth[1].name ? true : false;
+  const iconLogOut = page === pagesAuth[2].name ? true : false;
   return (
     <>
       {iconBoards && <ListAltOutlinedIcon />}
