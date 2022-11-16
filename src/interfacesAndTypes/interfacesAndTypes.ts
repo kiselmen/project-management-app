@@ -26,3 +26,20 @@ export type AuthPageValues = {
   password?: string;
   isAuth?: boolean;
 };
+
+export type ModalValues = {
+  isOpen?: boolean;
+  type?: string;
+};
+
+export type BoardValues = {
+  allBoards?: BoardData[];
+  // currBoardId?: string;
+};
+
+export type BoardData = {
+  _id?: string;
+  title?: string;
+  owner?: string;
+  users?: string[];
+};

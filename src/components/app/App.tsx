@@ -6,11 +6,13 @@ import { BackToTop, Header } from '..';
 
 import store from '../../reduxUsers/store';
 import Routing from './Routing';
+import ModalWindow from '../modal';
 
 function App() {
   return (
     <Provider store={store}>
       <HashRouter>
+        <ModalWindow />
         <Header />
         {/* TODO replace id to pages */}
         <div id="back-to-top-anchor"></div>

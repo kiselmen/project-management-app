@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components';
 interface IHeader {
   children?: React.ReactNode;
   iconAndButton?: boolean;
+  boardHeader?: boolean;
+  boardBody?: boolean;
 }
 
 const CustomizedFlex = styled.div`
@@ -15,6 +17,29 @@ const CustomizedFlex = styled.div`
     css`
       color: white;
       margin: 0 10px 0 10px;
+    `}
+  ${(props: IHeader) =>
+    props.boardHeader &&
+    css`
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      color: white;
+      margin: 0 10px 0 10px;
+      hight: 32px;
+    `}
+  ${(props: IHeader) =>
+    props.boardBody &&
+    css`
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      flex-direction: row;
+      color: white;
+      margin: 0 10px 0 10px;
+      hight: 32px;
     `}
 `;
 
