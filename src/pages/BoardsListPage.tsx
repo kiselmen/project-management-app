@@ -1,7 +1,5 @@
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Box, Button, Typography } from '@mui/material';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { getAllUserBoards } from '../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';

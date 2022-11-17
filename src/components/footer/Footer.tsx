@@ -1,6 +1,5 @@
 import { Stack, Divider, useMediaQuery } from '@mui/material';
-import Icon from '@mui/material/Icon';
-import Link from '@mui/material/Link';
+import { Icon, Link } from '@mui/material';
 import { Container } from '@mui/system';
 import { ReactComponent as RssIcon } from '../../assets/logo-rsschool3.svg';
 import { SpanStyle } from './Footer.styles';

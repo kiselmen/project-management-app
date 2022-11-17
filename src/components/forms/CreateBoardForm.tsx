@@ -1,8 +1,6 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { Button, TextField, Typography } from '@mui/material';
 import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { addNewBoard } from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';

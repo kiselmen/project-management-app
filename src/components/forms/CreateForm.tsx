@@ -1,9 +1,6 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import { Button, Link, TextField, Typography } from '@mui/material';
 import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { signIn, signUp } from '../../reduxUsers/actions/authActions';
