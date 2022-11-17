@@ -1,7 +1,13 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
 import { BoardData, BoardValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { setAllUserBoards, addBoard, delBoard, setActiveBoard } from '../slices/boardSlice';
+import {
+  setAllUserBoards,
+  addBoard,
+  delBoard,
+  setActiveBoard,
+  setActiveBoardId,
+} from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
@@ -20,6 +26,24 @@ export const getAllUserBoards = (userId: string, token: string) => {
       dispatch(setErrMessage(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       console.log('Не дали досок ', e);
+    }
+  };
+};
+
+export const getBoardData = (boardId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get<BoardData>(BASE_URL + 'boards/' + boardId, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      dispatch(setActiveBoard(response.data));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не дали доску ', e);
     }
   };
 };
@@ -69,6 +93,6 @@ export const clearBoards = () => {
 
 export const setActiveUserBoard = (boardId: string) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setActiveBoard(boardId));
+    dispatch(setActiveBoardId(boardId));
   };
 };

@@ -27,23 +27,27 @@ export const getAllBoardColumns = (boardId: string, token: string) => {
   };
 };
 
-// export const addNewColumn = (board: ColumnData, token: string) => {
-//   return async (dispatch: AppDispatch) => {
-//     try {
-//       const response = await axios.post<ColumnData>(BASE_URL + 'boards', board, {
-//         headers: {
-//           Authorization: 'Bearer ' + token,
-//         },
-//       });
-//       dispatch(addBoard(response.data));
-//       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
-//     } catch (e) {
-//       dispatch(setErrMessage(JSON.stringify(e)));
-//       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-//       console.log('Не добавили досоку ', e);
-//     }
-//   };
-// };
+export const addNewColumn = (column: ColumnData, boardId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.post<ColumnData>(
+        BASE_URL + 'boards/' + boardId + '/columns',
+        column,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      dispatch(addColumn(response.data));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не добавили досоку ', e);
+    }
+  };
+};
 
 // export const deleteBoard = (boardId: string, token: string) => {
 //   return async (dispatch: AppDispatch) => {

@@ -5,11 +5,12 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { setActiveUserBoard } from '../reduxUsers/actions/boardActions';
+import { getBoardData, setActiveUserBoard } from '../reduxUsers/actions/boardActions';
 import { getAllBoardColumns } from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
+import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
 
 function SelectedBordPage() {
@@ -20,6 +21,7 @@ function SelectedBordPage() {
   const token = localStorage.getItem('token');
   const _id = localStorage.getItem('userId');
   const { allColumns } = useSelector(columnState);
+  const { activeBoard } = useSelector(boardState);
 
   useEffect(() => {
     onLoadBoard();
@@ -27,7 +29,9 @@ function SelectedBordPage() {
   }, []);
 
   const onLoadBoard = async () => {
-    setActiveUserBoard(id as string);
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    dispatch(setActiveUserBoard(id as string));
+    await dispatch(getBoardData(id as string, token as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getAllBoardColumns(_id as string, token as string));
   };
@@ -37,7 +41,7 @@ function SelectedBordPage() {
   };
 
   const onAddNewColumn = () => {
-    console.log('Add');
+    dispatch(setModalState({ isOpen: true, type: 'ADD_COLUMN' }));
   };
 
   const columnsRender = () => {
@@ -80,9 +84,9 @@ function SelectedBordPage() {
   return (
     <CustomizedBoardContainer>
       <CustomizedFlex boardHeader>
-        <CustomizedH1>BOARDS</CustomizedH1>
+        <CustomizedH1>{activeBoard.title}</CustomizedH1>
         <Button variant="outlined" size="small" onClick={onAddNewColumn}>
-          Add
+          Add column
         </Button>
       </CustomizedFlex>
       <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
