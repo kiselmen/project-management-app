@@ -4,6 +4,7 @@ import { RootStateForSlice } from '../store';
 
 const initialState: BoardValues = {
   allBoards: [],
+  activeBoardId: '',
 };
 
 const boardSlice = createSlice({
@@ -11,20 +12,22 @@ const boardSlice = createSlice({
   initialState,
   reducers: {
     setAllUserBoards(state, action) {
-      // console.log('Все доски', action.payload);
-      // console.log(state);
       state.allBoards = action.payload;
     },
     addBoard(state, action) {
-      // console.log('Новая доска', action.payload);
-      // console.log(state);
       state.allBoards = [...(state.allBoards as BoardData[]), action.payload];
+    },
+    delBoard(state, action) {
+      state.allBoards = state.allBoards?.filter((item) => item._id !== action.payload);
+    },
+    setActiveBoard(state, actions) {
+      state.activeBoardId = actions.payload;
     },
   },
 });
 
 export const state = (state: RootStateForSlice) => state.board;
 
-export const { setAllUserBoards, addBoard } = boardSlice.actions;
+export const { setAllUserBoards, addBoard, delBoard, setActiveBoard } = boardSlice.actions;
 
 export default boardSlice.reducer;

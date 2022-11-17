@@ -34,7 +34,7 @@ export type ModalValues = {
 
 export type BoardValues = {
   allBoards?: BoardData[];
-  // currBoardId?: string;
+  activeBoardId?: string;
 };
 
 export type BoardData = {

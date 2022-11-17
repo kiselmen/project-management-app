@@ -17,7 +17,7 @@ function Routing() {
       <Route path="/" element={<WelcomePage />} />
       <Route index element={<Navigate to="/boards" replace />} />;
       <Route path="/boards" element={<BoardsListPage />} />
-      <Route path="/board" element={<SelectedBordPage />} />
+      <Route path="/board/:id" element={<SelectedBordPage />} />
       <Route path="/registration" element={<UserRegistratePage />} />
       <Route path="/authorization" element={<UserAuthPage />} />
       <Route path="/profile" element={<ProfilePage />} />
