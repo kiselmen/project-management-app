@@ -25,7 +25,9 @@ const ModalWindow = () => {
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
-    dispatch(setModalState({ isOpen: false, type: 'NONE' }));
+    if (type !== 'LOADING') {
+      dispatch(setModalState({ isOpen: false, type: 'NONE' }));
+    }
   };
 
   return (
