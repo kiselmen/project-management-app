@@ -45,6 +45,8 @@ const BoardsListPage = () => {
   };
 
   const onOpenBoard = (boardId: string) => {
+    console.log('Navigate ', boardId);
+
     const point = '/board/' + boardId;
     navigate(point);
   };

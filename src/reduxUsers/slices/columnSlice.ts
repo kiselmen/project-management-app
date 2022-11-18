@@ -12,7 +12,9 @@ const columnSlice = createSlice({
   initialState,
   reducers: {
     setAllBoardColumns(state, action) {
-      state.allColumns = action.payload;
+      state.allColumns = action.payload.sort((a: string, b: string) => {
+        return Number(a) - Number(b);
+      });
     },
     addColumn(state, action) {
       state.allColumns = [...(state.allColumns as ColumnData[]), action.payload];

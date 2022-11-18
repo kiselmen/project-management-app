@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getBoardData, setActiveUserBoard } from '../reduxUsers/actions/boardActions';
-import { getAllBoardColumns } from '../reduxUsers/actions/columnActions';
+import { getAllBoardColumns, deleteColumn } from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
@@ -19,7 +19,6 @@ function SelectedBordPage() {
   const dispatch = useAppDispatch();
 
   const token = localStorage.getItem('token');
-  const _id = localStorage.getItem('userId');
   const { allColumns } = useSelector(columnState);
   const { activeBoard } = useSelector(boardState);
 
@@ -33,7 +32,7 @@ function SelectedBordPage() {
     dispatch(setActiveUserBoard(id as string));
     await dispatch(getBoardData(id as string, token as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(getAllBoardColumns(_id as string, token as string));
+    await dispatch(getAllBoardColumns(id as string, token as string));
   };
 
   const onClearState = () => {
@@ -42,6 +41,12 @@ function SelectedBordPage() {
 
   const onAddNewColumn = () => {
     dispatch(setModalState({ isOpen: true, type: 'ADD_COLUMN' }));
+  };
+
+  const onRemoveColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
+    e.stopPropagation();
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    await dispatch(deleteColumn(id as string, columnId as string, token as string));
   };
 
   const columnsRender = () => {
@@ -60,14 +65,14 @@ function SelectedBordPage() {
           }}
           key={_id}
         >
-          {/* <Typography id="transition-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography> */}
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+          <Typography id="transition-modal-title" variant="h6" component="h2">
             {title}
           </Typography>
+          {/* <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+            {title}
+          </Typography> */}
           <DeleteOutlinedIcon
-            // onClick={(e) => onRemoveBoard(e, _id as string)}
+            onClick={(e) => onRemoveColumn(e, _id as string)}
             sx={{
               position: 'absolute',
               right: '20px',
