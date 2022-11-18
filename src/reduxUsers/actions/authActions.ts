@@ -1,6 +1,6 @@
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import axios from 'axios';
-import { login } from '../slices/authSlice';
+import { login, logout } from '../slices/authSlice';
 import { AppDispatch } from '../store';
 
 export const signUp = (data: AuthPageValues) => {
@@ -18,7 +18,7 @@ export const signUp = (data: AuthPageValues) => {
           token: response.data.token || '',
         })
       );
-      // alert('Всё ты зареган, иди уже пили дальше');
+      alert('Всё ты зареган, иди уже пили дальше');
     } catch (e) {
       alert('Лол ты уже зареган');
     }
@@ -43,6 +43,23 @@ export const signIn = (data: AuthPageValues) => {
       alert('Всё ты залогинин, иди уже пили дальше');
     } catch (e) {
       alert('Такого аккаунта нет');
+    }
+  };
+};
+
+export const deleteUser = async () => {
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.delete<AuthPageValues>(
+        `https://final-task-backend-production-08b7.up.railway.app/users/${userId}`,
+        { data: { userId }, headers: { Authorization: 'Bearer ' + token } }
+      );
+      dispatch(logout());
+      return response;
+    } catch (e) {
+      alert('Ooooops');
     }
   };
 };
