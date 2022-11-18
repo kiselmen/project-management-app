@@ -2,11 +2,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getBoardData, setActiveUserBoard } from '../reduxUsers/actions/boardActions';
-import { getAllBoardColumns, deleteColumn } from '../reduxUsers/actions/columnActions';
+import { getBoardData } from '../reduxUsers/actions/boardActions';
+import {
+  getAllBoardColumns,
+  deleteColumn,
+  clearColumnData,
+  updateActiveColumnId,
+} from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
@@ -29,14 +35,13 @@ function SelectedBordPage() {
 
   const onLoadBoard = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    dispatch(setActiveUserBoard(id as string));
     await dispatch(getBoardData(id as string, token as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getAllBoardColumns(id as string, token as string));
   };
 
   const onClearState = () => {
-    setActiveUserBoard('');
+    dispatch(clearColumnData());
   };
 
   const onAddNewColumn = () => {
@@ -47,6 +52,12 @@ function SelectedBordPage() {
     e.stopPropagation();
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(deleteColumn(id as string, columnId as string, token as string));
+  };
+
+  const onEditColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
+    e.stopPropagation();
+    dispatch(updateActiveColumnId(columnId));
+    dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
   };
 
   const columnsRender = () => {
@@ -71,6 +82,15 @@ function SelectedBordPage() {
           {/* <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             {title}
           </Typography> */}
+          <EditOutlinedIcon
+            onClick={(e) => onEditColumn(e, _id as string)}
+            sx={{
+              position: 'absolute',
+              right: '20px',
+              top: '20px',
+              cursor: 'pointer',
+            }}
+          />
           <DeleteOutlinedIcon
             onClick={(e) => onRemoveColumn(e, _id as string)}
             sx={{

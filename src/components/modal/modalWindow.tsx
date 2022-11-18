@@ -51,8 +51,8 @@ const ModalWindow = () => {
           <Box sx={style}>
             {type === 'ERROR' && <ErrorMessage />}
             {type === 'LOADING' && <Loading />}
-            {type === 'ADD_BOARD' && <CreateBoardForm />}
-            {type === 'ADD_COLUMN' && <CreateColumnForm />}
+            {(type === 'ADD_BOARD' || type === 'EDIT_BOARD') && <CreateBoardForm />}
+            {(type === 'ADD_COLUMN' || type === 'EDIT_COLUMN') && <CreateColumnForm />}
           </Box>
         </Fade>
       </Modal>

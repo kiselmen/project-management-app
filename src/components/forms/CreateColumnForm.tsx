@@ -4,24 +4,34 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ColumnData } from '../../interfacesAndTypes/interfacesAndTypes';
-import { addNewColumn } from '../../reduxUsers/actions/columnActions';
+import {
+  addNewColumn,
+  editActiveColumn,
+  updateActiveColumnId,
+} from '../../reduxUsers/actions/columnActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './FormStyles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 
 const CreateForm = () => {
   const token = localStorage.getItem('token') as string;
-  const { allColumns } = useSelector(columnState);
+  const { type } = useSelector(modalState);
+
+  const { allColumns, activeColumnId } = useSelector(columnState);
   const { activeBoardId } = useSelector(boardState);
+
+  const activeColumn = allColumns?.filter((item) => item._id === activeColumnId)[0] as ColumnData;
+  const { title, order, boardId } = activeColumn;
 
   const dataFormValidation = {
     newColumn: {
       title: yup.string().required(''),
     },
-    newColumnInitialValue: { title: '' },
+    newColumnInitialValue: type === 'ADD_COLUMN' ? { title: '' } : { title, order, boardId },
   };
 
   const validationSchema = yup.object(dataFormValidation.newColumn);
@@ -31,9 +41,19 @@ const CreateForm = () => {
   const addPageSubmit = async (values: ColumnData) => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     const newOrder = allColumns ? allColumns.length + 1 : 1;
-    await dispatch(
-      addNewColumn({ title: values.title, order: newOrder }, activeBoardId as string, token)
-    );
+    type === 'ADD_COLUMN'
+      ? await dispatch(
+          addNewColumn({ title: values.title, order: newOrder }, activeBoardId as string, token)
+        )
+      : await dispatch(
+          editActiveColumn(
+            { title: values.title, order },
+            activeBoardId as string,
+            activeColumnId as string,
+            token
+          )
+        );
+    dispatch(updateActiveColumnId(''));
   };
 
   const formik = useFormik({
@@ -46,7 +66,7 @@ const CreateForm = () => {
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {'Add column'}
+          {type === 'ADD_COLUMN' ? 'Add column' : 'Edit column'}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
@@ -61,7 +81,7 @@ const CreateForm = () => {
             helperText={formik.touched.title && formik.errors.title}
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
-            {'Add'}
+            {'Submit'}
           </Button>
         </FormStyles>
       </FormContainerStyles>

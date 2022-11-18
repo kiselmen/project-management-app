@@ -39,6 +39,7 @@ export const getBoardData = (boardId: string, token: string) => {
         },
       });
       dispatch(setActiveBoard(response.data));
+      dispatch(setActiveBoardId(boardId));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
@@ -58,6 +59,24 @@ export const addNewBoard = (board: BoardData, token: string) => {
       });
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не добавили досоку ', e);
+    }
+  };
+};
+
+export const editActiveBoard = (board: BoardData, boardId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.put<BoardData>(BASE_URL + 'boards/' + boardId, board, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const userId = response.data.owner as string;
+      dispatch(getAllUserBoards(userId, token));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -91,8 +110,15 @@ export const clearBoards = () => {
   };
 };
 
-export const setActiveUserBoard = (boardId: string) => {
+export const updateActiveBoardId = (boardId: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setActiveBoardId(boardId));
   };
 };
+
+// export const clearBoardData = () => {
+//   return (dispatch: AppDispatch) => {
+//     dispatch(setActiveBoard({}));
+//     dispatch(setActiveBoardId(''));
+//   };
+// };

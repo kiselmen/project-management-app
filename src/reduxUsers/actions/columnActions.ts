@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
 import { ColumnData, ColumnValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { setAllBoardColumns, addColumn, delColumn } from '../slices/columnSlice';
+import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../slices/columnSlice';
+import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
@@ -49,6 +50,28 @@ export const addNewColumn = (column: ColumnData, boardId: string, token: string)
   };
 };
 
+export const editActiveColumn = (
+  column: ColumnData,
+  boardId: string,
+  columnId: string,
+  token: string
+) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await axios.put<ColumnData>(BASE_URL + 'boards/' + boardId + '/columns/' + columnId, column, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      dispatch(getAllBoardColumns(boardId, token));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не поменяли досоку ', e);
+    }
+  };
+};
+
 export const deleteColumn = (boardId: string, columnId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -71,14 +94,16 @@ export const deleteColumn = (boardId: string, columnId: string, token: string) =
   };
 };
 
-// export const clearBoards = () => {
-//   return (dispatch: AppDispatch) => {
-//     dispatch(setAllUserBoards([]));
-//   };
-// };
+export const clearColumnData = () => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setAllBoardColumns([]));
+    dispatch(setActiveBoardId(''));
+    dispatch(setActiveBoard({}));
+  };
+};
 
-// export const setActiveUserBoard = (boardId: string) => {
-//   return (dispatch: AppDispatch) => {
-//     dispatch(setActiveBoard(boardId));
-//   };
-// };
+export const updateActiveColumnId = (columnId: string) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setActiveColumnId(columnId));
+  };
+};

@@ -22,14 +22,14 @@ const columnSlice = createSlice({
     delColumn(state, action) {
       state.allColumns = state.allColumns?.filter((item) => item._id !== action.payload);
     },
-    // setActiveColumn(state, actions) {
-    //   state.activeColumnId = actions.payload;
-    // },
+    setActiveColumnId(state, action) {
+      state.activeColumnId = action.payload;
+    },
   },
 });
 
 export const state = (state: RootStateForSlice) => state.column;
 
-export const { setAllBoardColumns, addColumn, delColumn } = columnSlice.actions;
+export const { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } = columnSlice.actions;
 
 export default columnSlice.reducer;

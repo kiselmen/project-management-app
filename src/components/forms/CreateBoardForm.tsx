@@ -4,23 +4,40 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
-import { addNewBoard } from '../../reduxUsers/actions/boardActions';
+import {
+  addNewBoard,
+  editActiveBoard,
+  updateActiveBoardId,
+} from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './FormStyles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { state as modalState } from '../../reduxUsers/slices/modalSlice';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { useSelector } from 'react-redux';
 
 const CreateForm = () => {
   const token = localStorage.getItem('token') as string;
   const _id = localStorage.getItem('userId') as string;
-  const users = [] as string[];
+  const usersDefault = [] as string[];
+
+  const { type } = useSelector(modalState);
+  const { allBoards, activeBoardId } = useSelector(boardState);
+  const activeBoard = allBoards?.filter((item) => item._id === activeBoardId)[0] as BoardData;
+  const { title, subscribe, owner, users } = activeBoard;
 
   const dataFormValidation = {
     newBoard: {
       title: yup.string().required(''),
       subscribe: yup.string(),
     },
-    newBoardInitialValue: { title: '', subscribe: '', owner: token, users: users },
+    newBoardInitialValue:
+      type === 'ADD_BOARD'
+        ? { title: '', subscribe: '', owner: _id, users: usersDefault }
+        : { title, subscribe, owner, users },
   };
+
+  console.log(dataFormValidation);
 
   const validationSchema = yup.object(dataFormValidation.newBoard);
 
@@ -28,12 +45,21 @@ const CreateForm = () => {
 
   const addPageSubmit = async (values: BoardData) => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(
-      addNewBoard(
-        { title: values.title, subscribe: values.subscribe, owner: _id, users: users },
-        token
-      )
-    );
+    type === 'ADD_BOARD'
+      ? await dispatch(
+          addNewBoard(
+            { title: values.title, subscribe: values.subscribe, owner: _id, users: usersDefault },
+            token
+          )
+        )
+      : await dispatch(
+          editActiveBoard(
+            { title: values.title, subscribe: values.subscribe, owner, users },
+            activeBoard._id as string,
+            token
+          )
+        );
+    dispatch(updateActiveBoardId(''));
   };
 
   const formik = useFormik({
@@ -46,7 +72,7 @@ const CreateForm = () => {
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {'Add board'}
+          {type === 'ADD_BOARD' ? 'Add board' : 'Edit board'}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
@@ -72,7 +98,7 @@ const CreateForm = () => {
             helperText={formik.touched.subscribe && formik.errors.subscribe}
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
-            {'Add'}
+            {'Submit'}
           </Button>
         </FormStyles>
       </FormContainerStyles>
