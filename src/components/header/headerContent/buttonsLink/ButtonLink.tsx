@@ -25,6 +25,8 @@ interface IPageName {
 interface IButtonLinkProps {
   page: IConstPageData;
   handleCloseNavMenu: () => void;
+  logoutProfile?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  id?: string;
 }
 
 const PageIcon = (props: IPageName) => {
@@ -51,12 +53,12 @@ const ButtonLink = (props: IButtonLinkProps) => {
   const { t } = useTranslation();
   const stateIsLogin = useSelector(state);
   const isLogin = stateIsLogin.isAuth;
-  const { page, handleCloseNavMenu } = props;
+  const { id, page, handleCloseNavMenu, logoutProfile } = props;
   const visible = isLogin === page.isLoggin ? true : false;
 
   if (visible) {
     return (
-      <Link to={page.path} style={{ textDecoration: 'none' }}>
+      <Link id={id} onClick={logoutProfile} to={page.path} style={{ textDecoration: 'none' }}>
         <CustomizedFlex iconAndButton>
           <PageIcon page={page.name} />
           <CustomisedMuiButton onClick={handleCloseNavMenu}>

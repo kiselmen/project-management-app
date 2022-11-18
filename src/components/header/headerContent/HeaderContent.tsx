@@ -21,6 +21,8 @@ import { langs, pagesTotal, pagesAuth } from '../../../consts/consts';
 
 import ButtonLink from './buttonsLink/ButtonLink';
 import MenuPointLink from './buttonsLink/MenuPointLink';
+import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
+import { logout } from '../../../reduxUsers/slices/authSlice';
 
 function HeaderContent() {
   const { i18n, t } = useTranslation();
@@ -39,8 +41,16 @@ function HeaderContent() {
     setAnchorElUser(event.currentTarget);
   };
 
+  const dispatch = useAppDispatch();
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const logoutProfile = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (event.currentTarget.id === 'LOG OUT') {
+      dispatch(logout());
+    }
   };
 
   const handleCloseUserMenu = (lang: string) => {
@@ -179,7 +189,13 @@ function HeaderContent() {
         </Menu>
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesAuth.map((page) => (
-            <ButtonLink page={page} handleCloseNavMenu={handleCloseNavMenu} key={page.name} />
+            <ButtonLink
+              id={page.name}
+              page={page}
+              handleCloseNavMenu={handleCloseNavMenu}
+              logoutProfile={logoutProfile}
+              key={page.name}
+            />
           ))}
         </Box>
       </Toolbar>
