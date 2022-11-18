@@ -3,8 +3,9 @@ import { BoardData, BoardValues } from '../../interfacesAndTypes/interfacesAndTy
 import { RootStateForSlice } from '../store';
 
 const initialState: BoardValues = {
-  allBoards: [],
+  allBoards: [] as BoardData[],
   activeBoardId: '',
+  activeBoard: {} as BoardData,
 };
 
 const boardSlice = createSlice({
@@ -20,14 +21,18 @@ const boardSlice = createSlice({
     delBoard(state, action) {
       state.allBoards = state.allBoards?.filter((item) => item._id !== action.payload);
     },
-    setActiveBoard(state, actions) {
+    setActiveBoardId(state, actions) {
       state.activeBoardId = actions.payload;
+    },
+    setActiveBoard(state, actions) {
+      state.activeBoard = actions.payload;
     },
   },
 });
 
 export const state = (state: RootStateForSlice) => state.board;
 
-export const { setAllUserBoards, addBoard, delBoard, setActiveBoard } = boardSlice.actions;
+export const { setAllUserBoards, addBoard, delBoard, setActiveBoard, setActiveBoardId } =
+  boardSlice.actions;
 
 export default boardSlice.reducer;

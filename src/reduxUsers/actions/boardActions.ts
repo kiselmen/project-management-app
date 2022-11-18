@@ -1,7 +1,13 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
 import { BoardData, BoardValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { setAllUserBoards, addBoard, delBoard, setActiveBoard } from '../slices/boardSlice';
+import {
+  setAllUserBoards,
+  addBoard,
+  delBoard,
+  setActiveBoard,
+  setActiveBoardId,
+} from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
@@ -24,6 +30,25 @@ export const getAllUserBoards = (userId: string, token: string) => {
   };
 };
 
+export const getBoardData = (boardId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get<BoardData>(BASE_URL + 'boards/' + boardId, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      dispatch(setActiveBoard(response.data));
+      dispatch(setActiveBoardId(boardId));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не дали доску ', e);
+    }
+  };
+};
+
 export const addNewBoard = (board: BoardData, token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -34,6 +59,24 @@ export const addNewBoard = (board: BoardData, token: string) => {
       });
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не добавили досоку ', e);
+    }
+  };
+};
+
+export const editActiveBoard = (board: BoardData, boardId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.put<BoardData>(BASE_URL + 'boards/' + boardId, board, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const userId = response.data.owner as string;
+      dispatch(getAllUserBoards(userId, token));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -67,8 +110,15 @@ export const clearBoards = () => {
   };
 };
 
-export const setActiveUserBoard = (boardId: string) => {
+export const updateActiveBoardId = (boardId: string) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setActiveBoard(boardId));
+    dispatch(setActiveBoardId(boardId));
   };
 };
+
+// export const clearBoardData = () => {
+//   return (dispatch: AppDispatch) => {
+//     dispatch(setActiveBoard({}));
+//     dispatch(setActiveBoardId(''));
+//   };
+// };

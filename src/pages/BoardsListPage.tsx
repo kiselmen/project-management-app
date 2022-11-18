@@ -3,8 +3,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { setModalState } from '../reduxUsers/actions/modalActions';
-import { getAllUserBoards, deleteBoard, clearBoards } from '../reduxUsers/actions/boardActions';
+import {
+  getAllUserBoards,
+  deleteBoard,
+  clearBoards,
+  updateActiveBoardId,
+} from '../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { useEffect } from 'react';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
@@ -44,7 +50,15 @@ const BoardsListPage = () => {
     await dispatch(deleteBoard(boardId as string, token as string));
   };
 
+  const onEditBoard = async (e: React.MouseEvent<SVGSVGElement>, boardId: string) => {
+    e.stopPropagation();
+    dispatch(updateActiveBoardId(boardId));
+    dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
+  };
+
   const onOpenBoard = (boardId: string) => {
+    console.log('Navigate ', boardId);
+
     const point = '/board/' + boardId;
     navigate(point);
   };
@@ -71,6 +85,15 @@ const BoardsListPage = () => {
           <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             {subscribe}
           </Typography>
+          <EditOutlinedIcon
+            onClick={(e) => onEditBoard(e, _id as string)}
+            sx={{
+              position: 'absolute',
+              right: '20px',
+              top: '20px',
+              cursor: 'pointer',
+            }}
+          />
           <DeleteOutlinedIcon
             onClick={(e) => onRemoveBoard(e, _id as string)}
             sx={{

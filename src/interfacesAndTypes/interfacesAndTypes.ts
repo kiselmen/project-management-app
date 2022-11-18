@@ -35,6 +35,7 @@ export type ModalValues = {
 export type BoardValues = {
   allBoards?: BoardData[];
   activeBoardId?: string;
+  activeBoard: BoardData;
 };
 
 export type BoardData = {
@@ -45,6 +46,14 @@ export type BoardData = {
   users?: string[];
 };
 
-// export type ErrorValues = {
-//   errMessage?: string;
-// };
+export type ColumnValues = {
+  allColumns?: ColumnData[];
+  activeColumnId?: string;
+};
+
+export type ColumnData = {
+  _id?: string;
+  title?: string;
+  order?: number;
+  boardId?: string;
+};
