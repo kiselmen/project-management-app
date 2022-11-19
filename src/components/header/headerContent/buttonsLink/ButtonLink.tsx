@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -16,7 +16,6 @@ import { CustomizedFlex } from '../../../../styledComponents';
 import { pagesTotal, pagesAuth, IConstPageData } from '../../../../consts/consts';
 import { state } from '../../../../reduxUsers/slices/authSlice';
 import { useTranslation } from 'react-i18next';
-import CustomisedMuiButton from '../../../../styledComponents/styledMuiComponents/CustomisedMuiButton';
 
 interface IPageName {
   page: string;
@@ -39,12 +38,12 @@ const PageIcon = (props: IPageName) => {
   const iconLogOut = page === pagesAuth[2].name ? true : false;
   return (
     <>
-      {iconBoards && <ListAltOutlinedIcon color="secondary" />}
-      {iconNewBoard && <QueueSharpIcon color="secondary" />}
-      {iconProfile && <ManageAccountsSharpIcon color="secondary" />}
-      {iconLogin && <LoginIcon color="secondary" />}
-      {iconSignUp && <PersonAddAltIcon color="secondary" />}
-      {iconLogOut && <LogoutIcon color="secondary" />}
+      {iconBoards && <ListAltOutlinedIcon />}
+      {iconNewBoard && <QueueSharpIcon />}
+      {iconProfile && <ManageAccountsSharpIcon />}
+      {iconLogin && <LoginIcon />}
+      {iconSignUp && <PersonAddAltIcon />}
+      {iconLogOut && <LogoutIcon />}
     </>
   );
 };
@@ -60,11 +59,18 @@ const ButtonLink = (props: IButtonLinkProps) => {
     return (
       <Link id={id} onClick={logoutProfile} to={page.path} style={{ textDecoration: 'none' }}>
         <CustomizedFlex iconAndButton>
-          <PageIcon page={page.name} />
-          <CustomisedMuiButton onClick={handleCloseNavMenu}>
-            {/* <CustomisedMuiButton onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}> */}
-            {t(page.name)}
-          </CustomisedMuiButton>
+          <Button
+            variant="contained"
+            onClick={handleCloseNavMenu}
+            sx={{
+              my: 2,
+              textTransform: 'none',
+              alignItems: 'flex-end',
+            }}
+          >
+            <PageIcon page={page.name} />
+            <Typography variant="h6">{t(page.name)}</Typography>
+          </Button>
         </CustomizedFlex>
       </Link>
     );

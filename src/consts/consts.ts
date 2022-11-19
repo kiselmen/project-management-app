@@ -15,7 +15,7 @@ const pagesAuth = [
   { name: 'SIGN UP', path: '/registration', isLoggin: false },
   { name: 'LOG OUT', path: '/', isLoggin: true },
 ];
-const langs = ['EN', 'RU'];
+const langs = ['en', 'ru'];
 const BASE_URL = 'https://final-task-backend-production-08b7.up.railway.app/';
 
 export { pagesTotal, pagesAuth, langs, BASE_URL };
