@@ -94,6 +94,24 @@ export const deleteColumn = (boardId: string, columnId: string, token: string) =
   };
 };
 
+export const moveColumns = (columns: ColumnData[], token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await axios.patch<ColumnData[]>(BASE_URL + 'columnsSet/', columns, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      // dispatch(setAllBoardColumns(response.data));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не удалили досоку ', e);
+    }
+  };
+};
+
 export const clearColumnData = () => {
   return (dispatch: AppDispatch) => {
     dispatch(setAllBoardColumns([]));

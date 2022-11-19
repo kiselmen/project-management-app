@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface DndColumnContextProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onDragEnd: (result: any) => void;
+  onDragEnd: (result: DropResult) => void;
   children: React.ReactNode;
 }
 

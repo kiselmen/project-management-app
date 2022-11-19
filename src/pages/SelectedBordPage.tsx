@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -13,15 +12,18 @@ import {
   deleteColumn,
   clearColumnData,
   updateActiveColumnId,
+  moveColumns,
 } from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
-import { state as columnState } from '../reduxUsers/slices/columnSlice';
+import { setAllBoardColumns, state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
 import DndColumnContext from '../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../components/dnd/dndColumnItems';
+import { DropResult } from 'react-beautiful-dnd';
+import { ColumnData } from '../interfacesAndTypes/interfacesAndTypes';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -38,6 +40,7 @@ function SelectedBordPage() {
   }, []);
 
   const onLoadBoard = async () => {
+    console.log(activeBoard);
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getBoardData(id as string, token as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
@@ -64,8 +67,27 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
   };
 
-  const onDragEnd = (result: any) => {
-    console.log('Drag End', result);
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    const sourceIndex = source.index;
+    const destinationIndex = destination?.index as number;
+    if (sourceIndex !== destinationIndex) {
+      console.log(result.source, '    ', result.destination);
+      const items = JSON.parse(JSON.stringify(allColumns));
+      const [newOrder] = items.splice(sourceIndex - 1, 1);
+      items.splice(destinationIndex - 1, 0, newOrder);
+      const start = 1;
+      const itemsForState = items.map((el: ColumnData, index: number) => {
+        return { ...el, order: start + index };
+      });
+      const itemsForPatch = items.map((el: ColumnData, index: number) => {
+        return { _id: el._id, order: start + index };
+      });
+      dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+      dispatch(setAllBoardColumns(itemsForState));
+      dispatch(moveColumns(itemsForPatch, token as string));
+      // console.log(items);
+    }
   };
 
   const columnsRender = () => {
@@ -122,7 +144,7 @@ function SelectedBordPage() {
         </Button>
       </CustomizedFlex>
       <DndColumnContext onDragEnd={onDragEnd}>
-        <DndColumnsWrapper droppableId="columns">
+        <DndColumnsWrapper droppableId="column">
           <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
         </DndColumnsWrapper>
       </DndColumnContext>
