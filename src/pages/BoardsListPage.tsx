@@ -1,5 +1,5 @@
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, ImageList, ImageListItem, ImageListItemBar, Typography } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { getAllUserBoards, deleteBoard, clearBoards } from '../reduxUsers/actions/boardActions';
@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import InfoIcon from '@mui/icons-material/Info';
+import BoardBackGround from '../assets/board.jpg';
 
 const BoardsListPage = () => {
   const dispatch = useAppDispatch();
@@ -48,40 +50,52 @@ const BoardsListPage = () => {
   };
 
   const boardsRender = () => {
-    const items = allBoards?.map(({ _id, title, subscribe }) => {
-      return (
-        <Box
-          onClick={() => onOpenBoard(_id as string)}
-          sx={{
-            bgcolor: 'grey',
-            width: '300px',
-            hight: '300px',
-            minHeight: '300px',
-            margin: '15px',
-            border: '1px solid black',
-            position: 'relative',
-          }}
-          key={_id}
+    return (
+      <>
+        <ImageListItem
+          key={'newBoard'}
+          sx={{ width: 250, alignContent: 'center', textAlign: 'center' }}
         >
-          <Typography id="transition-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            {subscribe}
-          </Typography>
-          <DeleteOutlinedIcon
-            onClick={(e) => onRemoveBoard(e, _id as string)}
-            sx={{
-              position: 'absolute',
-              right: '20px',
-              bottom: '20px',
-              cursor: 'pointer',
-            }}
+          <img
+            src={`${BoardBackGround}?w=248&fit=crop&auto=format`}
+            srcSet={`${BoardBackGround}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt="picture"
+            loading="lazy"
           />
-        </Box>
-      );
-    });
-    return items;
+        </ImageListItem>
+        {allBoards?.map(({ _id, title, subscribe }) => (
+          <ImageListItem
+            key={_id}
+            sx={{ width: 250, height: 150 }}
+            onClick={() => onOpenBoard(_id as string)}
+          >
+            <img
+              src={`${BoardBackGround}?w=248&fit=crop&auto=format`}
+              srcSet={`${BoardBackGround}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt="picture"
+              loading="lazy"
+            />
+            <ImageListItemBar
+              title={title}
+              subtitle={subscribe}
+              actionIcon={
+                <DeleteOutlinedIcon
+                  onClick={(e) => onRemoveBoard(e, _id as string)}
+                  sx={{
+                    position: 'absolute',
+                    right: '20px',
+                    bottom: '20px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <InfoIcon />
+                </DeleteOutlinedIcon>
+              }
+            />
+          </ImageListItem>
+        ))}
+      </>
+    );
   };
 
   return (
@@ -92,7 +106,21 @@ const BoardsListPage = () => {
           Add
         </Button>
       </CustomizedFlex>
-      <CustomizedFlex boardBody>{boardsRender()}</CustomizedFlex>
+      <ImageList
+        variant="masonry"
+        sx={{
+          columnCount: {
+            xs: '1 !important',
+            sm: '2 !important',
+            md: '3 !important',
+            lg: '4 !important',
+            xl: '5 !important',
+          },
+          alignSelf: 'center',
+        }}
+      >
+        {boardsRender()}
+      </ImageList>
     </CustomizedBoardContainer>
   );
 };
