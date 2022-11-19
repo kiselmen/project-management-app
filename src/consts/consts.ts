@@ -6,7 +6,7 @@ interface IConstPageData {
 
 const pagesTotal = [
   { name: 'BOARDS', path: '/boards', isLoggin: true },
-  { name: 'NEW BOARD', path: '/board', isLoggin: true },
+  { name: 'NEW BOARD', path: '/boards', isLoggin: true },
   { name: 'PROFILE', path: '/profile', isLoggin: true },
 ];
 

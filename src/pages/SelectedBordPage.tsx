@@ -18,6 +18,7 @@ import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -60,11 +61,14 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
   };
 
+  const onDragEnd = () => {
+    console.log('Drag End');
+  };
+
   const columnsRender = () => {
     const items = allColumns?.map(({ _id, title }) => {
       return (
         <Box
-          // onClick={() => onOpenBoard(_id as string)}
           sx={{
             bgcolor: 'grey',
             width: '300px',
@@ -73,15 +77,13 @@ function SelectedBordPage() {
             margin: '15px',
             border: '1px solid black',
             position: 'relative',
+            cursor: 'pointer',
           }}
           key={_id}
         >
           <Typography id="transition-modal-title" variant="h6" component="h2">
             {title}
           </Typography>
-          {/* <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            {title}
-          </Typography> */}
           <EditOutlinedIcon
             onClick={(e) => onEditColumn(e, _id as string)}
             sx={{
@@ -111,7 +113,7 @@ function SelectedBordPage() {
       <CustomizedFlex boardHeader>
         <CustomizedH1>{activeBoard.title}</CustomizedH1>
         <Button variant="outlined" size="small" onClick={onAddNewColumn}>
-          Add column
+          Add
         </Button>
       </CustomizedFlex>
       <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>

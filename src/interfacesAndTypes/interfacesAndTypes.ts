@@ -36,6 +36,7 @@ export type BoardValues = {
   allBoards?: BoardData[];
   activeBoardId?: string;
   activeBoard: BoardData;
+  addNewBoard: boolean;
 };
 
 export type BoardData = {

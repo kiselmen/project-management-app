@@ -7,6 +7,7 @@ import {
   delBoard,
   setActiveBoard,
   setActiveBoardId,
+  setAddNewBoard,
 } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
@@ -113,6 +114,12 @@ export const clearBoards = () => {
 export const updateActiveBoardId = (boardId: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setActiveBoardId(boardId));
+  };
+};
+
+export const updateAddNewBoard = (type: boolean) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setAddNewBoard(type));
   };
 };
 
