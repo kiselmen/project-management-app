@@ -84,8 +84,8 @@ function SelectedBordPage() {
         return { _id: el._id, order: start + index };
       });
       dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-      dispatch(setAllBoardColumns(itemsForState));
-      dispatch(moveColumns(itemsForPatch, token as string));
+      // dispatch(setAllBoardColumns(itemsForState));
+      dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
       // console.log(items);
     }
   };

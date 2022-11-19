@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
-import { ColumnData, ColumnValues } from '../../interfacesAndTypes/interfacesAndTypes';
+import { ColumnData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../slices/columnSlice';
 import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
@@ -10,15 +10,13 @@ import { setIsOpen } from '../slices/modalSlice';
 export const getAllBoardColumns = (boardId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.get<ColumnValues[]>(
-        BASE_URL + 'boards/' + boardId + '/columns',
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
-      dispatch(setAllBoardColumns(response.data));
+      const response = await axios.get<ColumnData[]>(BASE_URL + 'boards/' + boardId + '/columns', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      const sorted = response.data.sort((a, b) => <number>a.order - <number>b.order);
+      dispatch(setAllBoardColumns(sorted));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
@@ -94,15 +92,15 @@ export const deleteColumn = (boardId: string, columnId: string, token: string) =
   };
 };
 
-export const moveColumns = (columns: ColumnData[], token: string) => {
+export const moveColumns = (columns: ColumnData[], newState: ColumnData[], token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(setAllBoardColumns(newState));
       await axios.patch<ColumnData[]>(BASE_URL + 'columnsSet/', columns, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
       });
-      // dispatch(setAllBoardColumns(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
