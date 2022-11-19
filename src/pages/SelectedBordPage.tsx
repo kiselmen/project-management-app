@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -18,7 +19,9 @@ import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
-import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import DndColumnContext from '../components/dnd/dndColumnContext';
+import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
+import DndColumnItems from '../components/dnd/dndColumnItems';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -61,48 +64,50 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
   };
 
-  const onDragEnd = () => {
-    console.log('Drag End');
+  const onDragEnd = (result: any) => {
+    console.log('Drag End', result);
   };
 
   const columnsRender = () => {
-    const items = allColumns?.map(({ _id, title }) => {
+    const items = allColumns?.map(({ _id, title, order }) => {
       return (
-        <Box
-          sx={{
-            bgcolor: 'grey',
-            width: '300px',
-            hight: '300px',
-            minHeight: '300px',
-            margin: '15px',
-            border: '1px solid black',
-            position: 'relative',
-            cursor: 'pointer',
-          }}
-          key={_id}
-        >
-          <Typography id="transition-modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-          <EditOutlinedIcon
-            onClick={(e) => onEditColumn(e, _id as string)}
+        <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
+          <Box
             sx={{
-              position: 'absolute',
-              right: '20px',
-              top: '20px',
+              bgcolor: 'grey',
+              width: '300px',
+              hight: '300px',
+              minHeight: '300px',
+              margin: '15px',
+              border: '1px solid black',
+              position: 'relative',
               cursor: 'pointer',
             }}
-          />
-          <DeleteOutlinedIcon
-            onClick={(e) => onRemoveColumn(e, _id as string)}
-            sx={{
-              position: 'absolute',
-              right: '20px',
-              bottom: '20px',
-              cursor: 'pointer',
-            }}
-          />
-        </Box>
+            key={_id}
+          >
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              {title}
+            </Typography>
+            <EditOutlinedIcon
+              onClick={(e) => onEditColumn(e, _id as string)}
+              sx={{
+                position: 'absolute',
+                right: '20px',
+                top: '20px',
+                cursor: 'pointer',
+              }}
+            />
+            <DeleteOutlinedIcon
+              onClick={(e) => onRemoveColumn(e, _id as string)}
+              sx={{
+                position: 'absolute',
+                right: '20px',
+                bottom: '20px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
+        </DndColumnItems>
       );
     });
     return items;
@@ -116,7 +121,11 @@ function SelectedBordPage() {
           Add
         </Button>
       </CustomizedFlex>
-      <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
+      <DndColumnContext onDragEnd={onDragEnd}>
+        <DndColumnsWrapper droppableId="columns">
+          <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
+        </DndColumnsWrapper>
+      </DndColumnContext>
     </CustomizedBoardContainer>
   );
 }
