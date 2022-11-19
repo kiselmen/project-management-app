@@ -70,17 +70,38 @@ const theme = createTheme({
             color: '#fff',
           },
         },
-        MuiButton: {
-          // variants: [
-          //   {
-          //     props: { variant: 'contained' },
-          //     style: {
-          //       // color: '#fff',
-          //       fontWeight: 'bold',
-          //     },
-          //   },
-          // ],
-        },
+        // MuiContainer: {
+        //   variants: [
+        //     {
+        //       props: { variant: 'contained' },
+        //       style: {
+        //         // position: 'absolute',
+        //         // zIndex: 1,
+        //         // top: -30,
+        //         // left: 0,
+        //         // right: 0,
+        //         // margin: '0 auto',
+        //         // display: 'flex',
+        //         // alignItems: 'center',
+        //         // background: '#BF6B04',
+        //         // flexWrap: 'wrap',
+        //         // rowGap: '10px',
+        //         // padding: '15px 0px',
+        //       },
+        //     },
+        //   ],
+        // },
+        // MuiButton: {
+        //   // variants: [
+        //   //   {
+        //   //     props: { variant: 'contained' },
+        //   //     style: {
+        //   //       // color: '#fff',
+        //   //       fontWeight: 'bold',
+        //   //     },
+        //   //   },
+        //   // ],
+        // },
       },
     },
   },
