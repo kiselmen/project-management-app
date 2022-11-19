@@ -6,7 +6,6 @@ import {
   Container,
   IconButton,
   Menu,
-  MenuItem,
   Toolbar,
   Tooltip,
   Typography,
@@ -19,11 +18,12 @@ import { useTranslation } from 'react-i18next';
 
 import { pagesTotal, pagesAuth } from '../../../consts/consts';
 
-import ButtonLink from './buttonsLink/ButtonLink';
-import MenuPointLink from './buttonsLink/MenuPointLink';
+import { ButtonLink, MenuPointLink } from './buttonsLink';
+
+import { CustomizedFlex } from '../../../styledComponents';
+
 import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
 import { logout } from '../../../reduxUsers/slices/authSlice';
-import { CustomizedFlex } from '../../../styledComponents';
 
 function HeaderContent() {
   const { i18n, t } = useTranslation();
@@ -107,14 +107,15 @@ function HeaderContent() {
             }}
           >
             {pagesTotal.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <MenuPointLink page={page} />
-              </MenuItem>
+              <MenuPointLink key={page.name} page={page} handleCloseNavMenu={handleCloseNavMenu} />
             ))}
             {pagesAuth.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <MenuPointLink page={page} />
-              </MenuItem>
+              <MenuPointLink
+                key={page.name}
+                page={page}
+                handleCloseNavMenu={handleCloseNavMenu}
+                logoutProfile={logoutProfile}
+              />
             ))}
           </Menu>
         </Box>
@@ -151,7 +152,6 @@ function HeaderContent() {
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesAuth.map((page) => (
             <ButtonLink
-              id={page.name}
               page={page}
               handleCloseNavMenu={handleCloseNavMenu}
               logoutProfile={logoutProfile}
