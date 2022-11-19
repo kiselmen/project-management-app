@@ -24,7 +24,11 @@ const CreateForm = () => {
   const { type } = useSelector(modalState);
   const { allBoards, activeBoardId } = useSelector(boardState);
   const activeBoard = allBoards?.filter((item) => item._id === activeBoardId)[0] as BoardData;
-  const { title, subscribe, owner, users } = activeBoard;
+  // const { title, subscribe, owner, users } = activeBoard;
+  const title = activeBoard ? activeBoard.title : '';
+  const subscribe = activeBoard ? activeBoard.subscribe : '';
+  const owner = activeBoard ? activeBoard.owner : '';
+  const users = activeBoard ? activeBoard.users : usersDefault;
 
   const dataFormValidation = {
     newBoard: {
@@ -36,8 +40,6 @@ const CreateForm = () => {
         ? { title: '', subscribe: '', owner: _id, users: usersDefault }
         : { title, subscribe, owner, users },
   };
-
-  console.log(dataFormValidation);
 
   const validationSchema = yup.object(dataFormValidation.newBoard);
 

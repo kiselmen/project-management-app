@@ -23,6 +23,8 @@ import ButtonLink from './buttonsLink/ButtonLink';
 import MenuPointLink from './buttonsLink/MenuPointLink';
 import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
 import { logout } from '../../../reduxUsers/slices/authSlice';
+import { updateAddNewBoard } from '../../../reduxUsers/actions/boardActions';
+import { setModalState } from '../../../reduxUsers/actions/modalActions';
 
 function HeaderContent() {
   const { i18n, t } = useTranslation();
@@ -43,7 +45,11 @@ function HeaderContent() {
 
   const dispatch = useAppDispatch();
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (pageName?: string) => {
+    if (pageName === 'NEW BOARD') {
+      dispatch(updateAddNewBoard(true));
+      dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
+    }
     setAnchorElNav(null);
   };
 
@@ -107,18 +113,18 @@ function HeaderContent() {
               horizontal: 'left',
             }}
             open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
+            onClose={() => handleCloseNavMenu()}
             sx={{
               display: { xs: 'block', md: 'none' },
             }}
           >
             {pagesTotal.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+              <MenuItem key={page.name} onClick={() => handleCloseNavMenu(page.name)}>
                 <MenuPointLink page={page} />
               </MenuItem>
             ))}
             {pagesAuth.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+              <MenuItem key={page.name} onClick={() => handleCloseNavMenu(page.name)}>
                 <MenuPointLink page={page} />
               </MenuItem>
             ))}
@@ -144,7 +150,11 @@ function HeaderContent() {
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesTotal.map((page) => (
-            <ButtonLink page={page} handleCloseNavMenu={handleCloseNavMenu} key={page.name} />
+            <ButtonLink
+              page={page}
+              handleCloseNavMenu={() => handleCloseNavMenu(page.name)}
+              key={page.name}
+            />
           ))}
         </Box>
         <Box sx={{ flexGrow: 0 }}>
@@ -192,7 +202,7 @@ function HeaderContent() {
             <ButtonLink
               id={page.name}
               page={page}
-              handleCloseNavMenu={handleCloseNavMenu}
+              handleCloseNavMenu={() => handleCloseNavMenu(page.name)}
               logoutProfile={logoutProfile}
               key={page.name}
             />

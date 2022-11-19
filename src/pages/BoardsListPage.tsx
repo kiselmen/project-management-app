@@ -10,6 +10,7 @@ import {
   deleteBoard,
   clearBoards,
   updateActiveBoardId,
+  updateAddNewBoard,
 } from '../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { useEffect } from 'react';
@@ -22,7 +23,7 @@ const BoardsListPage = () => {
 
   const token = localStorage.getItem('token');
   const _id = localStorage.getItem('userId');
-  const { allBoards } = useSelector(boardState);
+  const { allBoards, addNewBoard } = useSelector(boardState);
 
   const navigate = useNavigate();
 
@@ -38,6 +39,10 @@ const BoardsListPage = () => {
   const onLoadBoards = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getAllUserBoards(_id as string, token as string));
+    if (addNewBoard) {
+      dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
+      dispatch(updateAddNewBoard(false));
+    }
   };
 
   const onAddNewBoard = () => {
@@ -76,6 +81,7 @@ const BoardsListPage = () => {
             margin: '15px',
             border: '1px solid black',
             position: 'relative',
+            cursor: 'pointer',
           }}
           key={_id}
         >

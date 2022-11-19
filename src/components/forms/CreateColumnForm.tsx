@@ -25,7 +25,10 @@ const CreateForm = () => {
   const { activeBoardId } = useSelector(boardState);
 
   const activeColumn = allColumns?.filter((item) => item._id === activeColumnId)[0] as ColumnData;
-  const { title, order, boardId } = activeColumn;
+  // const { title, order, boardId } = activeColumn;
+  const title = activeColumn ? activeColumn.title : '';
+  const order = activeColumn ? activeColumn.order : 0;
+  const boardId = activeColumn ? activeColumn.boardId : '';
 
   const dataFormValidation = {
     newColumn: {
