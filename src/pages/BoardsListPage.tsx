@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import BoardBackGround from '../assets/board.jpg';
 import theme from '../components/themeProvider/theme';
+import { transform } from 'typescript';
 
 const BoardsListPage = () => {
   const dispatch = useAppDispatch();
@@ -79,18 +80,30 @@ const BoardsListPage = () => {
   };
 
   const boardsRender = () => {
+    const boardBackGroundPicture = () => {
+      return (
+        <img
+          src={`${BoardBackGround}?w=248&fit=crop&auto=format`}
+          srcSet={`${BoardBackGround}?w=248&fit=crop&auto=format&dpr=2 2x`}
+          alt="picture"
+          loading="lazy"
+        />
+      );
+    };
+
     return (
       <>
         <ImageListItem
-          sx={{ width: 250, alignContent: 'center', textAlign: 'center' }}
+          sx={{ width: 250, alignContent: 'center', textAlign: 'center', cursor: 'pointer' }}
           onClick={onAddNewBoard}
         >
-          <img
+          {boardBackGroundPicture()}
+          {/* <img
             src={`${BoardBackGround}?w=248&fit=crop&auto=format`}
             srcSet={`${BoardBackGround}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt="picture"
             loading="lazy"
-          />
+          /> */}
           <ImageListItemBar
             sx={{ background: 'none', bottom: '30%' }}
             position="bottom"
@@ -104,7 +117,7 @@ const BoardsListPage = () => {
         {allBoards?.map(({ _id, title, subscribe }) => (
           <ImageListItem
             key={_id}
-            sx={{ width: 250, height: 150 }}
+            sx={{ width: 250, height: 150, cursor: 'pointer' }}
             onClick={() => onOpenBoard(_id as string)}
           >
             <img
