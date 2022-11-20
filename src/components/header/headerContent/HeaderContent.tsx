@@ -6,7 +6,6 @@ import {
   Container,
   IconButton,
   Menu,
-  MenuItem,
   Toolbar,
   Tooltip,
   Typography,
@@ -17,33 +16,37 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import { useTranslation } from 'react-i18next';
 
-import { langs, pagesTotal, pagesAuth } from '../../../consts/consts';
+import { pagesTotal, pagesAuth } from '../../../consts/consts';
 
-import ButtonLink from './buttonsLink/ButtonLink';
-import MenuPointLink from './buttonsLink/MenuPointLink';
+import { ButtonLink, MenuPointLink } from './buttonsLink';
+
+import { CustomizedFlex } from '../../../styledComponents';
+
 import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
 import { logout } from '../../../reduxUsers/slices/authSlice';
+import { updateAddNewBoard } from '../../../reduxUsers/actions/boardActions';
+import { setModalState } from '../../../reduxUsers/actions/modalActions';
 
 function HeaderContent() {
   const { i18n, t } = useTranslation();
   const langLocal = localStorage.getItem('I18N_LANGUAGE')
-    ? localStorage.getItem('I18N_LANGUAGE')?.toUpperCase()
+    ? localStorage.getItem('I18N_LANGUAGE')
     : 'EN';
   const [langCurrent, setLangCurrent] = useState(langLocal);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const dispatch = useAppDispatch();
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (pageName?: string) => {
+    if (pageName === 'NEW BOARD') {
+      dispatch(updateAddNewBoard(true));
+      dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
+    }
     setAnchorElNav(null);
   };
 
@@ -53,36 +56,33 @@ function HeaderContent() {
     }
   };
 
-  const handleCloseUserMenu = (lang: string) => {
-    const newLang = lang.toLowerCase();
-    setAnchorElUser(null);
+  const handleChangeLang = () => {
+    const newLang = langCurrent === 'en' ? 'ru' : 'en';
     i18n.changeLanguage(newLang);
     localStorage.setItem('I18N_LANGUAGE', newLang);
-    setLangCurrent(lang);
+    setLangCurrent(newLang);
   };
 
   return (
     <Container maxWidth="xl">
       <Toolbar disableGutters>
-        <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          href="/"
-          sx={{
-            mr: 2,
-            display: { xs: 'none', md: 'flex' },
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '.1rem',
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
-          {t('homePage')}
-        </Typography>
-
+        <CustomizedFlex iconAndButton>
+          <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            {t('homePage')}
+          </Typography>
+        </CustomizedFlex>
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
           <IconButton
             size="large"
@@ -107,26 +107,27 @@ function HeaderContent() {
               horizontal: 'left',
             }}
             open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
+            onClose={() => handleCloseNavMenu()}
             sx={{
               display: { xs: 'block', md: 'none' },
             }}
           >
             {pagesTotal.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <MenuPointLink page={page} />
-              </MenuItem>
+              <MenuPointLink key={page.name} page={page} handleCloseNavMenu={handleCloseNavMenu} />
             ))}
             {pagesAuth.map((page) => (
-              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <MenuPointLink page={page} />
-              </MenuItem>
+              <MenuPointLink
+                key={page.name}
+                page={page}
+                handleCloseNavMenu={handleCloseNavMenu}
+                logoutProfile={logoutProfile}
+              />
             ))}
           </Menu>
         </Box>
         <HomeIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
         <Typography
-          variant="h5"
+          variant="h6"
           noWrap
           component="a"
           href=""
@@ -144,55 +145,25 @@ function HeaderContent() {
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesTotal.map((page) => (
-            <ButtonLink page={page} handleCloseNavMenu={handleCloseNavMenu} key={page.name} />
+            <ButtonLink
+              page={page}
+              handleCloseNavMenu={() => handleCloseNavMenu(page.name)}
+              key={page.name}
+            />
           ))}
         </Box>
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton
-              onClick={handleOpenUserMenu}
-              sx={{ p: 0, color: 'white', textAlign: 'center' }}
-            >
-              <Avatar
-                sx={{
-                  bgcolor: 'transparent',
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                }}
-              >
-                {langCurrent}
-              </Avatar>
+            <IconButton onClick={handleChangeLang} sx={{ p: 0, textAlign: 'center' }}>
+              <Avatar sx={{ bgcolor: 'transparent' }}>{langCurrent}</Avatar>
             </IconButton>
           </Tooltip>
         </Box>
-        <Menu
-          sx={{ mt: '45px' }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
-        >
-          {langs.map((lang) => (
-            <MenuItem key={lang} onClick={() => handleCloseUserMenu(lang)}>
-              <Typography textAlign="center">{lang}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesAuth.map((page) => (
             <ButtonLink
-              id={page.name}
               page={page}
-              handleCloseNavMenu={handleCloseNavMenu}
+              handleCloseNavMenu={() => handleCloseNavMenu(page.name)}
               logoutProfile={logoutProfile}
               key={page.name}
             />

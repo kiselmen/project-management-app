@@ -6,6 +6,7 @@ const initialState: BoardValues = {
   allBoards: [] as BoardData[],
   activeBoardId: '',
   activeBoard: {} as BoardData,
+  addNewBoard: false,
 };
 
 const boardSlice = createSlice({
@@ -21,18 +22,27 @@ const boardSlice = createSlice({
     delBoard(state, action) {
       state.allBoards = state.allBoards?.filter((item) => item._id !== action.payload);
     },
-    setActiveBoardId(state, actions) {
-      state.activeBoardId = actions.payload;
+    setActiveBoardId(state, action) {
+      state.activeBoardId = action.payload;
     },
-    setActiveBoard(state, actions) {
-      state.activeBoard = actions.payload;
+    setActiveBoard(state, action) {
+      state.activeBoard = action.payload;
+    },
+    setAddNewBoard(state, action) {
+      state.addNewBoard = action.payload;
     },
   },
 });
 
 export const state = (state: RootStateForSlice) => state.board;
 
-export const { setAllUserBoards, addBoard, delBoard, setActiveBoard, setActiveBoardId } =
-  boardSlice.actions;
+export const {
+  setAllUserBoards,
+  addBoard,
+  delBoard,
+  setActiveBoard,
+  setActiveBoardId,
+  setAddNewBoard,
+} = boardSlice.actions;
 
 export default boardSlice.reducer;

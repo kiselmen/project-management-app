@@ -15,7 +15,8 @@ const CustomizedFlex = styled.div`
   ${(props: IHeader) =>
     props.iconAndButton &&
     css`
-      color: white;
+      /* color: white; */
+      align-items: flex-end;
       margin: 0 10px 0 10px;
     `}
   ${(props: IHeader) =>
@@ -25,9 +26,9 @@ const CustomizedFlex = styled.div`
       display: flex;
       justify-content: space-between;
       flex-direction: row;
-      color: white;
+      /* color: white; */
       margin: 0 10px 0 10px;
-      hight: 32px;
+      height: 32px;
     `}
   ${(props: IHeader) =>
     props.boardBody &&
@@ -39,7 +40,7 @@ const CustomizedFlex = styled.div`
       flex-direction: row;
       color: white;
       margin: 0 10px 0 10px;
-      hight: 32px;
+      height: 32px;
     `}
 `;
 

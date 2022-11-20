@@ -1,9 +1,9 @@
 {
-"homePage": "Home page", 
-"BOARDS": "BOARDS", 
-"NEW BOARD": "NEW BOARD", 
-"PROFILE": "PROFILE", 
-"LOG OUT": "LOG OUT",
-"LOGIN": "LOGIN",
-"SIGN UP": "SIGN UP"
+"homePage": "BRELLO",
+"BOARDS": "Boards", 
+"NEW BOARD": "New board", 
+"PROFILE": "Profile", 
+"LOG OUT": "Log Out",
+"LOGIN": "Login",
+"SIGN UP": "Sign Up"
 }
