@@ -36,7 +36,7 @@ export const signIn = (data: AuthPageValues) => {
         login({
           _id: response.data._id,
           name: response.data.name,
-          login: response.data.login,
+          login: data.login,
           token: response.data.token,
         })
       );
@@ -47,14 +47,14 @@ export const signIn = (data: AuthPageValues) => {
   };
 };
 
-export const deleteUser = async () => {
+export const deleteUser = () => {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.delete<AuthPageValues>(
         `https://final-task-backend-production-08b7.up.railway.app/users/${userId}`,
-        { data: { userId }, headers: { Authorization: 'Bearer ' + token } }
+        { headers: { Authorization: 'Bearer ' + token } }
       );
       dispatch(logout());
       return response;

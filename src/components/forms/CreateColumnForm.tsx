@@ -10,7 +10,7 @@ import {
   updateActiveColumnId,
 } from '../../reduxUsers/actions/columnActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './FormStyles';
+import { FormContainerStyles, FormStyles } from './Form.styles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';

@@ -8,7 +8,7 @@ import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { signIn, signUp } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './FormStyles';
+import { FormContainerStyles, FormStyles } from './Form.styles';
 import { useSelector } from 'react-redux';
 import { state } from '../../reduxUsers/slices/authSlice';
 

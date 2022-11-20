@@ -6,7 +6,7 @@ const initialState: AuthPageValues = {
   _id: localStorage.getItem('userId')! ?? '',
   name: localStorage.getItem('userName')! ?? '',
   token: localStorage.getItem('token')! ?? '',
-  login: '',
+  login: localStorage.getItem('login')! ?? '',
   isAuth: Boolean(localStorage.getItem('token')),
 };
 
@@ -23,6 +23,7 @@ const authSlice = createSlice({
       localStorage.setItem('userId', action.payload._id);
       localStorage.setItem('userName', action.payload.name);
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('login', action.payload.login);
     },
     logout(state) {
       state._id = '';
@@ -33,6 +34,7 @@ const authSlice = createSlice({
       localStorage.removeItem('userId');
       localStorage.removeItem('userName');
       localStorage.removeItem('token');
+      localStorage.removeItem('login');
     },
   },
 });
