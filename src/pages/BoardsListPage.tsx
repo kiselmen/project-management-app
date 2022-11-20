@@ -1,8 +1,15 @@
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
 import { Box, Button, ImageList, ImageListItem, ImageListItemBar, Typography } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { setModalState } from '../reduxUsers/actions/modalActions';
-import { getAllUserBoards, deleteBoard, clearBoards } from '../reduxUsers/actions/boardActions';
+import {
+  getAllUserBoards,
+  deleteBoard,
+  clearBoards,
+  updateActiveBoardId,
+  updateAddNewBoard,
+} from '../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { useEffect } from 'react';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
@@ -16,7 +23,7 @@ const BoardsListPage = () => {
 
   const token = localStorage.getItem('token');
   const _id = localStorage.getItem('userId');
-  const { allBoards } = useSelector(boardState);
+  const { allBoards, addNewBoard } = useSelector(boardState);
 
   const navigate = useNavigate();
 
@@ -32,6 +39,10 @@ const BoardsListPage = () => {
   const onLoadBoards = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getAllUserBoards(_id as string, token as string));
+    if (addNewBoard) {
+      dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
+      dispatch(updateAddNewBoard(false));
+    }
   };
 
   const onAddNewBoard = () => {
@@ -44,7 +55,15 @@ const BoardsListPage = () => {
     await dispatch(deleteBoard(boardId as string, token as string));
   };
 
+  const onEditBoard = async (e: React.MouseEvent<SVGSVGElement>, boardId: string) => {
+    e.stopPropagation();
+    dispatch(updateActiveBoardId(boardId));
+    dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
+  };
+
   const onOpenBoard = (boardId: string) => {
+    console.log('Navigate ', boardId);
+
     const point = '/board/' + boardId;
     navigate(point);
   };
