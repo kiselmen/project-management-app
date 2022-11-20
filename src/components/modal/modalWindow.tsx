@@ -1,8 +1,5 @@
 // import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
+import { Backdrop, Box, Modal, Fade } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
