@@ -16,7 +16,7 @@ import {
 } from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
-import { setAllBoardColumns, state as columnState } from '../reduxUsers/slices/columnSlice';
+import { state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
 import DndColumnContext from '../components/dnd/dndColumnContext';
@@ -24,6 +24,7 @@ import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
 import { ColumnData } from '../interfacesAndTypes/interfacesAndTypes';
+import TaskList from '../components/task/taskList';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -40,7 +41,6 @@ function SelectedBordPage() {
   }, []);
 
   const onLoadBoard = async () => {
-    console.log(activeBoard);
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getBoardData(id as string, token as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
@@ -53,6 +53,12 @@ function SelectedBordPage() {
 
   const onAddNewColumn = () => {
     dispatch(setModalState({ isOpen: true, type: 'ADD_COLUMN' }));
+  };
+
+  const onAddNewTask = (columnId: string) => {
+    console.log('Add new task ', columnId);
+    dispatch(updateActiveColumnId(columnId));
+    dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
   };
 
   const onRemoveColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
@@ -72,7 +78,7 @@ function SelectedBordPage() {
     const sourceIndex = source.index;
     const destinationIndex = destination?.index as number;
     if (sourceIndex !== destinationIndex) {
-      console.log(result.source, '    ', result.destination);
+      // console.log(result.source, '    ', result.destination);
       const items = JSON.parse(JSON.stringify(allColumns));
       const [newOrder] = items.splice(sourceIndex - 1, 1);
       items.splice(destinationIndex - 1, 0, newOrder);
@@ -84,9 +90,7 @@ function SelectedBordPage() {
         return { _id: el._id, order: start + index };
       });
       dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-      // dispatch(setAllBoardColumns(itemsForState));
       dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
-      // console.log(items);
     }
   };
 
@@ -110,12 +114,13 @@ function SelectedBordPage() {
             <Typography id="transition-modal-title" variant="h6" component="h2">
               {title}
             </Typography>
+            <TaskList columnId={_id as string}></TaskList>
             <EditOutlinedIcon
               onClick={(e) => onEditColumn(e, _id as string)}
               sx={{
                 position: 'absolute',
-                right: '20px',
-                top: '20px',
+                right: '10px',
+                top: '10px',
                 cursor: 'pointer',
               }}
             />
@@ -123,11 +128,24 @@ function SelectedBordPage() {
               onClick={(e) => onRemoveColumn(e, _id as string)}
               sx={{
                 position: 'absolute',
-                right: '20px',
-                bottom: '20px',
+                right: '10px',
+                bottom: '10px',
                 cursor: 'pointer',
               }}
             />
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => onAddNewTask(_id as string)}
+              sx={{
+                position: 'absolute',
+                left: '5px',
+                bottom: '10px',
+                cursor: 'pointer',
+              }}
+            >
+              Add
+            </Button>
           </Box>
         </DndColumnItems>
       );
