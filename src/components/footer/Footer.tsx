@@ -14,7 +14,7 @@ export const Footer = () => {
           maxWidth="xl"
           sx={{
             backgroundColor: 'secondary.main',
-            position: 'fixed',
+            // position: 'fixed',
             bottom: 0,
             left: 0,
             right: 0,

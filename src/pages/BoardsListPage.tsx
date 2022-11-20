@@ -1,5 +1,14 @@
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
-import { Box, Button, ImageList, ImageListItem, ImageListItemBar, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  ListItemSecondaryAction,
+  ListSubheader,
+  Typography,
+} from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { setModalState } from '../reduxUsers/actions/modalActions';
@@ -17,6 +26,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import BoardBackGround from '../assets/board.jpg';
+import theme from '../components/themeProvider/theme';
 
 const BoardsListPage = () => {
   const dispatch = useAppDispatch();
@@ -72,14 +82,23 @@ const BoardsListPage = () => {
     return (
       <>
         <ImageListItem
-          key={'newBoard'}
           sx={{ width: 250, alignContent: 'center', textAlign: 'center' }}
+          onClick={onAddNewBoard}
         >
           <img
             src={`${BoardBackGround}?w=248&fit=crop&auto=format`}
             srcSet={`${BoardBackGround}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt="picture"
             loading="lazy"
+          />
+          <ImageListItemBar
+            sx={{ background: 'none', bottom: '30%' }}
+            position="bottom"
+            title={
+              <Typography variant="h5" fontWeight="bold">
+                Add new board
+              </Typography>
+            }
           />
         </ImageListItem>
         {allBoards?.map(({ _id, title, subscribe }) => (
@@ -94,21 +113,29 @@ const BoardsListPage = () => {
               alt="picture"
               loading="lazy"
             />
+            <ImageListItemBar position="top" title={title} subtitle={subscribe} />
             <ImageListItemBar
-              title={title}
-              subtitle={subscribe}
+              position="bottom"
+              sx={{ background: 'none' }}
               actionIcon={
-                <DeleteOutlinedIcon
-                  onClick={(e) => onRemoveBoard(e, _id as string)}
-                  sx={{
-                    position: 'absolute',
-                    right: '20px',
-                    bottom: '20px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <InfoIcon />
-                </DeleteOutlinedIcon>
+                <>
+                  <EditOutlinedIcon
+                    onClick={(e) => onEditBoard(e, _id as string)}
+                    sx={{
+                      fill: `${theme.palette.secondary.main}`,
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <DeleteOutlinedIcon
+                    onClick={(e) => onRemoveBoard(e, _id as string)}
+                    sx={{
+                      fill: `${theme.palette.secondary.main}`,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <InfoIcon />
+                  </DeleteOutlinedIcon>
+                </>
               }
             />
           </ImageListItem>
@@ -119,14 +146,19 @@ const BoardsListPage = () => {
 
   return (
     <CustomizedBoardContainer>
-      <CustomizedFlex boardHeader>
-        <CustomizedH1>BOARDS</CustomizedH1>
-        <Button variant="outlined" size="small" onClick={onAddNewBoard}>
-          Add
-        </Button>
-      </CustomizedFlex>
+      <ImageListItem key="Subheader" cols={2}>
+        <ListSubheader
+          component="div"
+          sx={{ background: `${theme.palette.secondary.main}`, textAlign: 'center' }}
+        >
+          <Typography variant="h4" color="primary" fontWeight={700}>
+            Boards
+          </Typography>
+        </ListSubheader>
+      </ImageListItem>
       <ImageList
         variant="masonry"
+        gap={10}
         sx={{
           columnCount: {
             xs: '1 !important',
