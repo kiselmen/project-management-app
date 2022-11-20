@@ -1,6 +1,5 @@
 // import React from 'react';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Button, Typography } from '@mui/material';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as errorState } from '../../reduxUsers/slices/errorSlice';

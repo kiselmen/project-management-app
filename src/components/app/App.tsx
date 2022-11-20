@@ -9,21 +9,26 @@ import Routing from './Routing';
 import ModalWindow from '../modal';
 import { Footer } from '../footer/Footer';
 import { MainContainer } from './App.styles';
+import theme from '../themeProvider/theme';
+import { ThemeProvider } from '@mui/material/styles';
 
 function App() {
   return (
-    <Provider store={store}>
-      <HashRouter>
-        <ModalWindow />
-        <Header />
-        <div id="back-to-top-anchor"></div>
-        <MainContainer>
-          <Routing />
-        </MainContainer>
-        <BackToTop />
-        <Footer />
-      </HashRouter>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <HashRouter>
+          <ModalWindow />
+          <Header />
+          {/* TODO replace id to pages */}
+          <div id="back-to-top-anchor"></div>
+          <MainContainer>
+            <Routing />
+          </MainContainer>
+          <BackToTop />
+          <Footer />
+        </HashRouter>
+      </Provider>
+    </ThemeProvider>
   );
 }
 

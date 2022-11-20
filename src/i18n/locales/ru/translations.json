@@ -1,8 +1,8 @@
-{"homePage": "Главная страница",
-"BOARDS": "ДОСКИ", 
-"NEW BOARD": "НОВАЯ ДОСКА", 
-"PROFILE": "ПРОФИЛЬ", 
-"LOG OUT": "ВЫХОД",
-"LOGIN": "ВХОД",
-"SIGN UP": "РЕГИСТРАЦИЯ"
+{"homePage": "BRELLO",
+"BOARDS": "Доски", 
+"NEW BOARD": "Новая доска", 
+"PROFILE": "Профиль", 
+"LOG OUT": "Выход",
+"LOGIN": "Вход",
+"SIGN UP": "Регистрация"
 }
