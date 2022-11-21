@@ -16,7 +16,7 @@ import { CustomizedFlex } from '../../../../styledComponents';
 
 import { pagesTotal, pagesAuth, IConstPageData } from '../../../../consts/consts';
 
-import { state } from '../../../../reduxUsers/slices/authSlice';
+import { stateUser } from '../../../../reduxUsers/slices/authSlice';
 
 interface IPageName {
   page: string;
@@ -50,7 +50,7 @@ const PageIcon = (props: IPageName) => {
 
 const ButtonLink = (props: IButtonLinkProps) => {
   const { t } = useTranslation();
-  const stateIsLogin = useSelector(state);
+  const stateIsLogin = useSelector(stateUser);
   const isLogin = stateIsLogin.isAuth;
   const { page, handleCloseNavMenu, logoutProfile } = props;
   const visible = isLogin === page.isLoggin ? true : false;
