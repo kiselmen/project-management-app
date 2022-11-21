@@ -5,5 +5,7 @@
 "PROFILE": "Profile", 
 "LOG OUT": "Log Out",
 "LOGIN": "Login",
-"SIGN UP": "Sign Up"
+"SIGN UP": "Sign Up",
+"error": "ERROR",
+"close": "Close"
 }
