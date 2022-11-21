@@ -60,7 +60,7 @@ export type ColumnData = {
 };
 
 export type TaskValues = {
-  allTasks?: TaskData[];
+  allTasks?: ColumnTaskData;
   activeTaskId?: string;
 };
 
@@ -73,4 +73,10 @@ export type TaskData = {
   description?: string;
   userId?: string;
   users?: string[];
+};
+
+export type ColumnTaskData = {
+  // columnId?: string;
+  // columnTasks?: TaskData[];
+  [key: string]: TaskData[];
 };

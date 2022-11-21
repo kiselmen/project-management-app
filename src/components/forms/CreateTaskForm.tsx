@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import { ColumnTaskData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
 import {
   addNewColumn,
   editActiveColumn,
@@ -29,8 +29,10 @@ const CreateForm = () => {
   const { allTasks, activeTaskId } = useSelector(taskState);
   const usersDefault = [] as string[];
 
-  const activeTask = allTasks?.filter((item) => item._id === activeTaskId)[0] as TaskData;
-  // const { title, order, boardId } = activeColumn;
+  const activeColumnTasks =
+    allTasks && activeColumnId ? allTasks[activeColumnId] : ([] as TaskData[]);
+
+  const activeTask = activeColumnTasks?.filter((item) => item._id === activeTaskId)[0] as TaskData;
   const title = activeTask ? activeTask.title : '';
   const order = activeTask ? activeTask.order : 0;
   const boardId = activeTask ? activeTask.boardId : activeBoardId;
@@ -46,7 +48,13 @@ const CreateForm = () => {
     },
     newColumnInitialValue:
       type === 'ADD_TASK'
-        ? { title: '', order: allTasks ? allTasks?.length + 1 : 1, description: '', userId, users }
+        ? {
+            title: '',
+            order: activeColumnTasks ? activeColumnTasks.length + 1 : 1,
+            description: '',
+            userId,
+            users,
+          }
         : { title, order, description, columnId, userId, users },
   };
 

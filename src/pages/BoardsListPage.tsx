@@ -27,7 +27,6 @@ import { useNavigate } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import BoardBackGround from '../assets/board.jpg';
 import theme from '../components/themeProvider/theme';
-import { transform } from 'typescript';
 
 const BoardsListPage = () => {
   const dispatch = useAppDispatch();

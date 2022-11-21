@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TaskData, TaskValues } from '../../interfacesAndTypes/interfacesAndTypes';
+import { TaskData, TaskValues, ColumnTaskData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { RootStateForSlice } from '../store';
 
 const initialState: TaskValues = {
-  allTasks: [],
+  allTasks: {},
   activeTaskId: '',
 };
 
@@ -12,16 +12,14 @@ const columnSlice = createSlice({
   initialState,
   reducers: {
     setAllColumnTasks(state, action) {
-      state.allTasks = action.payload.sort((a: string, b: string) => {
-        return Number(a) - Number(b);
-      });
+      state.allTasks = { ...state.allTasks, [action.payload.columnId]: action.payload.columnTasks };
     },
-    addTask(state, action) {
-      state.allTasks = [...(state.allTasks as TaskData[]), action.payload];
-    },
-    delTask(state, action) {
-      state.allTasks = state.allTasks?.filter((item) => item._id !== action.payload);
-    },
+    // addTask(state, action) {
+    //   state.allTasks = [...(state.allTasks as TaskData[]), action.payload];
+    // },
+    // delTask(state, action) {
+    //   state.allTasks = state.allTasks?.filter((item) => item._id !== action.payload);
+    // },
     setActiveTaskId(state, action) {
       state.activeTaskId = action.payload;
     },
@@ -30,6 +28,6 @@ const columnSlice = createSlice({
 
 export const state = (state: RootStateForSlice) => state.task;
 
-export const { setAllColumnTasks, addTask, delTask, setActiveTaskId } = columnSlice.actions;
+export const { setAllColumnTasks, setActiveTaskId } = columnSlice.actions;
 
 export default columnSlice.reducer;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
 import { TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
-import { setAllColumnTasks, addTask, delTask, setActiveTaskId } from '../slices/taskSlice';
+import { setAllColumnTasks, setActiveTaskId } from '../slices/taskSlice';
 // import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
@@ -19,7 +19,7 @@ export const getAllColumnTasks = (boardId: string, columnId: string, token: stri
         }
       );
       const sorted = response.data.sort((a, b) => <number>a.order - <number>b.order);
-      dispatch(setAllColumnTasks(sorted));
+      dispatch(setAllColumnTasks({ columnId, columnTasks: sorted }));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));
@@ -32,7 +32,7 @@ export const getAllColumnTasks = (boardId: string, columnId: string, token: stri
 export const addNewTask = (task: TaskData, boardId: string, columnId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.post<TaskData>(
+      await axios.post<TaskData>(
         BASE_URL + 'boards/' + boardId + '/columns/' + columnId + '/tasks',
         task,
         {
@@ -41,7 +41,7 @@ export const addNewTask = (task: TaskData, boardId: string, columnId: string, to
           },
         }
       );
-      dispatch(addTask(response.data));
+      dispatch(getAllColumnTasks(boardId, columnId, token));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));

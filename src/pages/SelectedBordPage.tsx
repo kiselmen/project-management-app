@@ -74,11 +74,12 @@ function SelectedBordPage() {
   };
 
   const onDragEnd = (result: DropResult) => {
+    console.log(' On drag end ', result);
     const { source, destination } = result;
     const sourceIndex = source.index;
     const destinationIndex = destination?.index as number;
-    if (sourceIndex !== destinationIndex) {
-      // console.log(result.source, '    ', result.destination);
+    if (sourceIndex !== destinationIndex && source.droppableId === 'column') {
+      console.log(' Message from Board section ');
       const items = JSON.parse(JSON.stringify(allColumns));
       const [newOrder] = items.splice(sourceIndex - 1, 1);
       items.splice(destinationIndex - 1, 0, newOrder);
@@ -91,6 +92,8 @@ function SelectedBordPage() {
       });
       dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
       dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
+    } else if (source.droppableId !== 'column' && destination) {
+      console.log(' Message from Task section ');
     }
   };
 
@@ -162,7 +165,7 @@ function SelectedBordPage() {
         </Button>
       </CustomizedFlex>
       <DndColumnContext onDragEnd={onDragEnd}>
-        <DndColumnsWrapper droppableId="column">
+        <DndColumnsWrapper droppableId="column" directction="horizontal">
           <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
         </DndColumnsWrapper>
       </DndColumnContext>
