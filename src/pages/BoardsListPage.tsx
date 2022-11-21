@@ -26,8 +26,10 @@ import { setModalState } from '../reduxUsers/actions/modalActions';
 import BoardBackGround from '../assets/board.jpg';
 
 import BoardInBoards from '../components/boardInBoards/BoardInBoards';
+import { useTranslation } from 'react-i18next';
 
 const BoardsListPage = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const token = localStorage.getItem('token');
@@ -72,7 +74,7 @@ const BoardsListPage = () => {
             position="bottom"
             title={
               <Typography variant="h5" fontWeight="bold">
-                Add new board
+                {t('addNewBoard')}
               </Typography>
             }
           />
@@ -89,10 +91,14 @@ const BoardsListPage = () => {
       <ImageListItem key="Subheader" cols={2}>
         <ListSubheader
           component="div"
-          sx={{ background: `${theme.palette.secondary.main}`, textAlign: 'center' }}
+          sx={{
+            background: `${theme.palette.secondary.main}`,
+            textAlign: 'center',
+            padding: '0.5rem 0 0.5rem 0',
+          }}
         >
           <Typography variant="h4" color="primary" fontWeight={700}>
-            Boards
+            {t('BOARDS')}
           </Typography>
         </ListSubheader>
       </ImageListItem>

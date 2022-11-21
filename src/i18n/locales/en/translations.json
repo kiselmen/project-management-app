@@ -1,11 +1,22 @@
 {
 "homePage": "BRELLO",
-"BOARDS": "Boards", 
+"Boards": "Boards", 
 "NEW BOARD": "New board", 
 "PROFILE": "Profile", 
 "LOG OUT": "Log Out",
 "LOGIN": "Login",
 "SIGN UP": "Sign Up",
 "error": "ERROR",
-"close": "Close"
+"close": "Close",
+"addNewBoard": "Add new board",
+"BOARDS": "BOARDS",
+"Loading...": "Loading...",
+"Add board": "Add board",
+"Edit board": "Edit board",
+"Submit": "Submit",
+"Title": "Title",
+"Subscribe": "Subscribe",
+"page not found": "page not found",
+"Boo, looks like a ghost stole this page!": "Boo, looks like a ghost stole this page!",
+"BACK": "BACK"
 }

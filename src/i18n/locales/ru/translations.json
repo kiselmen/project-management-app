@@ -1,10 +1,21 @@
 {"homePage": "BRELLO",
-"BOARDS": "Доски", 
+"Boards": "Доски", 
 "NEW BOARD": "Новая доска", 
 "PROFILE": "Профиль", 
 "LOG OUT": "Выход",
 "LOGIN": "Вход",
 "SIGN UP": "Регистрация",
 "error": "ОШИБКА",
-"close": "Закрыть"
+"close": "Закрыть",
+"addNewBoard": "Создать доску",
+"BOARDS": "ДОСКИ",
+"Loading...": "Загрузка данных...",
+"Add board": "Создать доску",
+"Edit board": "Редактировать доску",
+"Submit": "Подтвердить",
+"Title": "Наименование",
+"Subscribe": "Описание",
+"page not found": "страница не найдена",
+"Boo, looks like a ghost stole this page!": "Упс, невозможно получить то, что не существует",
+"BACK": "Назад"
 }

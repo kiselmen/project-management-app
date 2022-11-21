@@ -4,6 +4,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 const StyledMui_DeleteOutlinedIcon = styled(DeleteOutlinedIcon)(
   ({ theme }) => `
     fill: ${theme.palette.secondary.main};
+    color: ${theme.palette.secondary.main};
     cursor: pointer;
     `
 );
