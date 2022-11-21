@@ -1,13 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './reducers';
-// import thunk from 'redux-thunk';
-// import authReducer from './slices/authSlice';
 
 const setupStore = () => {
   return configureStore({
-    // devTools: process.env.NODE_ENV !== 'production',
     reducer: rootReducer,
-    // middleware: [thunk],
   });
 };
 
