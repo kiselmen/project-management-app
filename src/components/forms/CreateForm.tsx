@@ -3,17 +3,18 @@ import * as yup from 'yup';
 import { Button, Link, TextField, Typography } from '@mui/material';
 import { Link as RouterLink, Navigate, useLocation } from 'react-router-dom';
 import { AuthPageValues } from '../../interfacesAndTypes/interfacesAndTypes';
-import { signIn, signUp } from '../../reduxUsers/actions/authActions';
+import { signIn, signUp, updateUser } from '../../reduxUsers/actions/authActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './FormStyles';
+import { FormContainerStyles, FormStyles } from './Form.styles';
 import { useSelector } from 'react-redux';
-import { state } from '../../reduxUsers/slices/authSlice';
+import { stateUser } from '../../reduxUsers/slices/authSlice';
 
 const CreateForm = () => {
-  const stateIsLogin = useSelector(state);
+  const stateIsLogin = useSelector(stateUser);
   const isLogin = stateIsLogin.isAuth;
   const location = useLocation();
   const currentUrl = location.pathname === '/registration';
+  const profileUrl = location.pathname === '/profile';
 
   const dataFormValidation = {
     auth: {
@@ -25,11 +26,15 @@ const CreateForm = () => {
     },
     authInitialValue: { login: '', password: '' },
     register: {
-      name: yup.string().max(15, 'Maximum 10 characters').required('Please enter your name'),
+      name: yup
+        .string()
+        .min(3, 'Minimum 3 characters')
+        .max(15, 'Maximum 15 characters')
+        .required('Please enter your name'),
       login: yup
         .string()
         .min(2, 'Minimum 2 characters')
-        .max(15, 'Maximum 20 characters')
+        .max(15, 'Maximum 15 characters')
         .required('Please enter your login'),
       password: yup
         .string()
@@ -40,7 +45,7 @@ const CreateForm = () => {
   };
 
   const validationSchema = yup.object(
-    !currentUrl ? dataFormValidation.auth : dataFormValidation.register
+    currentUrl || profileUrl ? dataFormValidation.register : dataFormValidation.auth
   );
 
   const dispatch = useAppDispatch();
@@ -48,37 +53,42 @@ const CreateForm = () => {
   const userAuthPageSubmit = async (values: AuthPageValues) => {
     if (currentUrl) {
       await dispatch(signUp({ name: values.name, login: values.login, password: values.password }));
+    } else if (profileUrl) {
+      await dispatch(
+        updateUser({ name: values.name, login: values.login, password: values.password })
+      );
     }
     await dispatch(signIn({ login: values.login, password: values.password }));
   };
 
   const formik = useFormik({
-    initialValues: !currentUrl
-      ? dataFormValidation.authInitialValue
-      : dataFormValidation.registerInitialValue,
+    initialValues:
+      currentUrl || profileUrl
+        ? dataFormValidation.registerInitialValue
+        : dataFormValidation.authInitialValue,
     validationSchema: validationSchema,
     onSubmit: userAuthPageSubmit,
   });
 
-  if (isLogin) {
-    return <Navigate to="/boards" />;
+  if (isLogin && !profileUrl) {
+    return <Navigate to="/" />;
   }
 
   return (
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {currentUrl ? 'Sign up' : 'Sign in'}
+          {currentUrl ? 'Sign up' : !profileUrl ? 'Sign in' : 'Update profile'}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
-          {currentUrl && (
+          {(currentUrl || profileUrl) && (
             <TextField
               fullWidth
               id="name"
               name="name"
               label="Name"
               type="text"
-              value={formik.values.name}
+              value={formik.values.name ?? ''}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.touched.name && formik.errors.name}
@@ -107,13 +117,15 @@ const CreateForm = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
-            {currentUrl ? 'Register' : 'Submit'}
+            {currentUrl ? 'Register' : !profileUrl ? 'Submit' : 'Update'}
           </Button>
         </FormStyles>
-        {!currentUrl ? (
+        {!currentUrl && !profileUrl ? (
           <Link component={RouterLink} to="/registration">
             Don&apos;t have an account? Register
           </Link>
+        ) : profileUrl ? (
+          ''
         ) : (
           <Link component={RouterLink} to="/authorization">
             Already have an account? Login

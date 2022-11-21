@@ -1,0 +1,86 @@
+import { Button, Card, CardActions, CardContent } from '@mui/material';
+import userImage from '../../assets/no_photo.png';
+import { UserPicture } from './CurrentUserData.styles';
+import { CustomListItem } from './CurrentUserData/CustomListItem';
+import { stateUser } from '../../reduxUsers/slices/authSlice';
+import { stateProfile } from '../../reduxUsers/slices/profileSlice';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import React from 'react';
+import { DeleteModalWindow } from './CurrentUserData/DeleteModalWIndow';
+import { deleteUser } from '../../reduxUsers/actions/authActions';
+import { isOpenEdit } from '../../reduxUsers/slices/profileSlice';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
+import CreateForm from '../../components/forms/CreateForm';
+
+export const CurrentUserData = () => {
+  const userState = useSelector(stateUser);
+  const { name, login } = userState;
+  const isLogin = userState.isAuth;
+
+  const profileEditState = useSelector(stateProfile);
+  const { openEdit } = profileEditState;
+
+  const dispatch = useAppDispatch();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenEdit = () => {
+    if (!openEdit) {
+      dispatch(isOpenEdit({ openEdit: true }));
+    } else {
+      dispatch(isOpenEdit({ openEdit: false }));
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = async () => {
+    await dispatch(deleteUser());
+    setOpen(false);
+  };
+
+  if (!isLogin) {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <>
+      <Card sx={{ maxWidth: 320, width: '100%' }}>
+        <UserPicture src={userImage} />
+        <CardContent>
+          <CustomListItem {...{ primary: 'Username:', secondary: name! }} />
+          <CustomListItem {...{ primary: 'Login:', secondary: login! }} />
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'center' }}>
+          <Button
+            onClick={handleClickOpen}
+            size="small"
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+          >
+            Delete user
+          </Button>
+          <Button
+            onClick={handleClickOpenEdit}
+            size="small"
+            variant="contained"
+            startIcon={<EditIcon />}
+          >
+            Edit user
+          </Button>
+        </CardActions>
+        <DeleteModalWindow open={open} handleClose={handleClose} handleDelete={handleDelete} />
+      </Card>
+      {openEdit && <CreateForm />}
+    </>
+  );
+};

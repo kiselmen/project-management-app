@@ -1,7 +1,11 @@
-import React from 'react';
+import { NotFoundContent } from './PageNotFound/NotFoundContent';
 
 function PageNotFound() {
-  return <div>PageNotFound</div>;
+  return (
+    <>
+      <NotFoundContent />
+    </>
+  );
 }
 
 export default PageNotFound;

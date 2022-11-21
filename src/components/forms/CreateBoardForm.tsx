@@ -8,7 +8,7 @@ import {
   updateActiveBoardId,
 } from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './FormStyles';
+import { FormContainerStyles, FormStyles } from './Form.styles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
