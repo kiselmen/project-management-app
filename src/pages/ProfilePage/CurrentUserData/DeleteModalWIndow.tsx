@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export const DeleteModalWindow = ({
   open,
@@ -9,6 +10,7 @@ export const DeleteModalWindow = ({
   handleClose: () => void;
   handleDelete: () => void;
 }) => {
+  const { t } = useTranslation();
   return (
     <>
       <Dialog
@@ -18,11 +20,11 @@ export const DeleteModalWindow = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'Are you sure you want to delete the user?'}
+          {t('Are you sure you want to delete the user?')}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose}>No</Button>
-          <Button onClick={handleDelete}>Yes</Button>
+          <Button onClick={handleClose}>{t('No')}</Button>
+          <Button onClick={handleDelete}>{t('Yes')}</Button>
         </DialogActions>
       </Dialog>
     </>

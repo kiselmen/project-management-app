@@ -3,11 +3,11 @@ import { styled } from '@mui/material/styles';
 
 const CustomizedBoardContainer = styled(Container)`
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
   background-color: white;
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - 110px);
 `;
 
 export default CustomizedBoardContainer;

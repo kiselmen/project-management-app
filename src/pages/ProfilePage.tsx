@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import { SuccessMessage } from '../components/successMessage/SuccessMssage';
 import { CurrentUserData } from './ProfilePage/CurrentUserData';
 import { stateProfile } from '../reduxUsers/slices/profileSlice';
+import { useTranslation } from 'react-i18next';
 
 function ProfilePage() {
+  const { t } = useTranslation();
   const profileState = useSelector(stateProfile);
   const { updateSuccess } = profileState;
   return (
@@ -17,7 +19,7 @@ function ProfilePage() {
           alignItems: 'center',
         }}
       >
-        {updateSuccess && <SuccessMessage text={'Updated Successfully'} />}
+        {updateSuccess && <SuccessMessage text={t('Updated Successfully')} />}
         <CurrentUserData />
       </Container>
     </>
