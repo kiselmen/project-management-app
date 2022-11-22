@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { TaskData, TaskValues, ColumnTaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import { createSlice, current } from '@reduxjs/toolkit';
+import { TaskValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { RootStateForSlice } from '../store';
 
 const initialState: TaskValues = {
@@ -14,12 +14,6 @@ const columnSlice = createSlice({
     setAllColumnTasks(state, action) {
       state.allTasks = { ...state.allTasks, [action.payload.columnId]: action.payload.columnTasks };
     },
-    // addTask(state, action) {
-    //   state.allTasks = [...(state.allTasks as TaskData[]), action.payload];
-    // },
-    // delTask(state, action) {
-    //   state.allTasks = state.allTasks?.filter((item) => item._id !== action.payload);
-    // },
     setActiveTaskId(state, action) {
       state.activeTaskId = action.payload;
     },

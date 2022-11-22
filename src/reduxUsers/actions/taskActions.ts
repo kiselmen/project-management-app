@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
-import { TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import { ColumnTaskData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { setAllColumnTasks, setActiveTaskId } from '../slices/taskSlice';
 // import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
@@ -78,45 +78,51 @@ export const editActiveTask = (
   };
 };
 
-// export const deleteColumn = (boardId: string, columnId: string, token: string) => {
-//   return async (dispatch: AppDispatch) => {
-//     try {
-//       const response = await axios.delete<ColumnData>(
-//         BASE_URL + 'boards/' + boardId + '/columns/' + columnId,
-//         {
-//           data: { boardId, columnId },
-//           headers: {
-//             Authorization: 'Bearer ' + token,
-//           },
-//         }
-//       );
-//       dispatch(delColumn(response.data._id));
-//       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
-//     } catch (e) {
-//       dispatch(setErrMessage(JSON.stringify(e)));
-//       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-//       console.log('Не удалили колонку ', e);
-//     }
-//   };
-// };
+export const deleteTask = (boardId: string, columnId: string, taskId: string, token: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await axios.delete<TaskData>(
+        BASE_URL + 'boards/' + boardId + '/columns/' + columnId + '/tasks/' + taskId,
+        {
+          data: { boardId, columnId },
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      dispatch(getAllColumnTasks(boardId, columnId, token));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не удалили колонку ', e);
+    }
+  };
+};
 
-// export const moveColumns = (columns: ColumnData[], newState: ColumnData[], token: string) => {
-//   return async (dispatch: AppDispatch) => {
-//     try {
-//       dispatch(setAllBoardColumns(newState));
-//       await axios.patch<ColumnData[]>(BASE_URL + 'columnsSet/', columns, {
-//         headers: {
-//           Authorization: 'Bearer ' + token,
-//         },
-//       });
-//       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
-//     } catch (e) {
-//       dispatch(setErrMessage(JSON.stringify(e)));
-//       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-//       console.log('Не удалили досоку ', e);
-//     }
-//   };
-// };
+export const moveTasksInOneColumn = (
+  columnId: string,
+  tasks: TaskData[],
+  newState: TaskData[],
+  token: string
+) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      console.log('MOVEEEE', { columnId, columnTasks: newState });
+      dispatch(setAllColumnTasks({ columnId, columnTasks: newState }));
+      await axios.patch<TaskData[]>(BASE_URL + 'tasksSet/', tasks, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+    } catch (e) {
+      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      console.log('Не изменили колонки ', e);
+    }
+  };
+};
 
 // export const clearColumnData = () => {
 //   return (dispatch: AppDispatch) => {
@@ -126,8 +132,8 @@ export const editActiveTask = (
 //   };
 // };
 
-// export const updateActiveColumnId = (columnId: string) => {
-//   return (dispatch: AppDispatch) => {
-//     dispatch(setActiveColumnId(columnId));
-//   };
-// };
+export const updateActiveTaskId = (taskId: string) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setActiveTaskId(taskId));
+  };
+};

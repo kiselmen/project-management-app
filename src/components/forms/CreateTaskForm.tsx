@@ -3,14 +3,10 @@ import * as yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { ColumnTaskData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
-import {
-  addNewColumn,
-  editActiveColumn,
-  updateActiveColumnId,
-} from '../../reduxUsers/actions/columnActions';
+import { TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import { updateActiveColumnId } from '../../reduxUsers/actions/columnActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { FormContainerStyles, FormStyles } from './FormStyles';
+import { FormContainerStyles, FormStyles } from './Form.styles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
@@ -81,7 +77,14 @@ const CreateForm = () => {
         )
       : await dispatch(
           editActiveTask(
-            { title: values.title, order },
+            {
+              title: values.title,
+              order,
+              description: values.description,
+              columnId: columnId as string,
+              userId: values.userId,
+              users: values.users,
+            },
             boardId as string,
             columnId as string,
             activeTaskId as string,

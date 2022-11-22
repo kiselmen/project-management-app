@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -18,13 +17,15 @@ import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
+import { state as taskState } from '../reduxUsers/slices/taskSlice';
 import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
 import DndColumnContext from '../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
-import { ColumnData } from '../interfacesAndTypes/interfacesAndTypes';
+import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
 import TaskList from '../components/task/taskList';
+import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function SelectedBordPage() {
   const token = localStorage.getItem('token');
   const { allColumns } = useSelector(columnState);
   const { activeBoard } = useSelector(boardState);
+  const { allTasks } = useSelector(taskState);
 
   useEffect(() => {
     onLoadBoard();
@@ -67,7 +69,10 @@ function SelectedBordPage() {
     await dispatch(deleteColumn(id as string, columnId as string, token as string));
   };
 
-  const onEditColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
+  const onEditColumn = async (
+    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+    columnId: string
+  ) => {
     e.stopPropagation();
     dispatch(updateActiveColumnId(columnId));
     dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
@@ -94,6 +99,27 @@ function SelectedBordPage() {
       dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
     } else if (source.droppableId !== 'column' && destination) {
       console.log(' Message from Task section ');
+      const sourceColumn = source.droppableId;
+      const destinColumn = destination.droppableId;
+      if (sourceColumn === destinColumn) {
+        console.log(sourceColumn, allTasks);
+        const items = JSON.parse(JSON.stringify(allTasks[sourceColumn]));
+        const [newOrder] = items.splice(sourceIndex - 1, 1);
+        items.splice(destinationIndex - 1, 0, newOrder);
+        const start = 1;
+        const itemsForState = items.map((el: TaskData, index: number) => {
+          return { ...el, order: start + index };
+        });
+        const itemsForPatch = items.map((el: TaskData, index: number) => {
+          return { _id: el._id, order: start + index, columnId: sourceColumn };
+        });
+        // console.log('New state ', itemsForState);
+        dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+        dispatch(moveTasksInOneColumn(sourceColumn, itemsForPatch, itemsForState, token as string));
+        // console.log('in one column', items);
+      } else {
+        console.log('In different columns');
+      }
     }
   };
 
@@ -114,19 +140,15 @@ function SelectedBordPage() {
             }}
             key={_id}
           >
-            <Typography id="transition-modal-title" variant="h6" component="h2">
+            <Typography
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+              onMouseUp={(e) => onEditColumn(e, _id as string)}
+            >
               {title}
             </Typography>
             <TaskList columnId={_id as string}></TaskList>
-            <EditOutlinedIcon
-              onClick={(e) => onEditColumn(e, _id as string)}
-              sx={{
-                position: 'absolute',
-                right: '10px',
-                top: '10px',
-                cursor: 'pointer',
-              }}
-            />
             <DeleteOutlinedIcon
               onClick={(e) => onRemoveColumn(e, _id as string)}
               sx={{
