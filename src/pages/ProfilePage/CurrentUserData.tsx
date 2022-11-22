@@ -57,7 +57,7 @@ export const CurrentUserData = () => {
   return (
     <>
       <Card sx={{ maxWidth: 320, width: '100%', mt: 3 }}>
-        <UserPicture src={userImage} />
+        <UserPicture src={userImage} alt="user-photo" />
         <CardContent>
           <CustomListItem {...{ primary: `${t('Username')}:`, secondary: name! }} />
           <CustomListItem {...{ primary: `${t('Login')}:`, secondary: login! }} />
