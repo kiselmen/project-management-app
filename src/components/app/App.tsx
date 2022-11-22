@@ -19,12 +19,10 @@ function App() {
         <HashRouter>
           <ModalWindow />
           <Header />
-          {/* TODO replace id to pages */}
-          <div id="back-to-top-anchor"></div>
           <MainContainer>
             <Routing />
+            <BackToTop />
           </MainContainer>
-          <BackToTop />
           <Footer />
         </HashRouter>
       </Provider>

@@ -57,10 +57,17 @@ const theme = createTheme({
           fontFamily: 'CentraNo2',
           src: `url(${CentraNo2}) format("truetype")`,
         },
+        // root: {
+        //   maxWidth: 1200,
+        //   marginRight: 'auto',
+        //   marginLeft: 'auto',
+        //   minHeight: 'calc(100vh - 110px)',
+        // },
         body: {
           maxWidth: 1200,
           marginRight: 'auto',
           marginLeft: 'auto',
+          minHeight: 'calc(100vh - 110px)',
         },
         MuiAppBar: {
           colorInherit: {
