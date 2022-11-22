@@ -14,8 +14,10 @@ import { deleteUser } from '../../reduxUsers/actions/authActions';
 import { isOpenEdit } from '../../reduxUsers/slices/profileSlice';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import CreateForm from '../../components/forms/CreateForm';
+import { useTranslation } from 'react-i18next';
 
 export const CurrentUserData = () => {
+  const { t } = useTranslation();
   const userState = useSelector(stateUser);
   const { name, login } = userState;
   const isLogin = userState.isAuth;
@@ -54,11 +56,11 @@ export const CurrentUserData = () => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 320, width: '100%' }}>
+      <Card sx={{ maxWidth: 320, width: '100%', mt: 3 }}>
         <UserPicture src={userImage} />
         <CardContent>
-          <CustomListItem {...{ primary: 'Username:', secondary: name! }} />
-          <CustomListItem {...{ primary: 'Login:', secondary: login! }} />
+          <CustomListItem {...{ primary: `${t('Username')}:`, secondary: name! }} />
+          <CustomListItem {...{ primary: `${t('Login')}:`, secondary: login! }} />
         </CardContent>
         <CardActions sx={{ justifyContent: 'center' }}>
           <Button
@@ -67,7 +69,7 @@ export const CurrentUserData = () => {
             variant="outlined"
             startIcon={<DeleteIcon />}
           >
-            Delete user
+            {t('Delete user')}
           </Button>
           <Button
             onClick={handleClickOpenEdit}
@@ -75,7 +77,7 @@ export const CurrentUserData = () => {
             variant="contained"
             startIcon={<EditIcon />}
           >
-            Edit user
+            {t('Edit user')}
           </Button>
         </CardActions>
         <DeleteModalWindow open={open} handleClose={handleClose} handleDelete={handleDelete} />
