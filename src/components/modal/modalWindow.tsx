@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import CreateBoardForm from '../forms/CreateBoardForm';
 import CreateColumnForm from '../forms/CreateColumnForm';
+import CreateTaskForm from '../forms/CreateTaskForm';
 import Loading from '../loading';
 import ErrorMessage from '../errorMessage';
 
@@ -50,6 +51,7 @@ const ModalWindow = () => {
             {type === 'LOADING' && <Loading />}
             {(type === 'ADD_BOARD' || type === 'EDIT_BOARD') && <CreateBoardForm />}
             {(type === 'ADD_COLUMN' || type === 'EDIT_COLUMN') && <CreateColumnForm />}
+            {(type === 'ADD_TASK' || type === 'EDIT_TASK') && <CreateTaskForm />}
           </Box>
         </Fade>
       </Modal>
