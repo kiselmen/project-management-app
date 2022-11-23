@@ -13,8 +13,10 @@ import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const CreateForm = () => {
+  const { t } = useTranslation();
   const token = localStorage.getItem('token') as string;
   const _id = localStorage.getItem('userId') as string;
   const usersDefault = [] as string[];
@@ -68,18 +70,20 @@ const CreateForm = () => {
     onSubmit: addPageSubmit,
   });
 
+  const titleForm = type === 'ADD_BOARD' ? 'Add board' : 'Edit board';
+
   return (
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {type === 'ADD_BOARD' ? 'Add board' : 'Edit board'}
+          {t(titleForm)}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="title"
             name="title"
-            label="Title"
+            label={t('Title')}
             type="text"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -90,7 +94,7 @@ const CreateForm = () => {
             fullWidth
             id="subscribe"
             name="subscribe"
-            label="Subscribe"
+            label={t('Subscribe')}
             type="text"
             value={formik.values.subscribe}
             onChange={formik.handleChange}
@@ -98,7 +102,7 @@ const CreateForm = () => {
             helperText={formik.touched.subscribe && formik.errors.subscribe}
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
-            {'Submit'}
+            {t('Submit')}
           </Button>
         </FormStyles>
       </FormContainerStyles>

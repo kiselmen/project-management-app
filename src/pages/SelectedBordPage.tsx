@@ -79,7 +79,6 @@ function SelectedBordPage() {
   };
 
   const onDragEnd = (result: DropResult) => {
-    console.log(' On drag end ', result);
     const { source, destination } = result;
     const sourceIndex = source.index;
     const destinationIndex = destination?.index as number;
@@ -95,13 +94,12 @@ function SelectedBordPage() {
       const itemsForPatch = items.map((el: ColumnData, index: number) => {
         return { _id: el._id, order: start + index };
       });
-      dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+      // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
       dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
     } else if (source.droppableId !== 'column' && destination) {
-      console.log(' Message from Task section ');
       const sourceColumn = source.droppableId;
-      const destinColumn = destination.droppableId;
-      if (sourceColumn === destinColumn) {
+      const destinationColumn = destination.droppableId;
+      if (sourceColumn === destinationColumn) {
         console.log(sourceColumn, allTasks);
         const items = JSON.parse(JSON.stringify(allTasks[sourceColumn]));
         const [newOrder] = items.splice(sourceIndex - 1, 1);
@@ -113,12 +111,43 @@ function SelectedBordPage() {
         const itemsForPatch = items.map((el: TaskData, index: number) => {
           return { _id: el._id, order: start + index, columnId: sourceColumn };
         });
-        // console.log('New state ', itemsForState);
-        dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+        // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
         dispatch(moveTasksInOneColumn(sourceColumn, itemsForPatch, itemsForState, token as string));
-        // console.log('in one column', items);
       } else {
-        console.log('In different columns');
+        const itemsSource = JSON.parse(JSON.stringify(allTasks[sourceColumn]));
+        const itemsDestination = JSON.parse(JSON.stringify(allTasks[destinationColumn]));
+        const [newOrder] = itemsSource.splice(sourceIndex - 1, 1);
+        itemsDestination.splice(destinationIndex - 1, 0, newOrder);
+        const start = 1;
+        const itemsForStateSource = itemsSource.map((el: TaskData, index: number) => {
+          return { ...el, order: start + index };
+        });
+        const itemsForPatchSource = itemsSource.map((el: TaskData, index: number) => {
+          return { _id: el._id, order: start + index, columnId: sourceColumn };
+        });
+        const itemsForStateDestination = itemsDestination.map((el: TaskData, index: number) => {
+          return { ...el, order: start + index };
+        });
+        const itemsForPatchDestination = itemsDestination.map((el: TaskData, index: number) => {
+          return { _id: el._id, order: start + index, columnId: destinationColumn };
+        });
+        // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+        dispatch(
+          moveTasksInOneColumn(
+            sourceColumn,
+            itemsForPatchSource,
+            itemsForStateSource,
+            token as string
+          )
+        );
+        dispatch(
+          moveTasksInOneColumn(
+            destinationColumn,
+            itemsForPatchDestination,
+            itemsForStateDestination,
+            token as string
+          )
+        );
       }
     }
   };

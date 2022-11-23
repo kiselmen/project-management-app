@@ -1,9 +1,16 @@
-// import React from 'react';
-import { Button, Typography } from '@mui/material';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as errorState } from '../../reduxUsers/slices/errorSlice';
-import { useSelector } from 'react-redux';
 
 const ErrorMessage = () => {
   const dispatch = useAppDispatch();
@@ -12,19 +19,45 @@ const ErrorMessage = () => {
     dispatch(setModalState({ isOpen: false, type: 'NONE' }));
   };
 
+  const { t } = useTranslation();
+
   return (
-    <>
-      <Typography id="transition-modal-title" variant="h6" component="h2">
-        Error
-      </Typography>
-      <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-        {errMessage}
-      </Typography>
-      <Button variant="outlined" color="error" onClick={closeError}>
-        Close
-      </Button>
-    </>
+    <div>
+      <DialogTitle color="error" variant="h5" id="transition-modal-title">
+        {t('error')}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText color="primary" id="transition-modal-description" tabIndex={-1}>
+          {errMessage}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button color="error" id="transition-modal-description" onClick={closeError}>
+          {t('close')}
+        </Button>
+      </DialogActions>
+    </div>
   );
 };
+
+// return (
+//   <>
+//     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+//         <Typography color="error" id="transition-modal-title" variant="h5" component="h2">
+//           {t('error')}
+//         </Typography>
+//         <Typography
+//           color="primary"
+//           id="transition-modal-description"
+//           sx={{ mt: 2, maxWidth: '95%' }}
+//         >
+//           {errMessage}
+//         </Typography>
+//         <Button color="error" variant="outlined"id="transition-modal-description" onClick={closeError}>
+//           {t('close')}
+//         </Button>
+//     </Box>
+//   </>
+// );
 
 export default ErrorMessage;

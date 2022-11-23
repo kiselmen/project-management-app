@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
-import { ColumnTaskData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import { TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { setAllColumnTasks, setActiveTaskId } from '../slices/taskSlice';
 // import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
@@ -108,13 +108,14 @@ export const moveTasksInOneColumn = (
 ) => {
   return async (dispatch: AppDispatch) => {
     try {
-      console.log('MOVEEEE', { columnId, columnTasks: newState });
       dispatch(setAllColumnTasks({ columnId, columnTasks: newState }));
-      await axios.patch<TaskData[]>(BASE_URL + 'tasksSet/', tasks, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
+      if (tasks.length) {
+        await axios.patch<TaskData[]>(BASE_URL + 'tasksSet/', tasks, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
+      }
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage(JSON.stringify(e)));

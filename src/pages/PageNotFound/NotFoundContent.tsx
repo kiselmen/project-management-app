@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
   HeadingWrapper,
@@ -23,11 +24,12 @@ import {
 } from './NotFoundContent.styles';
 
 export const NotFoundContent = () => {
+  const { t } = useTranslation();
   return (
     <>
       <HeadingWrapper>
         <Heading1>404</Heading1>
-        <Heading3>page not found</Heading3>
+        <Heading3>{t('page not found')}</Heading3>
       </HeadingWrapper>
       <GhostContainer>
         <GhostCopy>
@@ -46,10 +48,10 @@ export const NotFoundContent = () => {
         <Shadow />
       </GhostContainer>
       <Bottom>
-        <Paragraph>Boo, looks like a ghost stole this page!</Paragraph>
+        <Paragraph>{t('Boo, looks like a ghost stole this page!')}</Paragraph>
         <Btns>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Button sx={btnHover}>Back</Button>
+            <Button sx={btnHover}>{t('BACK')}</Button>
           </Link>
         </Btns>
       </Bottom>
