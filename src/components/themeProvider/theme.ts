@@ -2,6 +2,15 @@ import { createTheme } from '@mui/material/styles';
 import CentraNo2 from '../../assets/fonts/CentraNo2.ttf';
 
 const theme = createTheme({
+  // overrides: {
+  //   MuiCssBaseline: {
+  //   //   '@global': {
+  //   //     html: {
+  //   //       WebkitFontSmoothing: 'auto',
+  //   //     },
+  //   //   },
+  //   },
+  // },
   palette: {
     primary: {
       main: '#223059',
@@ -57,17 +66,14 @@ const theme = createTheme({
           fontFamily: 'CentraNo2',
           src: `url(${CentraNo2}) format("truetype")`,
         },
-        // root: {
-        //   maxWidth: 1200,
-        //   marginRight: 'auto',
-        //   marginLeft: 'auto',
-        //   minHeight: 'calc(100vh - 110px)',
-        // },
         body: {
           maxWidth: 1200,
           marginRight: 'auto',
           marginLeft: 'auto',
           minHeight: 'calc(100vh - 110px)',
+          flexGrow: 1,
+          flexShrink: 0,
+          position: 'relative',
         },
         MuiAppBar: {
           colorInherit: {
@@ -75,6 +81,11 @@ const theme = createTheme({
             color: '#fff',
           },
         },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: { flexGrow: 1, flexShrink: 0, position: 'relative' },
       },
     },
   },
