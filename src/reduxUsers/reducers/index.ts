@@ -5,6 +5,7 @@ import modalReducer from '../slices/modalSlice';
 import boardReducer from '../slices/boardSlice';
 import errorReducer from '../slices/errorSlice';
 import columnReducer from '../slices/columnSlice';
+import taskReducer from '../slices/taskSlice';
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
   board: boardReducer,
   error: errorReducer,
   column: columnReducer,
+  task: taskReducer,
 });
