@@ -26,6 +26,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
 import TaskList from '../components/task/taskList';
 import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
+import { ImageList } from '@mui/material';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -204,7 +205,12 @@ function SelectedBordPage() {
         </DndColumnItems>
       );
     });
-    return items;
+    if (items) {
+      return items;
+    } else {
+      /* TO DO */
+      return <div />;
+    }
   };
 
   return (
@@ -217,7 +223,19 @@ function SelectedBordPage() {
       </CustomizedFlex>
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal">
-          <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
+          <ImageList
+            // cols={2.5}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              // overflow: 'hidden',
+              flexWrap: 'nowrap',
+              transform: 'translateZ(0)',
+            }}
+          >
+            {columnsRender()}
+          </ImageList>
+          {/* <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex> */}
         </DndColumnsWrapper>
       </DndColumnContext>
     </CustomizedBoardContainer>

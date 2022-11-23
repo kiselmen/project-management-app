@@ -2,15 +2,6 @@ import { createTheme } from '@mui/material/styles';
 import CentraNo2 from '../../assets/fonts/CentraNo2.ttf';
 
 const theme = createTheme({
-  // overrides: {
-  //   MuiCssBaseline: {
-  //   //   '@global': {
-  //   //     html: {
-  //   //       WebkitFontSmoothing: 'auto',
-  //   //     },
-  //   //   },
-  //   },
-  // },
   palette: {
     primary: {
       main: '#223059',
