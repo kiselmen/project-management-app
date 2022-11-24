@@ -16,6 +16,7 @@ import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
+import Box from '@mui/material/Box';
 
 const CreateForm = () => {
   const token = localStorage.getItem('token') as string;
@@ -59,6 +60,10 @@ const CreateForm = () => {
     dispatch(updateActiveColumnId(''));
   };
 
+  const cancelAction = () => {
+    dispatch(setModalState({ isOpen: false, type: 'NONE' }));
+  };
+
   const formik = useFormik({
     initialValues: dataFormValidation.newColumnInitialValue,
     validationSchema: validationSchema,
@@ -83,9 +88,14 @@ const CreateForm = () => {
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
           />
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            {'Submit'}
-          </Button>
+          <Box sx={{ '& button': { m: 1 } }}>
+            <Button color="primary" size="small" variant="contained" type="submit">
+              {'Submit'}
+            </Button>
+            <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
+              {'Cancel'}
+            </Button>
+          </Box>
         </FormStyles>
       </FormContainerStyles>
     </>

@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
 import {
   addNewBoard,
@@ -64,6 +64,10 @@ const CreateForm = () => {
     dispatch(updateActiveBoardId(''));
   };
 
+  const cancelAction = () => {
+    dispatch(setModalState({ isOpen: false, type: 'NONE' }));
+  };
+
   const formik = useFormik({
     initialValues: dataFormValidation.newBoardInitialValue,
     validationSchema: validationSchema,
@@ -101,9 +105,14 @@ const CreateForm = () => {
             error={formik.touched.subscribe && Boolean(formik.errors.subscribe)}
             helperText={formik.touched.subscribe && formik.errors.subscribe}
           />
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            {t('Submit')}
-          </Button>
+          <Box sx={{ '& button': { m: 1 } }}>
+            <Button color="primary" size="small" variant="contained" type="submit">
+              {'Submit'}
+            </Button>
+            <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
+              {'Cancel'}
+            </Button>
+          </Box>
         </FormStyles>
       </FormContainerStyles>
     </>
