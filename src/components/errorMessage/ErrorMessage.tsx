@@ -40,24 +40,4 @@ const ErrorMessage = () => {
   );
 };
 
-// return (
-//   <>
-//     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-//         <Typography color="error" id="transition-modal-title" variant="h5" component="h2">
-//           {t('error')}
-//         </Typography>
-//         <Typography
-//           color="primary"
-//           id="transition-modal-description"
-//           sx={{ mt: 2, maxWidth: '95%' }}
-//         >
-//           {errMessage}
-//         </Typography>
-//         <Button color="error" variant="outlined"id="transition-modal-description" onClick={closeError}>
-//           {t('close')}
-//         </Button>
-//     </Box>
-//   </>
-// );
-
 export default ErrorMessage;

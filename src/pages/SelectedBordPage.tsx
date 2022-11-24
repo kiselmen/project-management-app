@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { getBoardData } from '../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
-  deleteColumn,
+  // deleteColumn,
   clearColumnData,
   updateActiveColumnId,
   moveColumns,
@@ -24,7 +24,7 @@ import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
 import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
-import TaskList from '../components/task/taskList';
+import TaskList from '../components/taskList';
 import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
 
 function SelectedBordPage() {
@@ -63,10 +63,15 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
   };
 
+  const onEditBoard = async (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
+  };
+
   const onRemoveColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
     e.stopPropagation();
-    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(deleteColumn(id as string, columnId as string, token as string));
+    dispatch(updateActiveColumnId(columnId));
+    dispatch(setModalState({ isOpen: true, type: 'DELETE_COLUMN' }));
   };
 
   const onEditColumn = async (
@@ -210,13 +215,13 @@ function SelectedBordPage() {
   return (
     <CustomizedBoardContainer>
       <CustomizedFlex boardHeader>
-        <CustomizedH1>{activeBoard.title}</CustomizedH1>
+        <CustomizedH1 onClick={(e) => onEditBoard(e)}>{activeBoard.title}</CustomizedH1>
         <Button variant="outlined" size="small" onClick={onAddNewColumn}>
           Add
         </Button>
       </CustomizedFlex>
       <DndColumnContext onDragEnd={onDragEnd}>
-        <DndColumnsWrapper droppableId="column" directction="horizontal">
+        <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
           <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
         </DndColumnsWrapper>
       </DndColumnContext>
