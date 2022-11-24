@@ -24,8 +24,8 @@ function App() {
           <MainContainer>
             <Routing />
           </MainContainer>
-          <BackToTop />
           <Footer />
+          <BackToTop />
         </HashRouter>
       </Provider>
     </ThemeProvider>
