@@ -1,7 +1,11 @@
-import React from 'react';
+import { WelcomePageContent } from './WelcomePage/WelcomePageContent';
 
 function WelcomePage() {
-  return <div>WelcomePage</div>;
+  return (
+    <>
+      <WelcomePageContent />
+    </>
+  );
 }
 
 export default WelcomePage;
