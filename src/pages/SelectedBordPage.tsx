@@ -26,7 +26,8 @@ import { DropResult } from 'react-beautiful-dnd';
 import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
 import TaskList from '../components/task/taskList';
 import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
-import { ImageList } from '@mui/material';
+import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
+import theme from '../components/themeProvider/theme';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -215,12 +216,23 @@ function SelectedBordPage() {
 
   return (
     <CustomizedBoardContainer>
-      <CustomizedFlex boardHeader>
-        <CustomizedH1>{activeBoard.title}</CustomizedH1>
-        <Button variant="outlined" size="small" onClick={onAddNewColumn}>
-          Add
-        </Button>
-      </CustomizedFlex>
+      <ImageListItem key="Subheader" cols={2}>
+        <ListSubheader
+          component="div"
+          sx={{
+            background: `${theme.palette.secondary.main}`,
+            textAlign: 'center',
+            padding: '0.5rem 0 0.5rem 0',
+          }}
+        >
+          <Typography variant="h4" color="primary" fontWeight={700}>
+            {activeBoard.title}
+          </Typography>
+          <Button variant="outlined" size="small" onClick={onAddNewColumn}>
+            Add
+          </Button>
+        </ListSubheader>
+      </ImageListItem>
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal">
           <ImageList
