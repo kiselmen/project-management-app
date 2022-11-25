@@ -32,7 +32,6 @@ const BoardsListPage = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const token = localStorage.getItem('token');
   const _id = localStorage.getItem('userId');
 
   const { allBoards, addNewBoard } = useSelector(boardState);
@@ -48,7 +47,7 @@ const BoardsListPage = () => {
 
   const onLoadBoards = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(getAllUserBoards(_id as string, token as string));
+    await dispatch(getAllUserBoards(_id as string, localStorage.getItem('token') as string));
     if (addNewBoard) {
       dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
       dispatch(updateAddNewBoard(false));

@@ -4,7 +4,6 @@ import { ColumnData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../slices/columnSlice';
 import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
-// import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
 import { updateErrorState } from './errorActions';
 
