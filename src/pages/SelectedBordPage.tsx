@@ -165,35 +165,44 @@ function SelectedBordPage() {
         <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
           <Box
             sx={{
-              bgcolor: 'grey',
-              width: '300px',
-              hight: '300px',
+              bgcolor: 'primary.main',
+              width: '280px',
               minHeight: '300px',
               margin: '15px',
-              border: '1px solid black',
+              // border: '1px solid black',
+              borderRadius: 4,
               position: 'relative',
-              cursor: 'pointer',
+              // cursor: 'pointer',
             }}
             key={_id}
           >
-            <Typography
-              id="transition-modal-title"
-              variant="h6"
-              component="h2"
-              onMouseUp={(e) => onEditColumn(e, _id as string)}
-            >
-              {title}
-            </Typography>
-            <TaskList columnId={_id as string}></TaskList>
-            <DeleteOutlinedIcon
-              onClick={(e) => onRemoveColumn(e, _id as string)}
+            <Box
               sx={{
-                position: 'absolute',
-                right: '10px',
-                bottom: '10px',
+                display: 'flex',
+                wrap: 'nowrap',
+                justifyContent: 'space-between',
                 cursor: 'pointer',
+                p: 2,
+                // pt: '5px',
               }}
-            />
+            >
+              <Typography
+                id="transition-modal-title"
+                variant="h5"
+                textAlign="center"
+                component="h2"
+                sx={{
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseUp={(e) => onEditColumn(e, _id as string)}
+              >
+                {title}
+              </Typography>
+              <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
+            </Box>
+            <TaskList columnId={_id as string}></TaskList>
             <Button
               variant="outlined"
               size="small"
@@ -228,9 +237,11 @@ function SelectedBordPage() {
             background: `${theme.palette.secondary.main}`,
             textAlign: 'center',
             padding: '0.5rem 0 0.5rem 0',
+            cursor: 'pointer',
           }}
+          onClick={(e) => onEditBoard(e)}
         >
-          <Typography variant="h4" color="primary" fontWeight={700} onClick={(e) => onEditBoard(e)}>
+          <Typography variant="h4" color="primary" fontWeight={700}>
             {activeBoard.title}
           </Typography>
           <Button variant="outlined" size="small" onClick={onAddNewColumn}>
