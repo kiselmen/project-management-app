@@ -16,17 +16,19 @@ import { state as modalState } from '../../reduxUsers/slices/modalSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 
 const CreateForm = () => {
-  const token = localStorage.getItem('token') as string;
+  const { t } = useTranslation();
+  // const token = localStorage.getItem('token') as string;
   const { type } = useSelector(modalState);
 
   const { allColumns, activeColumnId } = useSelector(columnState);
   const { activeBoardId } = useSelector(boardState);
 
   const activeColumn = allColumns?.filter((item) => item._id === activeColumnId)[0] as ColumnData;
-  // const { title, order, boardId } = activeColumn;
+
   const title = activeColumn ? activeColumn.title : '';
   const order = activeColumn ? activeColumn.order : 0;
   const boardId = activeColumn ? activeColumn.boardId : '';
@@ -47,14 +49,18 @@ const CreateForm = () => {
     const newOrder = allColumns ? allColumns.length + 1 : 1;
     type === 'ADD_COLUMN'
       ? await dispatch(
-          addNewColumn({ title: values.title, order: newOrder }, activeBoardId as string, token)
+          addNewColumn(
+            { title: values.title, order: newOrder },
+            activeBoardId as string,
+            localStorage.getItem('token') as string
+          )
         )
       : await dispatch(
           editActiveColumn(
             { title: values.title, order },
             activeBoardId as string,
             activeColumnId as string,
-            token
+            localStorage.getItem('token') as string
           )
         );
     dispatch(updateActiveColumnId(''));
@@ -74,14 +80,14 @@ const CreateForm = () => {
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {type === 'ADD_COLUMN' ? 'Add column' : 'Edit column'}
+          {type === 'ADD_COLUMN' ? t('Add column') : t('Edit column')}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="title"
             name="title"
-            label="Title"
+            label={t('Title')}
             type="text"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -90,10 +96,10 @@ const CreateForm = () => {
           />
           <Box sx={{ '& button': { m: 1 } }}>
             <Button color="primary" size="small" variant="contained" type="submit">
-              {'Submit'}
+              {t('Submit')}
             </Button>
             <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
-              {'Cancel'}
+              {t('Cancel')}
             </Button>
           </Box>
         </FormStyles>

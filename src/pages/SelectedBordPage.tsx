@@ -5,13 +5,14 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getBoardData } from '../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
-  clearColumnData,
+  // clearColumnData,
   updateActiveColumnId,
   moveColumns,
+  clearColumnData,
 } from '../reduxUsers/actions/columnActions';
 import { setModalState } from '../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
@@ -37,6 +38,7 @@ function SelectedBordPage() {
   const { allColumns } = useSelector(columnState);
   const { activeBoard } = useSelector(boardState);
   const { allTasks } = useSelector(taskState);
+  const _id = localStorage.getItem('userId');
 
   useEffect(() => {
     onLoadBoard();
@@ -44,6 +46,8 @@ function SelectedBordPage() {
   }, []);
 
   const onLoadBoard = async () => {
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    await dispatch(getAllUserBoards(_id as string, localStorage.getItem('token') as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getBoardData(id as string, localStorage.getItem('token') as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
