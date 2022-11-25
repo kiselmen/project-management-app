@@ -8,11 +8,10 @@ import BoardBackGround from '../../assets/board.jpg';
 import theme from '../themeProvider/theme';
 
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import { deleteBoard, updateActiveBoardId } from '../../reduxUsers/actions/boardActions';
+import { updateActiveBoardId } from '../../reduxUsers/actions/boardActions';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import {
   StyledMui_DeleteOutlinedIcon,
-  StyledMui_EditOutlinedIcon,
   StyledMui_ImageListItem_Board,
 } from '../../styledComponents';
 
@@ -29,14 +28,12 @@ const BoardInBoards = (props: IBoardInBoards) => {
 
   const dispatch = useAppDispatch();
 
-  const token = localStorage.getItem('token');
-
   const onOpenBoard = (boardId: string) => {
     const point = '/board/' + boardId;
     navigate(point);
   };
 
-  const onEditBoard = async (e: React.MouseEvent<SVGSVGElement>, boardId: string) => {
+  const onEditBoard = async (e: React.MouseEvent<HTMLDivElement>, boardId: string) => {
     e.stopPropagation();
     dispatch(updateActiveBoardId(boardId));
     dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
@@ -44,8 +41,8 @@ const BoardInBoards = (props: IBoardInBoards) => {
 
   const onRemoveBoard = async (e: React.MouseEvent<SVGSVGElement>, boardId: string) => {
     e.stopPropagation();
-    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(deleteBoard(boardId as string, token as string));
+    dispatch(updateActiveBoardId(boardId));
+    dispatch(setModalState({ isOpen: true, type: 'DELETE_BOARD' }));
   };
 
   return (
@@ -56,21 +53,20 @@ const BoardInBoards = (props: IBoardInBoards) => {
         alt="picture"
         loading="lazy"
       />
-      <ImageListItemBar position="top" title={title} subtitle={subscribe} />
+      <ImageListItemBar
+        position="top"
+        title={title}
+        subtitle={subscribe}
+        onClick={(e) => onEditBoard(e, _id as string)}
+      />
       <ImageListItemBar
         position="bottom"
         sx={{ background: 'none' }}
         actionIcon={
-          <>
-            <StyledMui_EditOutlinedIcon
-              onClick={(e) => onEditBoard(e, _id as string)}
-              theme={theme}
-            />
-            <StyledMui_DeleteOutlinedIcon
-              onClick={(e) => onRemoveBoard(e, _id as string)}
-              theme={theme}
-            />
-          </>
+          <StyledMui_DeleteOutlinedIcon
+            onClick={(e) => onRemoveBoard(e, _id as string)}
+            theme={theme}
+          />
         }
       />
     </StyledMui_ImageListItem_Board>

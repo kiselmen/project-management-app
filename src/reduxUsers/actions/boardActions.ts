@@ -10,24 +10,33 @@ import {
   setAddNewBoard,
 } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
-import { setErrMessage } from '../slices/errorSlice';
+// import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
+import { updateErrorState } from './errorActions';
+import { logout } from '../slices/authSlice';
 
 export const getAllUserBoards = (userId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
-    try {
-      const response = await axios.get<BoardValues[]>(BASE_URL + 'boardsSet/' + userId, {
+    await axios
+      .get<BoardValues[]>(BASE_URL + 'boardsSet/' + userId, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
+      })
+      .then((response) => {
+        dispatch(setAllUserBoards(response.data));
+        dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      })
+      .catch((e) => {
+        if (e.response?.data?.message === 'Invalid token') {
+          dispatch(logout());
+          dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+          console.log('Redirect needed');
+        } else {
+          dispatch(updateErrorState(JSON.stringify(e)));
+          dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+        }
       });
-      dispatch(setAllUserBoards(response.data));
-      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
-    } catch (e) {
-      dispatch(setErrMessage(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не дали досок ', e);
-    }
   };
 };
 
@@ -43,7 +52,7 @@ export const getBoardData = (boardId: string, token: string) => {
       dispatch(setActiveBoardId(boardId));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(updateErrorState(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       console.log('Не дали доску ', e);
     }
@@ -61,7 +70,7 @@ export const addNewBoard = (board: BoardData, token: string) => {
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(updateErrorState(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       console.log('Не добавили досоку ', e);
     }
@@ -79,7 +88,7 @@ export const editActiveBoard = (board: BoardData, boardId: string, token: string
       const userId = response.data.owner as string;
       dispatch(getAllUserBoards(userId, token));
     } catch (e) {
-      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(updateErrorState(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       console.log('Не добавили досоку ', e);
     }
@@ -98,7 +107,7 @@ export const deleteBoard = (boardId: string, token: string) => {
       dispatch(delBoard(response.data._id));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(setErrMessage(JSON.stringify(e)));
+      dispatch(updateErrorState(JSON.stringify(e)));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       console.log('Не удалили досоку ', e);
     }
@@ -122,10 +131,3 @@ export const updateAddNewBoard = (type: boolean) => {
     dispatch(setAddNewBoard(type));
   };
 };
-
-// export const clearBoardData = () => {
-//   return (dispatch: AppDispatch) => {
-//     dispatch(setActiveBoard({}));
-//     dispatch(setActiveBoardId(''));
-//   };
-// };

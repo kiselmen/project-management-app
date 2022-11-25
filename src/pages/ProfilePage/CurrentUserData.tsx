@@ -20,7 +20,7 @@ export const CurrentUserData = () => {
   const { t } = useTranslation();
   const userState = useSelector(stateUser);
   const { name, login } = userState;
-  const isLogin = userState.isAuth;
+  // const isLogin = userState.isAuth;
 
   const profileEditState = useSelector(stateProfile);
   const { openEdit } = profileEditState;
@@ -50,14 +50,14 @@ export const CurrentUserData = () => {
     setOpen(false);
   };
 
-  if (!isLogin) {
-    return <Navigate to="/" />;
-  }
+  // if (!isLogin) {
+  //   return <Navigate to="/" />;
+  // }
 
   return (
     <>
       <Card sx={{ maxWidth: 320, width: '100%', mt: 3 }}>
-        <UserPicture src={userImage} />
+        <UserPicture src={userImage} alt="user-photo" />
         <CardContent>
           <CustomListItem {...{ primary: `${t('Username')}:`, secondary: name! }} />
           <CustomListItem {...{ primary: `${t('Login')}:`, secondary: login! }} />

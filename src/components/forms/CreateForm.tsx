@@ -15,6 +15,7 @@ const CreateForm = () => {
   const stateIsLogin = useSelector(stateUser);
   const isLogin = stateIsLogin.isAuth;
   const location = useLocation();
+  const authUrl = location.pathname === '/authorization';
   const currentUrl = location.pathname === '/registration';
   const profileUrl = location.pathname === '/profile';
 
@@ -60,7 +61,7 @@ const CreateForm = () => {
         updateUser({ name: values.name, login: values.login, password: values.password })
       );
     }
-    await dispatch(signIn({ login: values.login, password: values.password }));
+    if (authUrl) await dispatch(signIn({ login: values.login, password: values.password }));
   };
 
   const formik = useFormik({

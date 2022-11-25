@@ -14,6 +14,7 @@ import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { addNewTask, editActiveTask } from '../../reduxUsers/actions/taskActions';
+import Box from '@mui/material/Box';
 
 const CreateForm = () => {
   const token = localStorage.getItem('token') as string;
@@ -40,7 +41,7 @@ const CreateForm = () => {
   const dataFormValidation = {
     newColumn: {
       title: yup.string().required(''),
-      description: yup.string(),
+      description: yup.string().required(''),
     },
     newColumnInitialValue:
       type === 'ADD_TASK'
@@ -94,6 +95,10 @@ const CreateForm = () => {
     dispatch(updateActiveColumnId(''));
   };
 
+  const cancelAction = () => {
+    dispatch(setModalState({ isOpen: false, type: 'NONE' }));
+  };
+
   const formik = useFormik({
     initialValues: dataFormValidation.newColumnInitialValue,
     validationSchema: validationSchema,
@@ -104,7 +109,7 @@ const CreateForm = () => {
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {type === 'ADD_TASK' ? 'Add column' : 'Edit task'}
+          {type === 'ADD_TASK' ? 'Add task' : 'Edit task'}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
@@ -129,9 +134,14 @@ const CreateForm = () => {
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
           />
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            {'Submit'}
-          </Button>
+          <Box sx={{ '& button': { m: 1 } }}>
+            <Button color="primary" size="small" variant="contained" type="submit">
+              {'Submit'}
+            </Button>
+            <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
+              {'Cancel'}
+            </Button>
+          </Box>
         </FormStyles>
       </FormContainerStyles>
     </>

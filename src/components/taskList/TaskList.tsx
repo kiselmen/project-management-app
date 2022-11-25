@@ -1,23 +1,19 @@
 // import Typography from '@mui/material/Typography';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
-import { setModalState } from '../../../reduxUsers/actions/modalActions';
-import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
-import DndColumnsWrapper from '../../dnd/dndColumnWrapper';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
+import DndColumnsWrapper from '../dnd/dndColumnWrapper';
 // import { state as columnState } from '../../../reduxUsers/slices/columnSlice';
-import { state as boardState } from '../../../reduxUsers/slices/boardSlice';
-import { state as taskState } from '../../../reduxUsers/slices/taskSlice';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { useSelector } from 'react-redux';
-import {
-  deleteTask,
-  getAllColumnTasks,
-  updateActiveTaskId,
-} from '../../../reduxUsers/actions/taskActions';
-import DndColumnItems from '../../dnd/dndColumnItems';
+import { getAllColumnTasks, updateActiveTaskId } from '../../reduxUsers/actions/taskActions';
+import DndColumnItems from '../dnd/dndColumnItems';
 // import { TaskData } from '../../../interfacesAndTypes/interfacesAndTypes';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { useEffect } from 'react';
-import { updateActiveColumnId } from '../../../reduxUsers/actions/columnActions';
+import { updateActiveColumnId } from '../../reduxUsers/actions/columnActions';
 
 interface ITaskList {
   columnId: string;
@@ -35,7 +31,6 @@ const TaskList = (props: ITaskList) => {
   }, []);
 
   const onLoadTaskList = async (columnId: string) => {
-    console.log(columnId);
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(getAllColumnTasks(activeBoardId as string, columnId as string, token as string));
   };
@@ -44,15 +39,13 @@ const TaskList = (props: ITaskList) => {
     dispatch(updateActiveTaskId(taskId));
     dispatch(updateActiveColumnId(columnId));
     dispatch(setModalState({ isOpen: true, type: 'EDIT_TASK' }));
-    // console.log(e, taskId);
   };
 
   const onRemoveTask = async (e: React.MouseEvent<SVGSVGElement>, taskId: string) => {
     e.stopPropagation();
-    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(
-      deleteTask(activeBoardId as string, columnId as string, taskId as string, token as string)
-    );
+    dispatch(updateActiveColumnId(columnId));
+    dispatch(updateActiveTaskId(taskId));
+    dispatch(setModalState({ isOpen: true, type: 'DELETE_TASK' }));
   };
 
   const tasksRender = () => {

@@ -4,6 +4,11 @@ import { AppDispatch } from '../store';
 
 export const updateErrorState = (data: string) => {
   return (dispatch: AppDispatch) => {
-    dispatch(setErrMessage(data));
+    const errorObj = JSON.parse(data);
+    let errMessage = data;
+    if (errorObj.message) {
+      errMessage = errorObj.message;
+    }
+    dispatch(setErrMessage(errMessage));
   };
 };

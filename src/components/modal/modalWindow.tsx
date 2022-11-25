@@ -9,6 +9,9 @@ import CreateColumnForm from '../forms/CreateColumnForm';
 import CreateTaskForm from '../forms/CreateTaskForm';
 import Loading from '../loading';
 import ErrorMessage from '../errorMessage';
+import DeleteBoard from '../forms/DeleteBoard';
+import DeleteColumn from '../forms/DeleteColumn';
+import DeleteTask from '../forms/DeleteTask';
 
 const style = {
   position: 'absolute' as const,
@@ -42,7 +45,7 @@ const ModalWindow = () => {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 200,
         }}
       >
         <Fade in={isOpen}>
@@ -52,6 +55,9 @@ const ModalWindow = () => {
             {(type === 'ADD_BOARD' || type === 'EDIT_BOARD') && <CreateBoardForm />}
             {(type === 'ADD_COLUMN' || type === 'EDIT_COLUMN') && <CreateColumnForm />}
             {(type === 'ADD_TASK' || type === 'EDIT_TASK') && <CreateTaskForm />}
+            {type === 'DELETE_BOARD' && <DeleteBoard />}
+            {type === 'DELETE_COLUMN' && <DeleteColumn />}
+            {type === 'DELETE_TASK' && <DeleteTask />}
           </Box>
         </Fade>
       </Modal>
