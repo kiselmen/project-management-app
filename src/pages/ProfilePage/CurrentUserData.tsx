@@ -20,7 +20,7 @@ export const CurrentUserData = () => {
   const { t } = useTranslation();
   const userState = useSelector(stateUser);
   const { name, login } = userState;
-  const isLogin = userState.isAuth;
+  // const isLogin = userState.isAuth;
 
   const profileEditState = useSelector(stateProfile);
   const { openEdit } = profileEditState;
@@ -50,9 +50,9 @@ export const CurrentUserData = () => {
     setOpen(false);
   };
 
-  if (!isLogin) {
-    return <Navigate to="/" />;
-  }
+  // if (!isLogin) {
+  //   return <Navigate to="/" />;
+  // }
 
   return (
     <>
