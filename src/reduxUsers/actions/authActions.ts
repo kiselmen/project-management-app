@@ -7,6 +7,15 @@ import { isOpenEdit } from '../slices/profileSlice';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
 
+const checkErrStatus = (dispatch: AppDispatch, e: { response: Response }, text: string) => {
+  if (!e.response.ok) {
+    dispatch(logout());
+  } else {
+    dispatch(setErrMessage({ text }));
+    dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+  }
+};
+
 export const signUp = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -46,7 +55,7 @@ export const signIn = (data: AuthPageValues) => {
       );
       dispatch(successRequest({ updateSuccess: true }));
       setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
-    } catch {
+    } catch (e) {
       dispatch(setErrMessage('Account does not exist'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
     }
@@ -64,9 +73,8 @@ export const deleteUser = () => {
       );
       dispatch(logout());
       return response;
-    } catch {
-      dispatch(setErrMessage('Something went wrong'));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+    } catch (e) {
+      checkErrStatus(dispatch, <{ response: Response }>e, 'Something went wrong');
     }
   };
 };
@@ -92,9 +100,8 @@ export const updateUser = (data: AuthPageValues) => {
       dispatch(successRequest({ updateSuccess: true }));
       dispatch(isOpenEdit({ openEdit: false }));
       setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
-    } catch {
-      dispatch(setErrMessage('Something went wrong'));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+    } catch (e) {
+      checkErrStatus(dispatch, <{ response: Response }>e, 'Something went wrong');
     }
   };
 };
