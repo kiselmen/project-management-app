@@ -82,7 +82,7 @@ const TaskList = (props: ITaskList) => {
           mr={1}
           maxHeight={150}
           // minHeight={50}
-          sx={{ overflowY: 'scroll', whiteSpace: 'nowrap', overflowAnchor: 'none' }}
+          sx={{ overflowY: 'auto', whiteSpace: 'nowrap', overflowAnchor: 'none' }}
         >
           {tasksRender()}
         </Stack>

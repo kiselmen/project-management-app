@@ -1,3 +1,4 @@
+import './SelectedBoardPage.css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -5,29 +6,29 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getBoardData } from '../reduxUsers/actions/boardActions';
+import { getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
   clearColumnData,
   updateActiveColumnId,
   moveColumns,
-} from '../reduxUsers/actions/columnActions';
-import { setModalState } from '../reduxUsers/actions/modalActions';
-import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
-import { state as columnState } from '../reduxUsers/slices/columnSlice';
-import { state as boardState } from '../reduxUsers/slices/boardSlice';
-import { state as taskState } from '../reduxUsers/slices/taskSlice';
-import { CustomizedBoardContainer } from '../styledComponents';
-import DndColumnContext from '../components/dnd/dndColumnContext';
-import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
-import DndColumnItems from '../components/dnd/dndColumnItems';
+} from '../../reduxUsers/actions/columnActions';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
+import { state as columnState } from '../../reduxUsers/slices/columnSlice';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { state as taskState } from '../../reduxUsers/slices/taskSlice';
+import { CustomizedBoardContainer } from '../../styledComponents';
+import DndColumnContext from '../../components/dnd/dndColumnContext';
+import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
+import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
-import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
-import TaskList from '../components/taskList';
-import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
+import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import TaskList from '../../components/taskList';
+import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
-import theme from '../components/themeProvider/theme';
+import theme from '../../components/themeProvider/theme';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -306,7 +307,7 @@ function SelectedBordPage() {
               flexWrap: 'nowrap',
               transform: 'translateZ(0)',
               height: 'calc(100vh - 250px)',
-              overflowY: 'scroll',
+              overflowY: 'auto',
               overflowAnchor: 'none',
             }}
           >
