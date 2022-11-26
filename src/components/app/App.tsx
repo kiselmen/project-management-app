@@ -20,7 +20,7 @@ function App() {
         <HashRouter>
           <ModalWindow />
           <Header />
-          <Container>
+          <Container sx={{ padding: { xs: 0, md: 0 } }}>
             <Routing />
             <BackToTop />
           </Container>

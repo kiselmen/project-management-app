@@ -18,7 +18,7 @@ import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../reduxUsers/slices/taskSlice';
-import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
+import { CustomizedBoardContainer } from '../styledComponents';
 import DndColumnContext from '../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../components/dnd/dndColumnItems';
@@ -159,6 +159,51 @@ function SelectedBordPage() {
     }
   };
 
+  const columnsAddNewBoard = () => {
+    return (
+      // <div>
+      <Box
+        sx={{
+          bgcolor: 'primary.main',
+          width: '280px',
+          maxHeight: '300px',
+          height: '24px',
+          margin: '15px',
+          borderRadius: 4,
+          position: 'relative',
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            width: '280px',
+            display: 'flex',
+            justifyContent: 'center',
+            // mb: 1,
+            borderRadius: 4,
+            textTransform: 'none',
+          }}
+        >
+          <Typography
+            id="transition-modal-title"
+            variant="h5"
+            textAlign="center"
+            component="h2"
+            sx={{
+              lineHeight: '1',
+              // textAlign: 'center',
+            }}
+            onClick={onAddNewColumn}
+            // onMouseUp={(e) => onEditColumn(e, _id as string)}
+          >
+            + Add new board
+          </Typography>
+        </Button>
+      </Box>
+      // </div>
+    );
+  };
+
   const columnsRender = () => {
     const items = allColumns?.map(({ _id, title, order }) => {
       return (
@@ -167,23 +212,22 @@ function SelectedBordPage() {
             sx={{
               bgcolor: 'primary.main',
               width: '280px',
-              minHeight: '300px',
+              maxHeight: '300px',
               margin: '15px',
-              // border: '1px solid black',
               borderRadius: 4,
               position: 'relative',
-              // cursor: 'pointer',
             }}
             key={_id}
           >
-            <Box
+            <Button
+              variant="contained"
               sx={{
+                width: '100%',
                 display: 'flex',
-                wrap: 'nowrap',
                 justifyContent: 'space-between',
-                cursor: 'pointer',
-                p: 2,
-                // pt: '5px',
+                mb: 1,
+                borderRadius: 4,
+                textTransform: 'none',
               }}
             >
               <Typography
@@ -194,38 +238,35 @@ function SelectedBordPage() {
                 sx={{
                   textOverflow: 'ellipsis',
                   overflow: 'hidden',
-                  whiteSpace: 'nowrap',
+                  lineHeight: '1',
                 }}
                 onMouseUp={(e) => onEditColumn(e, _id as string)}
               >
                 {title}
               </Typography>
               <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
-            </Box>
+            </Button>
             <TaskList columnId={_id as string}></TaskList>
             <Button
-              variant="outlined"
-              size="small"
-              onClick={() => onAddNewTask(_id as string)}
+              variant="contained"
               sx={{
-                position: 'absolute',
-                left: '5px',
-                bottom: '10px',
-                cursor: 'pointer',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                mt: 1,
+                // mb: 1,
+                borderRadius: 4,
+                textTransform: 'none',
               }}
+              onClick={() => onAddNewTask(_id as string)}
             >
-              Add
+              + Add task
             </Button>
           </Box>
         </DndColumnItems>
       );
     });
-    if (items) {
-      return items;
-    } else {
-      /* TO DO */
-      return <div />;
-    }
+    return <>{items}</>;
   };
 
   return (
@@ -238,15 +279,21 @@ function SelectedBordPage() {
             textAlign: 'center',
             padding: '0.5rem 0 0.5rem 0',
             cursor: 'pointer',
+            borderRadius: '0px 0px 16px 16px',
           }}
           onClick={(e) => onEditBoard(e)}
         >
-          <Typography variant="h4" color="primary" fontWeight={700}>
+          <Typography
+            variant="h4"
+            color="primary"
+            fontWeight={700}
+            sx={{ borderRadiusBottomLeft: '16px', borderRadiusBottomRight: '16px' }}
+          >
             {activeBoard.title}
           </Typography>
-          <Button variant="outlined" size="small" onClick={onAddNewColumn}>
+          {/* <Button variant="outlined" size="small" onClick={onAddNewColumn}>
             Add
-          </Button>
+          </Button> */}
         </ListSubheader>
       </ImageListItem>
       <DndColumnContext onDragEnd={onDragEnd}>
@@ -256,12 +303,15 @@ function SelectedBordPage() {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
-              // overflow: 'hidden',
               flexWrap: 'nowrap',
               transform: 'translateZ(0)',
+              height: 'calc(100vh - 250px)',
+              overflowY: 'scroll',
+              overflowAnchor: 'none',
             }}
           >
             {columnsRender()}
+            {columnsAddNewBoard()}
           </ImageList>
           {/* <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex> */}
         </DndColumnsWrapper>

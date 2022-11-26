@@ -56,6 +56,7 @@ const theme = createTheme({
         '@font-face': {
           fontFamily: 'CentraNo2',
           src: `url(${CentraNo2}) format("truetype")`,
+          // borderRadius: 4,
         },
         body: {
           maxWidth: 1200,
@@ -65,6 +66,7 @@ const theme = createTheme({
           flexGrow: 1,
           flexShrink: 0,
           position: 'relative',
+          backGround: '#F0F2F0',
         },
         MuiAppBar: {
           colorInherit: {
