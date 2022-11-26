@@ -17,14 +17,13 @@ import { useTranslation } from 'react-i18next';
 
 const CreateForm = () => {
   const { t } = useTranslation();
-  const token = localStorage.getItem('token') as string;
   const _id = localStorage.getItem('userId') as string;
   const usersDefault = [] as string[];
 
   const { type } = useSelector(modalState);
   const { allBoards, activeBoardId } = useSelector(boardState);
   const activeBoard = allBoards?.filter((item) => item._id === activeBoardId)[0] as BoardData;
-  // const { title, subscribe, owner, users } = activeBoard;
+  console.log(allBoards, activeBoard);
   const title = activeBoard ? activeBoard.title : '';
   const subscribe = activeBoard ? activeBoard.subscribe : '';
   const owner = activeBoard ? activeBoard.owner : '';
@@ -51,14 +50,14 @@ const CreateForm = () => {
       ? await dispatch(
           addNewBoard(
             { title: values.title, subscribe: values.subscribe, owner: _id, users: usersDefault },
-            token
+            localStorage.getItem('token') as string
           )
         )
       : await dispatch(
           editActiveBoard(
             { title: values.title, subscribe: values.subscribe, owner, users },
             activeBoard._id as string,
-            token
+            localStorage.getItem('token') as string
           )
         );
     dispatch(updateActiveBoardId(''));
@@ -74,7 +73,7 @@ const CreateForm = () => {
     onSubmit: addPageSubmit,
   });
 
-  const titleForm = type === 'ADD_BOARD' ? 'Add board' : 'Edit board';
+  const titleForm = type === 'ADD_BOARD' ? t('Add board') : t('Edit board');
 
   return (
     <>
@@ -107,10 +106,10 @@ const CreateForm = () => {
           />
           <Box sx={{ '& button': { m: 1 } }}>
             <Button color="primary" size="small" variant="contained" type="submit">
-              {'Submit'}
+              {t('Submit')}
             </Button>
             <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
-              {'Cancel'}
+              {t('Cancel')}
             </Button>
           </Box>
         </FormStyles>

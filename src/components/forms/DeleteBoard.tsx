@@ -7,15 +7,17 @@ import { useSelector } from 'react-redux';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { deleteBoard } from '../../reduxUsers/actions/boardActions';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 const DeleteBoard = () => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
-  const token = localStorage.getItem('token') as string;
   const { activeBoardId } = useSelector(boardState);
 
   const onDelete = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(deleteBoard(activeBoardId as string, token as string));
+    await dispatch(deleteBoard(activeBoardId as string, localStorage.getItem('token') as string));
   };
 
   const cancelAction = () => {
@@ -25,16 +27,16 @@ const DeleteBoard = () => {
   return (
     <FormContainerStyles>
       <Typography variant="h5" component="h2">
-        {'Delete board'}
+        {t('Delete board')}
       </Typography>
       <FormStyles onSubmit={() => onDelete()}>
-        <Typography>{'Are you shure, delete this board with all columns and tasks?'}</Typography>
+        <Typography>{t('Are you shure, delete this board with all columns and tasks?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">
-            {'Submit'}
+            {t('Submit')}
           </Button>
           <Button color="primary" size="small" variant="contained" onClick={() => cancelAction()}>
-            {'Cancel'}
+            {t('Cancel')}
           </Button>
         </Box>
       </FormStyles>

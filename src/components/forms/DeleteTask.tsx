@@ -9,10 +9,12 @@ import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { deleteTask } from '../../reduxUsers/actions/taskActions';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 const DeleteTask = () => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
-  const token = localStorage.getItem('token') as string;
   const { activeBoardId } = useSelector(boardState);
   const { activeColumnId } = useSelector(columnState);
   const { activeTaskId } = useSelector(taskState);
@@ -24,7 +26,7 @@ const DeleteTask = () => {
         activeBoardId as string,
         activeColumnId as string,
         activeTaskId as string,
-        token as string
+        localStorage.getItem('token') as string
       )
     );
   };
@@ -36,16 +38,16 @@ const DeleteTask = () => {
   return (
     <FormContainerStyles>
       <Typography variant="h5" component="h2">
-        {'Delete task'}
+        {t('Delete task')}
       </Typography>
       <FormStyles onSubmit={() => onDelete()}>
-        <Typography>{'Are you shure, delete this task?'}</Typography>
+        <Typography>{t('Are you shure, delete this task?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">
-            {'Submit'}
+            {t('Submit')}
           </Button>
           <Button color="primary" size="small" variant="contained" onClick={() => cancelAction()}>
-            {'Cancel'}
+            {t('Cancel')}
           </Button>
         </Box>
       </FormStyles>
