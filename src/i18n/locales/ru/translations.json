@@ -40,6 +40,7 @@
 "Username": "Имя",
 "Are you sure you want to delete the user?": "Вы уверены, что хотите удалить профиль?",
 "Yes": "Да",
-"No": "Нет"
-
+"No": "Нет",
+"Add new column": "+ Добавить колонку",
+"Add task": "+ Добавить задачу"
 }

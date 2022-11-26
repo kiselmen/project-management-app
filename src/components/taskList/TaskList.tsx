@@ -80,7 +80,8 @@ const TaskList = (props: ITaskList) => {
           spacing={1}
           ml={1}
           mr={1}
-          maxHeight={150}
+          maxHeight="calc(100vh - 400px)"
+          minHeight={30}
           // minHeight={50}
           sx={{ overflowY: 'auto', whiteSpace: 'nowrap', overflowAnchor: 'none' }}
         >

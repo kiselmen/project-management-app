@@ -29,9 +29,11 @@ import TaskList from '../../components/taskList';
 import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
 import theme from '../../components/themeProvider/theme';
+import { useTranslation } from 'react-i18next';
 
 function SelectedBordPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
 
@@ -197,7 +199,7 @@ function SelectedBordPage() {
             onClick={onAddNewColumn}
             // onMouseUp={(e) => onEditColumn(e, _id as string)}
           >
-            + Add new board
+            {t('Add new column')}
           </Typography>
         </Button>
       </Box>
@@ -213,9 +215,9 @@ function SelectedBordPage() {
             sx={{
               bgcolor: 'primary.main',
               width: '280px',
-              maxHeight: '300px',
+              maxHeight: 'calc(100vh - 300px)',
               margin: '15px',
-              borderRadius: 4,
+              borderRadius: '16px',
               position: 'relative',
             }}
             key={_id}
@@ -261,7 +263,7 @@ function SelectedBordPage() {
               }}
               onClick={() => onAddNewTask(_id as string)}
             >
-              + Add task
+              {t('Add task')}
             </Button>
           </Box>
         </DndColumnItems>
