@@ -6,13 +6,14 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getBoardData } from '../../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
-  clearColumnData,
+  // clearColumnData,
   updateActiveColumnId,
   moveColumns,
+  clearColumnData,
 } from '../../reduxUsers/actions/columnActions';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
@@ -30,17 +31,19 @@ import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
 import theme from '../../components/themeProvider/theme';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 function SelectedBordPage() {
   const { id } = useParams();
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
   const { allColumns } = useSelector(columnState);
   const { activeBoard } = useSelector(boardState);
   const { allTasks } = useSelector(taskState);
+  const _id = localStorage.getItem('userId');
 
   useEffect(() => {
     onLoadBoard();
@@ -49,9 +52,11 @@ function SelectedBordPage() {
 
   const onLoadBoard = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(getBoardData(id as string, token as string));
+    await dispatch(getAllUserBoards(_id as string, localStorage.getItem('token') as string));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(getAllBoardColumns(id as string, token as string));
+    await dispatch(getBoardData(id as string, localStorage.getItem('token') as string));
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    await dispatch(getAllBoardColumns(id as string, localStorage.getItem('token') as string));
   };
 
   const onClearState = () => {
@@ -88,6 +93,10 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
   };
 
+  const onBackToList = () => {
+    navigate('/boards');
+  };
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     const sourceIndex = source.index;
@@ -105,7 +114,7 @@ function SelectedBordPage() {
         return { _id: el._id, order: start + index };
       });
       // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-      dispatch(moveColumns(itemsForPatch, itemsForState, token as string));
+      dispatch(moveColumns(itemsForPatch, itemsForState, localStorage.getItem('token') as string));
     } else if (source.droppableId !== 'column' && destination) {
       const sourceColumn = source.droppableId;
       const destinationColumn = destination.droppableId;
@@ -122,7 +131,14 @@ function SelectedBordPage() {
           return { _id: el._id, order: start + index, columnId: sourceColumn };
         });
         // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-        dispatch(moveTasksInOneColumn(sourceColumn, itemsForPatch, itemsForState, token as string));
+        dispatch(
+          moveTasksInOneColumn(
+            sourceColumn,
+            itemsForPatch,
+            itemsForState,
+            localStorage.getItem('token') as string
+          )
+        );
       } else {
         const itemsSource = JSON.parse(JSON.stringify(allTasks[sourceColumn]));
         const itemsDestination = JSON.parse(JSON.stringify(allTasks[destinationColumn]));
@@ -147,7 +163,7 @@ function SelectedBordPage() {
             sourceColumn,
             itemsForPatchSource,
             itemsForStateSource,
-            token as string
+            localStorage.getItem('token') as string
           )
         );
         dispatch(
@@ -155,7 +171,7 @@ function SelectedBordPage() {
             destinationColumn,
             itemsForPatchDestination,
             itemsForStateDestination,
-            token as string
+            localStorage.getItem('token') as string
           )
         );
       }

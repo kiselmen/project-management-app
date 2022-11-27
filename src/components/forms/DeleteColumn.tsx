@@ -8,17 +8,23 @@ import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { deleteColumn } from '../../reduxUsers/actions/columnActions';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 const DeleteColumn = () => {
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
-  const token = localStorage.getItem('token') as string;
   const { activeBoardId } = useSelector(boardState);
   const { activeColumnId } = useSelector(columnState);
 
   const onDelete = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(
-      deleteColumn(activeBoardId as string, activeColumnId as string, token as string)
+      deleteColumn(
+        activeBoardId as string,
+        activeColumnId as string,
+        localStorage.getItem('token') as string
+      )
     );
   };
 
@@ -29,16 +35,16 @@ const DeleteColumn = () => {
   return (
     <FormContainerStyles>
       <Typography variant="h5" component="h2">
-        {'Delete column'}
+        {t('Delete column')}
       </Typography>
       <FormStyles onSubmit={() => onDelete()}>
-        <Typography>{'Are you shure, delete this column with all tasks?'}</Typography>
+        <Typography>{t('Are you shure, delete this column with all tasks?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">
-            {'Submit'}
+            {t('Submit')}
           </Button>
           <Button color="primary" size="small" variant="contained" onClick={() => cancelAction()}>
-            {'Cancel'}
+            {t('Cancel')}
           </Button>
         </Box>
       </FormStyles>

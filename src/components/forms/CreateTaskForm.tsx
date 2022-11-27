@@ -15,9 +15,10 @@ import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { addNewTask, editActiveTask } from '../../reduxUsers/actions/taskActions';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 const CreateForm = () => {
-  const token = localStorage.getItem('token') as string;
+  const { t } = useTranslation();
   const userIdDefault = localStorage.getItem('userId') as string;
   const { type } = useSelector(modalState);
 
@@ -73,7 +74,7 @@ const CreateForm = () => {
             },
             boardId as string,
             columnId as string,
-            token
+            localStorage.getItem('token') as string
           )
         )
       : await dispatch(
@@ -89,7 +90,7 @@ const CreateForm = () => {
             boardId as string,
             columnId as string,
             activeTaskId as string,
-            token
+            localStorage.getItem('token') as string
           )
         );
     dispatch(updateActiveColumnId(''));
@@ -109,14 +110,14 @@ const CreateForm = () => {
     <>
       <FormContainerStyles>
         <Typography variant="h5" component="h2">
-          {type === 'ADD_TASK' ? 'Add task' : 'Edit task'}
+          {type === 'ADD_TASK' ? t('Add task') : t('Edit task')}
         </Typography>
         <FormStyles onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="title"
             name="title"
-            label="Title"
+            label={t('Title')}
             type="text"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -127,7 +128,7 @@ const CreateForm = () => {
             fullWidth
             id="description"
             name="description"
-            label="description"
+            label={t('Description')}
             type="text"
             value={formik.values.description}
             onChange={formik.handleChange}
@@ -136,10 +137,10 @@ const CreateForm = () => {
           />
           <Box sx={{ '& button': { m: 1 } }}>
             <Button color="primary" size="small" variant="contained" type="submit">
-              {'Submit'}
+              {t('Submit')}
             </Button>
             <Button color="error" size="small" variant="contained" onClick={() => cancelAction()}>
-              {'Cancel'}
+              {t('Cancel')}
             </Button>
           </Box>
         </FormStyles>
