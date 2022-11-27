@@ -223,6 +223,7 @@ function SelectedBordPage() {
             key={_id}
           >
             <Button
+              component="div"
               variant="contained"
               sx={{
                 width: '100%',
@@ -251,6 +252,7 @@ function SelectedBordPage() {
             </Button>
             <TaskList columnId={_id as string}></TaskList>
             <Button
+              component="div"
               variant="contained"
               sx={{
                 width: '100%',
@@ -261,7 +263,7 @@ function SelectedBordPage() {
                 borderRadius: 4,
                 textTransform: 'none',
               }}
-              onClick={() => onAddNewTask(_id as string)}
+              onMouseUp={() => onAddNewTask(_id as string)}
             >
               {t('Add task')}
             </Button>
@@ -294,20 +296,15 @@ function SelectedBordPage() {
           >
             {activeBoard.title}
           </Typography>
-          {/* <Button variant="outlined" size="small" onClick={onAddNewColumn}>
-            Add
-          </Button> */}
         </ListSubheader>
       </ImageListItem>
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
           <ImageList
-            // cols={2.5}
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
               flexWrap: 'nowrap',
-              transform: 'translateZ(0)',
               height: 'calc(100vh - 250px)',
               overflowY: 'auto',
               overflowAnchor: 'none',
@@ -316,7 +313,6 @@ function SelectedBordPage() {
             {columnsRender()}
             {columnsAddNewBoard()}
           </ImageList>
-          {/* <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex> */}
         </DndColumnsWrapper>
       </DndColumnContext>
     </CustomizedBoardContainer>

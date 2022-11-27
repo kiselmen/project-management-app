@@ -50,6 +50,7 @@ const TaskList = (props: ITaskList) => {
         <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
           <div key={_id}>
             <Button
+              component="div"
               variant="contained"
               sx={{ width: '95%', display: 'flex', justifyContent: 'space-between' }}
               // flexGrow={1}
