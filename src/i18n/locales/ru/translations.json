@@ -1,8 +1,8 @@
 {
   "homePage": "BRELLO",
-  "Boards": "Доски",
-  "NEW BOARD": "Новая доска",
-  "PROFILE": "Профиль",
+  "Boards": "Доски", 
+  "NEW BOARD": "Новая доска", 
+  "PROFILE": "Профиль", 
   "LOG OUT": "Выход",
   "LOGIN": "Вход",
   "SIGN UP": "Регистрация",
@@ -14,6 +14,7 @@
   "Add board": "Создать доску",
   "Edit board": "Редактировать доску",
   "Submit": "Подтвердить",
+  "Add new column": "+ Добавить колонку",
   "Cancel": "Отменить",
   "Title": "Наименование",
   "Subscribe": "Описание",
@@ -53,5 +54,6 @@
   "Delete column": "Удалить колонку",
   "Are you shure, delete this column with all tasks?": "Вы уверены, удалить колонку со всеми задачами?",
   "Delete task": "Удалить задачу",
-  "Are you shure, delete this task?": "Вы уверены, удалить задачу?"
+  "Are you shure, delete this task?": "Вы уверены, удалить задачу?",
+  "Current board": "Текущая доска"
 }

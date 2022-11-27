@@ -64,7 +64,7 @@ function HeaderContent() {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" id="back-to-top-anchor">
       <Toolbar disableGutters>
         <CustomizedFlex iconAndButton>
           <HomeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

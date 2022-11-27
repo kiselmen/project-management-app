@@ -8,23 +8,26 @@ import store from '../../reduxUsers/store';
 import Routing from './Routing';
 import ModalWindow from '../modal';
 import { Footer } from '../footer/Footer';
-import { MainContainer } from './App.styles';
 import theme from '../themeProvider/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import { Container, CssBaseline } from '@mui/material';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Provider store={store}>
         <HashRouter>
           <ModalWindow />
           <Header />
-          <div id="back-to-top-anchor"></div>
-          <MainContainer>
+          <Container sx={{ padding: { xs: 0, md: 0 } }}>
             <Routing />
-          </MainContainer>
+            <BackToTop />
+          </Container>
+          {/* <MainContainer> */}
+          {/* <Routing />
+          {/* </MainContainer> */}
           <Footer />
-          <BackToTop />
         </HashRouter>
       </Provider>
     </ThemeProvider>

@@ -6,8 +6,12 @@ const CustomizedBoardContainer = styled(Container)`
   /* justify-content: flex-start; */
   flex-direction: column;
   /* width: 100%; */
-  background-color: white;
-  min-height: calc(100vh - 110px);
+  /* background-color: white; */
+  height: {
+    xs: calc(100vh - 156px);
+    md: calc(100vh - 101px);
+  }
+  /* padding: 0; */
 `;
 
 export default CustomizedBoardContainer;

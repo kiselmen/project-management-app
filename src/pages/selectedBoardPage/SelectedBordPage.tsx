@@ -1,3 +1,4 @@
+import './SelectedBoardPage.css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -5,7 +6,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAllUserBoards, getBoardData } from '../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
@@ -13,24 +14,27 @@ import {
   updateActiveColumnId,
   moveColumns,
   clearColumnData,
-} from '../reduxUsers/actions/columnActions';
-import { setModalState } from '../reduxUsers/actions/modalActions';
-import { useAppDispatch } from '../reduxUsers/hook/reduxCustomHook';
-import { state as columnState } from '../reduxUsers/slices/columnSlice';
-import { state as boardState } from '../reduxUsers/slices/boardSlice';
-import { state as taskState } from '../reduxUsers/slices/taskSlice';
-import { CustomizedBoardContainer, CustomizedFlex, CustomizedH1 } from '../styledComponents';
-import DndColumnContext from '../components/dnd/dndColumnContext';
-import DndColumnsWrapper from '../components/dnd/dndColumnWrapper';
-import DndColumnItems from '../components/dnd/dndColumnItems';
+} from '../../reduxUsers/actions/columnActions';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
+import { state as columnState } from '../../reduxUsers/slices/columnSlice';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { state as taskState } from '../../reduxUsers/slices/taskSlice';
+import { CustomizedBoardContainer } from '../../styledComponents';
+import DndColumnContext from '../../components/dnd/dndColumnContext';
+import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
+import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
-import { ColumnData, TaskData } from '../interfacesAndTypes/interfacesAndTypes';
-import TaskList from '../components/taskList';
-import { moveTasksInOneColumn } from '../reduxUsers/actions/taskActions';
+import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import TaskList from '../../components/taskList';
+import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
+import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 function SelectedBordPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -68,8 +72,8 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
   };
 
-  const onEditBoard = async (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const onEditBoard = async () => {
+    // e.stopPropagation();
     dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
   };
 
@@ -173,75 +177,174 @@ function SelectedBordPage() {
     }
   };
 
+  const columnsAddNewBoard = () => {
+    return (
+      // <div>
+      <Box
+        sx={{
+          bgcolor: 'primary.main',
+          width: '280px',
+          maxHeight: '300px',
+          height: '24px',
+          margin: '15px',
+          borderRadius: 4,
+          position: 'relative',
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            width: '280px',
+            display: 'flex',
+            justifyContent: 'center',
+            // mb: 1,
+            borderRadius: 4,
+            textTransform: 'none',
+          }}
+        >
+          <Typography
+            id="transition-modal-title"
+            variant="h5"
+            textAlign="center"
+            component="h2"
+            sx={{
+              lineHeight: '1',
+              // textAlign: 'center',
+            }}
+            onClick={onAddNewColumn}
+            // onMouseUp={(e) => onEditColumn(e, _id as string)}
+          >
+            {t('Add new column')}
+          </Typography>
+        </Button>
+      </Box>
+      // </div>
+    );
+  };
+
   const columnsRender = () => {
     const items = allColumns?.map(({ _id, title, order }) => {
       return (
         <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
           <Box
             sx={{
-              bgcolor: 'grey',
-              width: '300px',
-              hight: '300px',
-              minHeight: '300px',
+              bgcolor: 'primary.main',
+              width: '280px',
+              maxHeight: 'calc(100vh - 300px)',
               margin: '15px',
-              border: '1px solid black',
+              borderRadius: '16px',
               position: 'relative',
-              cursor: 'pointer',
             }}
             key={_id}
           >
-            <Typography
-              id="transition-modal-title"
-              variant="h6"
-              component="h2"
-              onMouseUp={(e) => onEditColumn(e, _id as string)}
-            >
-              {title}
-            </Typography>
-            <TaskList columnId={_id as string}></TaskList>
-            <DeleteOutlinedIcon
-              onClick={(e) => onRemoveColumn(e, _id as string)}
-              sx={{
-                position: 'absolute',
-                right: '10px',
-                bottom: '10px',
-                cursor: 'pointer',
-              }}
-            />
             <Button
-              variant="outlined"
-              size="small"
-              onClick={() => onAddNewTask(_id as string)}
+              component="div"
+              variant="contained"
               sx={{
-                position: 'absolute',
-                left: '5px',
-                bottom: '10px',
-                cursor: 'pointer',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                mb: 1,
+                borderRadius: 4,
+                textTransform: 'none',
               }}
             >
-              Add
+              <Typography
+                id="transition-modal-title"
+                variant="h5"
+                textAlign="center"
+                component="h2"
+                sx={{
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  lineHeight: '1',
+                }}
+                onMouseUp={(e) => onEditColumn(e, _id as string)}
+              >
+                {title}
+              </Typography>
+              <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
+            </Button>
+            <TaskList columnId={_id as string}></TaskList>
+            <Button
+              component="div"
+              variant="contained"
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                mt: 1,
+                // mb: 1,
+                borderRadius: 4,
+                textTransform: 'none',
+              }}
+              onMouseUp={() => onAddNewTask(_id as string)}
+            >
+              {t('Add task')}
             </Button>
           </Box>
         </DndColumnItems>
       );
     });
-    return items;
+    return <>{items}</>;
   };
 
   return (
     <CustomizedBoardContainer>
-      <CustomizedFlex boardHeader>
-        <CustomizedH1 onClick={(e) => onEditBoard(e)}>{activeBoard.title}</CustomizedH1>
-        <Button variant="outlined" onClick={onBackToList}>
-          Back
-        </Button>
-        <Button variant="outlined" size="small" onClick={onAddNewColumn}>
-          Add
-        </Button>
-      </CustomizedFlex>
+      <ImageListItem key="Subheader" cols={2}>
+        <ListSubheader
+          component="div"
+          sx={{
+            // background: `${theme.palette.secondary.main}`,
+            textAlign: 'center',
+            padding: '0.5rem 0 0.5rem 0',
+            borderRadius: '0px 0px 16px 16px',
+            display: 'flex',
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              ml: '20px',
+              mr: '20px',
+              width: 100,
+              borderRadius: 4,
+            }}
+            onClick={onBackToList}
+          >
+            {t('BACK')}
+          </Button>
+          <Typography
+            variant="h4"
+            color="primary"
+            fontWeight={700}
+            sx={{
+              bgcolor: 'secondary.main',
+              p: '5px 20px 0px 20px',
+              borderRadius: 4,
+              cursor: 'pointer',
+            }}
+            onClick={() => onEditBoard()}
+          >
+            {t('Current board')} {activeBoard.title}
+          </Typography>
+        </ListSubheader>
+      </ImageListItem>
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
-          <CustomizedFlex boardBody>{columnsRender()}</CustomizedFlex>
+          <ImageList
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              flexWrap: 'nowrap',
+              height: 'calc(100vh - 250px)',
+              overflowY: 'auto',
+              overflowAnchor: 'none',
+            }}
+          >
+            {columnsRender()}
+            {columnsAddNewBoard()}
+          </ImageList>
         </DndColumnsWrapper>
       </DndColumnContext>
     </CustomizedBoardContainer>

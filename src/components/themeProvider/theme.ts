@@ -56,11 +56,17 @@ const theme = createTheme({
         '@font-face': {
           fontFamily: 'CentraNo2',
           src: `url(${CentraNo2}) format("truetype")`,
+          // borderRadius: 4,
         },
         body: {
           maxWidth: 1200,
           marginRight: 'auto',
           marginLeft: 'auto',
+          minHeight: 'calc(100vh - 110px)',
+          flexGrow: 1,
+          flexShrink: 0,
+          position: 'relative',
+          backGround: '#F0F2F0',
         },
         MuiAppBar: {
           colorInherit: {
@@ -68,6 +74,11 @@ const theme = createTheme({
             color: '#fff',
           },
         },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: { flexGrow: 1, flexShrink: 0, position: 'relative' },
       },
     },
   },
