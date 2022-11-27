@@ -43,8 +43,7 @@
   "Are you sure you want to delete the user?": "Are you sure you want to delete the user?",
   "Yes": "Yes",
   "No": "No",
-"Add new column": "+ Add new column",
-"Add task": "+ Add task",
+  "Add new column": "+ Add new column",
   "Add column": "Add column",
   "Edit column": "Edit column",
   "Add task": "Add task",
@@ -55,5 +54,6 @@
   "Delete column": "Delete column",
   "Are you shure, delete this column with all tasks?": "Are you shure, delete this column with all tasks?",
   "Delete task": "Delete task",
-  "Are you shure, delete this task?": "Are you shure, delete this task?"
+  "Are you shure, delete this task?": "Are you shure, delete this task?",
+  "Current board": "Current board"
 }

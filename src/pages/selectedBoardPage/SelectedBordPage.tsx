@@ -6,7 +6,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAllUserBoards, getBoardData } from '../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
@@ -29,7 +29,6 @@ import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndType
 import TaskList from '../../components/taskList';
 import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
-import theme from '../../components/themeProvider/theme';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -73,8 +72,8 @@ function SelectedBordPage() {
     dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
   };
 
-  const onEditBoard = async (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const onEditBoard = async () => {
+    // e.stopPropagation();
     dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
   };
 
@@ -296,21 +295,38 @@ function SelectedBordPage() {
         <ListSubheader
           component="div"
           sx={{
-            background: `${theme.palette.secondary.main}`,
+            // background: `${theme.palette.secondary.main}`,
             textAlign: 'center',
             padding: '0.5rem 0 0.5rem 0',
-            cursor: 'pointer',
             borderRadius: '0px 0px 16px 16px',
+            display: 'flex',
           }}
-          onClick={(e) => onEditBoard(e)}
         >
+          <Button
+            variant="contained"
+            sx={{
+              ml: '20px',
+              mr: '20px',
+              width: 100,
+              borderRadius: 4,
+            }}
+            onClick={onBackToList}
+          >
+            {t('BACK')}
+          </Button>
           <Typography
             variant="h4"
             color="primary"
             fontWeight={700}
-            sx={{ borderRadiusBottomLeft: '16px', borderRadiusBottomRight: '16px' }}
+            sx={{
+              bgcolor: 'secondary.main',
+              p: '5px 20px 0px 20px',
+              borderRadius: 4,
+              cursor: 'pointer',
+            }}
+            onClick={() => onEditBoard()}
           >
-            {activeBoard.title}
+            {t('Current board')} {activeBoard.title}
           </Typography>
         </ListSubheader>
       </ImageListItem>
