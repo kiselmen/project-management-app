@@ -20,7 +20,16 @@ function App() {
         <HashRouter>
           <ModalWindow />
           <Header />
-          <Container sx={{ padding: { xs: 0, md: 0 } }}>
+          <Container
+            sx={{
+              padding: { xs: 0, md: 0 },
+              minHeight: {
+                xs: 'calc(100vh - 152px)',
+                sm: 'calc(100vh - 106px)',
+                md: 'calc(100vh - 110px)',
+              },
+            }}
+          >
             <Routing />
             <BackToTop />
           </Container>

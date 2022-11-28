@@ -225,65 +225,71 @@ function SelectedBordPage() {
   const columnsRender = () => {
     const items = allColumns?.map(({ _id, title, order }) => {
       return (
-        <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
-          <Box
-            sx={{
-              bgcolor: 'primary.main',
-              width: '280px',
-              maxHeight: 'calc(100vh - 300px)',
-              margin: '15px',
-              borderRadius: '16px',
-              position: 'relative',
-            }}
-            key={_id}
-          >
-            <Button
-              component="div"
-              variant="contained"
+        <div key={_id}>
+          <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
+            <Box
               sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                mb: 1,
-                borderRadius: 4,
-                textTransform: 'none',
+                bgcolor: 'primary.main',
+                width: '280px',
+                maxHeight: 'calc(100vh - 300px)',
+                margin: '15px',
+                borderRadius: '16px',
+                position: 'relative',
               }}
+              key={_id}
             >
-              <Typography
-                id="transition-modal-title"
-                variant="h5"
-                textAlign="center"
-                component="h2"
+              <Button
+                component="div"
+                variant="contained"
                 sx={{
-                  textOverflow: 'ellipsis',
-                  overflow: 'hidden',
-                  lineHeight: '1',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  mb: 1,
+                  borderRadius: 4,
+                  textTransform: 'none',
                 }}
-                onMouseUp={(e) => onEditColumn(e, _id as string)}
               >
-                {title}
-              </Typography>
-              <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
-            </Button>
-            <TaskList columnId={_id as string}></TaskList>
-            <Button
-              component="div"
-              variant="contained"
-              sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                mt: 1,
-                // mb: 1,
-                borderRadius: 4,
-                textTransform: 'none',
-              }}
-              onMouseUp={() => onAddNewTask(_id as string)}
-            >
-              {t('Add task')}
-            </Button>
-          </Box>
-        </DndColumnItems>
+                <Typography
+                  id="transition-modal-title"
+                  variant="h5"
+                  textAlign="center"
+                  component="h2"
+                  flexGrow={1}
+                  sx={{
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    lineHeight: '1',
+                  }}
+                  onMouseUp={(e) => onEditColumn(e, _id as string)}
+                >
+                  {title}
+                </Typography>
+                <DeleteOutlinedIcon
+                  onClick={(e) => onRemoveColumn(e, _id as string)}
+                  color="error"
+                />
+              </Button>
+              <TaskList columnId={_id as string}></TaskList>
+              <Button
+                component="div"
+                variant="contained"
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 1,
+                  // mb: 1,
+                  borderRadius: 4,
+                  textTransform: 'none',
+                }}
+                onMouseUp={() => onAddNewTask(_id as string)}
+              >
+                {t('Add task')}
+              </Button>
+            </Box>
+          </DndColumnItems>
+        </div>
       );
     });
     return <>{items}</>;
@@ -337,7 +343,7 @@ function SelectedBordPage() {
               display: 'flex',
               justifyContent: 'flex-start',
               flexWrap: 'nowrap',
-              height: 'calc(100vh - 250px)',
+              // height: 'calc(100vh - 250px)',
               overflowY: 'auto',
               overflowAnchor: 'none',
             }}
