@@ -6,15 +6,7 @@ import { successRequest } from '../slices/profileSlice';
 import { isOpenEdit } from '../slices/profileSlice';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
-
-const checkErrStatus = (dispatch: AppDispatch, e: { response: Response }, text: string) => {
-  if (!e.response.ok) {
-    dispatch(logout());
-  } else {
-    dispatch(setErrMessage({ text }));
-    dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-  }
-};
+import { checkErrStatus } from './checkErrStatusHelper';
 
 export const signUp = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
@@ -31,6 +23,7 @@ export const signUp = (data: AuthPageValues) => {
           token: response.data.token || '',
         })
       );
+      dispatch(signIn({ login: data.login, password: data.password }));
     } catch {
       dispatch(setErrMessage('Account exists'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -53,8 +46,8 @@ export const signIn = (data: AuthPageValues) => {
           token: response.data.token,
         })
       );
-      dispatch(successRequest({ updateSuccess: true }));
-      setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
+      // dispatch(successRequest({ updateSuccess: true }));
+      // setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
     } catch (e) {
       dispatch(setErrMessage('Account does not exist'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -97,6 +90,7 @@ export const updateUser = (data: AuthPageValues) => {
           token: response.data.token || '',
         })
       );
+      dispatch(signIn({ login: data.login, password: data.password }));
       dispatch(successRequest({ updateSuccess: true }));
       dispatch(isOpenEdit({ openEdit: false }));
       setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);

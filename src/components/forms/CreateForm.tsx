@@ -60,8 +60,9 @@ const CreateForm = () => {
       await dispatch(
         updateUser({ name: values.name, login: values.login, password: values.password })
       );
+    } else if (authUrl) {
+      await dispatch(signIn({ login: values.login, password: values.password }));
     }
-    if (authUrl) await dispatch(signIn({ login: values.login, password: values.password }));
   };
 
   const formik = useFormik({

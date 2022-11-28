@@ -23,7 +23,6 @@ const CreateForm = () => {
   const { type } = useSelector(modalState);
   const { allBoards, activeBoardId } = useSelector(boardState);
   const activeBoard = allBoards?.filter((item) => item._id === activeBoardId)[0] as BoardData;
-  console.log(allBoards, activeBoard);
   const title = activeBoard ? activeBoard.title : '';
   const subscribe = activeBoard ? activeBoard.subscribe : '';
   const owner = activeBoard ? activeBoard.owner : '';
