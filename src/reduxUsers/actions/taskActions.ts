@@ -6,7 +6,8 @@ import { setAllColumnTasks, setActiveTaskId } from '../slices/taskSlice';
 import { AppDispatch } from '../store';
 // import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
-import { updateErrorState } from './errorActions';
+import { checkErrStatus } from './checkErrStatusHelper';
+// import { updateErrorState } from './errorActions';
 
 export const getAllColumnTasks = (boardId: string, columnId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
@@ -23,8 +24,7 @@ export const getAllColumnTasks = (boardId: string, columnId: string, token: stri
       dispatch(setAllColumnTasks({ columnId, columnTasks: sorted }));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
       console.log('Не дали тасков ', e);
     }
   };
@@ -45,8 +45,7 @@ export const addNewTask = (task: TaskData, boardId: string, columnId: string, to
       dispatch(getAllColumnTasks(boardId, columnId, token));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
       console.log('Не добавили таск ', e);
     }
   };
@@ -72,8 +71,7 @@ export const editActiveTask = (
       );
       dispatch(getAllColumnTasks(boardId, columnId, token));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
       console.log('Не поменяли досоку ', e);
     }
   };
@@ -94,8 +92,7 @@ export const deleteTask = (boardId: string, columnId: string, taskId: string, to
       dispatch(getAllColumnTasks(boardId, columnId, token));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
       console.log('Не удалили колонку ', e);
     }
   };
@@ -119,8 +116,7 @@ export const moveTasksInOneColumn = (
       }
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
       console.log('Не изменили колонки ', e);
     }
   };

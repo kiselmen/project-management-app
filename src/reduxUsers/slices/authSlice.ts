@@ -36,11 +36,14 @@ const authSlice = createSlice({
       localStorage.removeItem('token');
       localStorage.removeItem('login');
     },
+    checkLocal(state) {
+      state.isAuth = Boolean(localStorage.getItem('token'));
+    },
   },
 });
 
 export const stateUser = (state: RootStateForSlice) => state.auth;
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, checkLocal } = authSlice.actions;
 
 export default authSlice.reducer;

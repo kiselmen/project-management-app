@@ -9,6 +9,7 @@ function ProfilePage() {
   const { t } = useTranslation();
   const profileState = useSelector(stateProfile);
   const { updateSuccess } = profileState;
+
   return (
     <>
       <Container
