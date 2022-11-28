@@ -1,4 +1,5 @@
 import './SelectedBoardPage.css';
+import './SelectedBoardPage.css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -6,7 +7,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
@@ -25,15 +26,18 @@ import DndColumnContext from '../../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
-import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
-import TaskList from '../../components/taskList';
-import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
+import { ColumnData, TaskData } from '../../../interfacesAndTypes/interfacesAndTypes';
+import TaskList from '../../../components/taskList';
+import { moveTasksInOneColumn } from '../../../reduxUsers/actions/taskActions';
+import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 function SelectedBordPage() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
@@ -175,6 +179,51 @@ function SelectedBordPage() {
         );
       }
     }
+  };
+
+  const columnsAddNewBoard = () => {
+    return (
+      // <div>
+      <Box
+        sx={{
+          bgcolor: 'primary.main',
+          width: '280px',
+          maxHeight: '300px',
+          height: '24px',
+          margin: '15px',
+          borderRadius: 4,
+          position: 'relative',
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            width: '280px',
+            display: 'flex',
+            justifyContent: 'center',
+            // mb: 1,
+            borderRadius: 4,
+            textTransform: 'none',
+          }}
+        >
+          <Typography
+            id="transition-modal-title"
+            variant="h5"
+            textAlign="center"
+            component="h2"
+            sx={{
+              lineHeight: '1',
+              // textAlign: 'center',
+            }}
+            onClick={onAddNewColumn}
+            // onMouseUp={(e) => onEditColumn(e, _id as string)}
+          >
+            {t('Add new column')}
+          </Typography>
+        </Button>
+      </Box>
+      // </div>
+    );
   };
 
   const columnsAddNewBoard = () => {

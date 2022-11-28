@@ -2,6 +2,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import DndColumnsWrapper from '../dnd/dndColumnWrapper';
+// import { state as columnState } from '../../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { useSelector } from 'react-redux';

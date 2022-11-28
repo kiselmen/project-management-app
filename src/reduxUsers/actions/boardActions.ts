@@ -10,10 +10,11 @@ import {
   setAddNewBoard,
 } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
-// import { setErrMessage } from '../slices/errorSlice';
+import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
 import { updateErrorState } from './errorActions';
 import { logout } from '../slices/authSlice';
+import { checkErrStatus } from './checkErrStatusHelper';
 
 export const getAllUserBoards = (userId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
@@ -30,8 +31,9 @@ export const getAllUserBoards = (userId: string, token: string) => {
       .catch((e) => {
         if (e.response?.data?.message === 'Invalid token') {
           dispatch(logout());
-          dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
-          console.log('Redirect needed');
+          dispatch(setErrMessage('Server timed out'));
+          dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+          // console.log('Redirect needed');
         } else {
           dispatch(updateErrorState(JSON.stringify(e)));
           dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -52,9 +54,7 @@ export const getBoardData = (boardId: string, token: string) => {
       dispatch(setActiveBoardId(boardId));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не дали доску ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -70,9 +70,16 @@ export const addNewBoard = (board: BoardData, token: string) => {
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не добавили досоку ', e);
+      if (!(<{ response: Response }>e).response.ok) {
+        dispatch(logout());
+        dispatch(setAddNewBoard(false));
+        dispatch(setErrMessage('Server timed out'));
+        dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+        // dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      } else {
+        dispatch(setErrMessage(JSON.stringify(e)));
+        dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+      }
     }
   };
 };
@@ -88,9 +95,7 @@ export const editActiveBoard = (board: BoardData, boardId: string, token: string
       const userId = response.data.owner as string;
       dispatch(getAllUserBoards(userId, token));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не добавили досоку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -107,9 +112,7 @@ export const deleteBoard = (boardId: string, token: string) => {
       dispatch(delBoard(response.data._id));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не удалили досоку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };

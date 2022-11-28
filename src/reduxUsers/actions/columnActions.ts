@@ -5,7 +5,9 @@ import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../
 import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setIsOpen } from '../slices/modalSlice';
-import { updateErrorState } from './errorActions';
+// import { updateErrorState } from './errorActions';
+// import { logout } from '../slices/authSlice';
+import { checkErrStatus } from './checkErrStatusHelper';
 
 export const getAllBoardColumns = (boardId: string, token: string) => {
   return async (dispatch: AppDispatch) => {
@@ -19,9 +21,7 @@ export const getAllBoardColumns = (boardId: string, token: string) => {
       dispatch(setAllBoardColumns(sorted));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не дали досок ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -41,9 +41,7 @@ export const addNewColumn = (column: ColumnData, boardId: string, token: string)
       dispatch(addColumn(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не добавили досоку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -63,9 +61,7 @@ export const editActiveColumn = (
       });
       dispatch(getAllBoardColumns(boardId, token));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не поменяли досоку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -85,9 +81,7 @@ export const deleteColumn = (boardId: string, columnId: string, token: string) =
       dispatch(delColumn(response.data._id));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не удалили колонку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };
@@ -103,9 +97,7 @@ export const moveColumns = (columns: ColumnData[], newState: ColumnData[], token
       });
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      dispatch(updateErrorState(JSON.stringify(e)));
-      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-      console.log('Не удалили досоку ', e);
+      checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
   };
 };

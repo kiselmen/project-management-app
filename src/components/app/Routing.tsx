@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import {
   BoardsListPage,
@@ -10,7 +11,7 @@ import {
   UserRegistratePage,
   WelcomePage,
 } from '../../pages';
-import { stateUser } from '../../reduxUsers/slices/authSlice';
+import { stateUser, checkLocal } from '../../reduxUsers/slices/authSlice';
 
 const Redirect = ({ children }: { children: JSX.Element }) => {
   const stateIsLogin = useSelector(stateUser);
@@ -23,6 +24,17 @@ const Redirect = ({ children }: { children: JSX.Element }) => {
 };
 
 function Routing() {
+  // const stateIsLogin = useSelector(stateUser);
+  // const isLogin = stateIsLogin.isAuth;
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // React.useEffect(() => {
+  //   dispatch(checkLocal());
+  //   if (!isLogin) {
+  //     navigate('/');
+  //   }
+  // }, [isLogin]);
+
   return (
     <Routes>
       <Route path="/" element={<WelcomePage />} />
