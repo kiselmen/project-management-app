@@ -2,6 +2,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import DndColumnsWrapper from '../dnd/dndColumnWrapper';
+// import { state as columnState } from '../../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { useSelector } from 'react-redux';
@@ -52,15 +53,39 @@ const TaskList = (props: ITaskList) => {
             <Button
               component="div"
               variant="contained"
-              sx={{ width: '95%', display: 'flex', justifyContent: 'space-between' }}
+              sx={{
+                width: '95%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                // height: '100px',
+                flexWrap: 'nowrap',
+              }}
+              // fullWidth={true}
               // flexGrow={1}
               // key={_id}
               onMouseUp={(e) => onEditTask(e, _id as string)}
             >
-              <Typography variant="body2" textTransform="none" flexGrow={1} textAlign="start">
+              <Typography
+                // component="div"
+                variant="body2"
+                textTransform="none"
+                flexGrow={1}
+                textAlign="start"
+                // maxWidth="90%"
+                sx={{
+                  overflow: 'hidden',
+                  // height: '100px',
+                  overflowWrap: 'anywhere',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
                 {title}
               </Typography>
-              <DeleteOutlinedIcon onClick={(e) => onRemoveTask(e, _id as string)} color="error" />
+              <DeleteOutlinedIcon
+                onClick={(e) => onRemoveTask(e, _id as string)}
+                color="error"
+                sx={{ ml: '5px' }}
+              />
             </Button>
           </div>
 

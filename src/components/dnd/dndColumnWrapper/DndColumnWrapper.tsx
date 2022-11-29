@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { Direction, Droppable } from 'react-beautiful-dnd';
 import { ReactI18NextChild } from 'react-i18next';
 
@@ -12,10 +13,11 @@ interface IColumnWrapper {
 const DndColumnsWrapper = (props: IColumnWrapper) => (
   <Droppable droppableId={props.droppableId} direction={props.directction} type={props.type}>
     {(provided) => (
-      <div ref={provided.innerRef} {...provided.droppableProps}>
+      // <Box flexGrow={1} ref={provided.innerRef} {...provided.droppableProps}>
+      <Box ref={provided.innerRef} {...provided.droppableProps}>
         {props.children}
         {provided.placeholder}
-      </div>
+      </Box>
     )}
   </Droppable>
 );

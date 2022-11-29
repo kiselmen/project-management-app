@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import * as React from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
@@ -7,9 +8,10 @@ interface DndColumnContextProps {
 }
 
 const DndColumnContext = (props: DndColumnContextProps) => (
-  <div>
+  // <Box flexGrow={1}>
+  <Box display="flex" sx={{ overflowY: 'clip' }}>
     <DragDropContext onDragEnd={props.onDragEnd}>{props.children}</DragDropContext>
-  </div>
+  </Box>
 );
 
 export default DndColumnContext;
