@@ -21,7 +21,6 @@ import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
-import { CustomizedBoardContainer } from '../../styledComponents';
 import DndColumnContext from '../../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../../components/dnd/dndColumnItems';
@@ -304,7 +303,7 @@ function SelectedBordPage() {
         width: '100%',
         height: {
           xs: 'calc(100vh - 172px)',
-          sm: 'calc(100vh - 126px)',
+          sm: 'calc(100vh - 176px)',
           md: 'calc(100vh - 130px)',
         },
       }}
@@ -363,7 +362,7 @@ function SelectedBordPage() {
               mt: '0',
               mb: '0',
               // height: 'calc(100vh - 250px)',
-              overflowY: 'auto',
+              overflowY: 'hidden',
               overflowAnchor: 'none',
             }}
           >

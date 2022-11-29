@@ -9,7 +9,7 @@ interface DndColumnContextProps {
 
 const DndColumnContext = (props: DndColumnContextProps) => (
   // <Box flexGrow={1}>
-  <Box display="flex">
+  <Box display="flex" sx={{ overflowY: 'clip' }}>
     <DragDropContext onDragEnd={props.onDragEnd}>{props.children}</DragDropContext>
   </Box>
 );
