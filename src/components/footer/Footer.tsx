@@ -11,10 +11,8 @@ export const Footer = () => {
       <CssBaseline />
       <Box component="footer">
         <Container
-          // maxWidth="xl"
           sx={{
             backgroundColor: 'secondary.main',
-            // position: 'fixed',
             bottom: 0,
             left: 0,
             right: 0,
