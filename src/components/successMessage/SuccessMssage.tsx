@@ -4,7 +4,7 @@ export const SuccessMessage = ({ text }: { text: string }) => {
   return (
     <>
       <Alert
-        sx={{ position: 'fixed', top: '68px', right: 0 }}
+        sx={{ position: 'absolute', top: '68px', right: 0 }}
         variant="outlined"
         severity="success"
       >

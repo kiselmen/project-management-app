@@ -5,8 +5,6 @@ import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../
 import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setIsOpen } from '../slices/modalSlice';
-// import { updateErrorState } from './errorActions';
-// import { logout } from '../slices/authSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
 
 export const getAllBoardColumns = (boardId: string, token: string) => {

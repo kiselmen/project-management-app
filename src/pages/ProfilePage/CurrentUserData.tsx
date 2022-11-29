@@ -5,7 +5,6 @@ import { CustomListItem } from './CurrentUserData/CustomListItem';
 import { stateUser } from '../../reduxUsers/slices/authSlice';
 import { stateProfile } from '../../reduxUsers/slices/profileSlice';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
@@ -15,12 +14,12 @@ import { isOpenEdit } from '../../reduxUsers/slices/profileSlice';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import CreateForm from '../../components/forms/CreateForm';
 import { useTranslation } from 'react-i18next';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
 
 export const CurrentUserData = () => {
   const { t } = useTranslation();
   const userState = useSelector(stateUser);
   const { name, login } = userState;
-  // const isLogin = userState.isAuth;
 
   const profileEditState = useSelector(stateProfile);
   const { openEdit } = profileEditState;
@@ -46,13 +45,10 @@ export const CurrentUserData = () => {
   };
 
   const handleDelete = async () => {
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(deleteUser());
     setOpen(false);
   };
-
-  // if (!isLogin) {
-  //   return <Navigate to="/" />;
-  // }
 
   return (
     <>
