@@ -7,7 +7,7 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAllUserBoards, getBoardData } from '../../../reduxUsers/actions/boardActions';
+import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
   // deleteColumn,
@@ -26,18 +26,15 @@ import DndColumnContext from '../../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
-import { ColumnData, TaskData } from '../../../interfacesAndTypes/interfacesAndTypes';
-import TaskList from '../../../components/taskList';
-import { moveTasksInOneColumn } from '../../../reduxUsers/actions/taskActions';
-import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+import TaskList from '../../components/taskList';
+import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 function SelectedBordPage() {
   const { id } = useParams();
-  const { t } = useTranslation();
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
@@ -226,66 +223,21 @@ function SelectedBordPage() {
     );
   };
 
-  const columnsAddNewBoard = () => {
-    return (
-      // <div>
-      <Box
-        sx={{
-          bgcolor: 'primary.main',
-          width: '280px',
-          maxHeight: '300px',
-          height: '24px',
-          margin: '15px',
-          borderRadius: 4,
-          position: 'relative',
-        }}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            width: '280px',
-            display: 'flex',
-            justifyContent: 'center',
-            // mb: 1,
-            borderRadius: 4,
-            textTransform: 'none',
-          }}
-        >
-          <Typography
-            id="transition-modal-title"
-            variant="h5"
-            textAlign="center"
-            component="h2"
-            sx={{
-              lineHeight: '1',
-              // textAlign: 'center',
-            }}
-            onClick={onAddNewColumn}
-            // onMouseUp={(e) => onEditColumn(e, _id as string)}
-          >
-            {t('Add new column')}
-          </Typography>
-        </Button>
-      </Box>
-      // </div>
-    );
-  };
-
   const columnsRender = () => {
     const items = allColumns?.map(({ _id, title, order }) => {
       return (
-        <div key={_id}>
+        <Box key={_id}>
           <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
             <Box
               sx={{
                 bgcolor: 'primary.main',
                 width: '280px',
-                maxHeight: 'calc(100vh - 300px)',
+                maxHeight: 'calc(100vh - 320px)',
                 margin: '15px',
                 borderRadius: '16px',
                 position: 'relative',
               }}
-              key={_id}
+              // key={_id}
             >
               <Button
                 component="div"
@@ -338,14 +290,25 @@ function SelectedBordPage() {
               </Button>
             </Box>
           </DndColumnItems>
-        </div>
+        </Box>
       );
     });
     return <>{items}</>;
   };
 
   return (
-    <CustomizedBoardContainer>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: {
+          xs: 'calc(100vh - 152px)',
+          sm: 'calc(100vh - 106px)',
+          md: 'calc(100vh - 110px)',
+        },
+      }}
+    >
       <ImageListItem key="Subheader" cols={2}>
         <ListSubheader
           component="div"
@@ -355,6 +318,7 @@ function SelectedBordPage() {
             padding: '0.5rem 0 0.5rem 0',
             borderRadius: '0px 0px 16px 16px',
             display: 'flex',
+            width: '100%',
           }}
         >
           <Button
@@ -362,7 +326,7 @@ function SelectedBordPage() {
             sx={{
               ml: '20px',
               mr: '20px',
-              width: 100,
+              // width: 100,
               borderRadius: 4,
             }}
             onClick={onBackToList}
@@ -374,10 +338,14 @@ function SelectedBordPage() {
             color="primary"
             fontWeight={700}
             sx={{
+              fontSize: { xs: '24px', md: '36px' },
               bgcolor: 'secondary.main',
-              p: '5px 20px 0px 20px',
+              p: '5px 20px 5px 20px',
               borderRadius: 4,
               cursor: 'pointer',
+              overflow: 'hidden',
+              overflowWrap: 'anywhere',
+              whiteSpace: 'pre-wrap',
             }}
             onClick={() => onEditBoard()}
           >
@@ -392,6 +360,8 @@ function SelectedBordPage() {
               display: 'flex',
               justifyContent: 'flex-start',
               flexWrap: 'nowrap',
+              mt: '0',
+              mb: '0',
               // height: 'calc(100vh - 250px)',
               overflowY: 'auto',
               overflowAnchor: 'none',
@@ -402,7 +372,7 @@ function SelectedBordPage() {
           </ImageList>
         </DndColumnsWrapper>
       </DndColumnContext>
-    </CustomizedBoardContainer>
+    </Box>
   );
 }
 

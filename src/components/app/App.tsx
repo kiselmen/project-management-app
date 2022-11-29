@@ -28,6 +28,7 @@ function App() {
                 sm: 'calc(100vh - 106px)',
                 md: 'calc(100vh - 110px)',
               },
+              overflow: 'auto',
             }}
           >
             <Routing />

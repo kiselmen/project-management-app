@@ -77,7 +77,7 @@ const CreateForm = () => {
   });
 
   if (isLogin && !profileUrl) {
-    return <Navigate to="/" />;
+    return <Navigate to="/boards" />;
   }
 
   const TitleForm = currentUrl
