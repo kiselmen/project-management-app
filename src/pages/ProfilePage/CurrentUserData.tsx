@@ -47,6 +47,7 @@ export const CurrentUserData = () => {
   const handleDelete = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(deleteUser());
+    dispatch(isOpenEdit({ openEdit: false }));
     setOpen(false);
   };
 

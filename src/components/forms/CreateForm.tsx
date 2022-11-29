@@ -14,7 +14,7 @@ import { setModalState } from '../../reduxUsers/actions/modalActions';
 const CreateForm = () => {
   const { t } = useTranslation();
   const stateIsLogin = useSelector(stateUser);
-  const isLogin = stateIsLogin.isAuth;
+  const { token } = stateIsLogin;
   const location = useLocation();
   const authUrl = location.pathname === '/authorization';
   const currentUrl = location.pathname === '/registration';
@@ -76,8 +76,8 @@ const CreateForm = () => {
     onSubmit: userAuthPageSubmit,
   });
 
-  if (isLogin && !profileUrl) {
-    return <Navigate to="/" />;
+  if (token && !profileUrl) {
+    return <Navigate to="/boards" />;
   }
 
   const TitleForm = currentUrl
