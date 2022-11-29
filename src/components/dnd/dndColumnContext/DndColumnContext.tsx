@@ -8,8 +8,8 @@ interface DndColumnContextProps {
 }
 
 const DndColumnContext = (props: DndColumnContextProps) => (
-  <Box>
-    {/* <Box display="flex"> */}
+  // <Box flexGrow={1}>
+  <Box display="flex">
     <DragDropContext onDragEnd={props.onDragEnd}>{props.children}</DragDropContext>
   </Box>
 );

@@ -303,9 +303,9 @@ function SelectedBordPage() {
         flexDirection: 'column',
         width: '100%',
         height: {
-          xs: 'calc(100vh - 152px)',
-          sm: 'calc(100vh - 106px)',
-          md: 'calc(100vh - 110px)',
+          xs: 'calc(100vh - 172px)',
+          sm: 'calc(100vh - 126px)',
+          md: 'calc(100vh - 130px)',
         },
       }}
     >
