@@ -9,6 +9,7 @@ import { FormContainerStyles, FormStyles } from './Form.styles';
 import { useSelector } from 'react-redux';
 import { stateUser } from '../../reduxUsers/slices/authSlice';
 import { useTranslation } from 'react-i18next';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
 
 const CreateForm = () => {
   const { t } = useTranslation();
@@ -54,6 +55,7 @@ const CreateForm = () => {
   const dispatch = useAppDispatch();
 
   const userAuthPageSubmit = async (values: AuthPageValues) => {
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     if (currentUrl) {
       await dispatch(signUp({ name: values.name, login: values.login, password: values.password }));
     } else if (profileUrl) {

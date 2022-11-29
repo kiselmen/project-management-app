@@ -24,6 +24,7 @@ export const signUp = (data: AuthPageValues) => {
         })
       );
       dispatch(signIn({ login: data.login, password: data.password }));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch {
       dispatch(setErrMessage('Account exists'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -46,6 +47,7 @@ export const signIn = (data: AuthPageValues) => {
           token: response.data.token,
         })
       );
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       dispatch(setErrMessage('Account does not exist'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -63,6 +65,7 @@ export const deleteUser = () => {
         { headers: { Authorization: 'Bearer ' + token } }
       );
       dispatch(logout());
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       return response;
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, 'Something went wrong');
@@ -91,6 +94,7 @@ export const updateUser = (data: AuthPageValues) => {
       dispatch(signIn({ login: data.login, password: data.password }));
       dispatch(successRequest({ updateSuccess: true }));
       dispatch(isOpenEdit({ openEdit: false }));
+      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, 'Something went wrong');
