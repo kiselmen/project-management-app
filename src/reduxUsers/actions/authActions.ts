@@ -46,8 +46,6 @@ export const signIn = (data: AuthPageValues) => {
           token: response.data.token,
         })
       );
-      // dispatch(successRequest({ updateSuccess: true }));
-      // setTimeout(() => dispatch(successRequest({ updateSuccess: false })), 5000);
     } catch (e) {
       dispatch(setErrMessage('Account does not exist'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
