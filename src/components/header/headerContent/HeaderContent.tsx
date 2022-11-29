@@ -26,6 +26,7 @@ import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
 import { logout } from '../../../reduxUsers/slices/authSlice';
 import { updateAddNewBoard } from '../../../reduxUsers/actions/boardActions';
 import { setModalState } from '../../../reduxUsers/actions/modalActions';
+import { isOpenEdit } from '../../../reduxUsers/slices/profileSlice';
 
 function HeaderContent() {
   const { i18n, t } = useTranslation();
@@ -53,6 +54,7 @@ function HeaderContent() {
   const logoutProfile = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (event.currentTarget.id === 'LOG OUT') {
       dispatch(logout());
+      dispatch(isOpenEdit({ openEdit: false }));
     }
   };
 
