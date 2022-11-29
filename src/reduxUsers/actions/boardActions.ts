@@ -29,15 +29,18 @@ export const getAllUserBoards = (userId: string, token: string) => {
         dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       })
       .catch((e) => {
-        if (e.response?.data?.message === 'Invalid token') {
-          dispatch(logout());
-          dispatch(setErrMessage('Server timed out'));
-          dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-          // console.log('Redirect needed');
+        if (e.response !== undefined) {
+          if (e.response?.data?.message === 'Invalid token') {
+            dispatch(logout());
+            dispatch(setErrMessage('Server timed out'));
+          } else {
+            dispatch(updateErrorState(JSON.stringify(e)));
+          }
         } else {
-          dispatch(updateErrorState(JSON.stringify(e)));
-          dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+          dispatch(logout());
+          dispatch(setErrMessage('Something went wrong'));
         }
+        dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
       });
   };
 };
@@ -70,16 +73,19 @@ export const addNewBoard = (board: BoardData, token: string) => {
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
-      if (!(<{ response: Response }>e).response.ok) {
-        dispatch(logout());
-        dispatch(setAddNewBoard(false));
-        dispatch(setErrMessage('Server timed out'));
-        dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
-        // dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      if ((<{ response: Response }>e).response !== undefined) {
+        if (!(<{ response: Response }>e).response.ok) {
+          dispatch(logout());
+          dispatch(setAddNewBoard(false));
+          dispatch(setErrMessage('Server timed out'));
+        } else {
+          dispatch(setErrMessage(JSON.stringify(e)));
+        }
       } else {
-        dispatch(setErrMessage(JSON.stringify(e)));
-        dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
+        dispatch(logout());
+        dispatch(setErrMessage('Something went wrong'));
       }
+      dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
     }
   };
 };
