@@ -7,14 +7,12 @@ import { isOpenEdit } from '../slices/profileSlice';
 import { setErrMessage } from '../slices/errorSlice';
 import { setIsOpen } from '../slices/modalSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
+import { BASE_URL } from '../../consts/consts';
 
 export const signUp = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.post<AuthPageValues>(
-        'https://final-task-backend-production-08b7.up.railway.app/auth/signup',
-        data
-      );
+      const response = await axios.post<AuthPageValues>(`${BASE_URL}auth/signup`, data);
       dispatch(
         login({
           _id: response.data._id,
@@ -35,10 +33,7 @@ export const signUp = (data: AuthPageValues) => {
 export const signIn = (data: AuthPageValues) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.post<AuthPageValues>(
-        'https://final-task-backend-production-08b7.up.railway.app/auth/signin',
-        data
-      );
+      const response = await axios.post<AuthPageValues>(`${BASE_URL}auth/signin`, data);
       dispatch(
         login({
           _id: response.data._id,
@@ -60,10 +55,9 @@ export const deleteUser = () => {
   const token = localStorage.getItem('token');
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.delete<AuthPageValues>(
-        `https://final-task-backend-production-08b7.up.railway.app/users/${userId}`,
-        { headers: { Authorization: 'Bearer ' + token } }
-      );
+      const response = await axios.delete<AuthPageValues>(`${BASE_URL}users/${userId}`, {
+        headers: { Authorization: 'Bearer ' + token },
+      });
       dispatch(logout());
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       return response;
@@ -78,11 +72,9 @@ export const updateUser = (data: AuthPageValues) => {
   const userId = localStorage.getItem('userId');
   return async (dispatch: AppDispatch) => {
     try {
-      const response = await axios.put<AuthPageValues>(
-        `https://final-task-backend-production-08b7.up.railway.app/users/${userId}`,
-        data,
-        { headers: { Authorization: 'Bearer ' + token } }
-      );
+      const response = await axios.put<AuthPageValues>(`${BASE_URL}users/${userId}`, data, {
+        headers: { Authorization: 'Bearer ' + token },
+      });
       dispatch(
         login({
           _id: response.data._id,
