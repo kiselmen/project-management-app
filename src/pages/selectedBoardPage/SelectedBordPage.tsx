@@ -302,9 +302,9 @@ function SelectedBordPage() {
         flexDirection: 'column',
         width: '100%',
         height: {
-          xs: 'calc(100vh - 172px)',
+          xs: 'calc(100vh - 180px)',
           sm: 'calc(100vh - 176px)',
-          md: 'calc(100vh - 130px)',
+          md: 'calc(100vh - 135px)',
         },
       }}
     >
@@ -314,17 +314,21 @@ function SelectedBordPage() {
           sx={{
             // background: `${theme.palette.secondary.main}`,
             textAlign: 'center',
-            padding: '0.5rem 0 0.5rem 0',
+            padding: '0.5rem 0.5rem 0.5rem 0.5rem',
             borderRadius: '0px 0px 16px 16px',
             display: 'flex',
             width: '100%',
+            gap: '5px',
+            position: 'fixed',
+            top: '70px',
+            // justifyContent: 'space-between',
           }}
         >
           <Button
             variant="contained"
             sx={{
-              ml: '20px',
-              mr: '20px',
+              // ml: '20px',
+              // mr: '20px',
               // width: 100,
               borderRadius: 4,
             }}
@@ -332,23 +336,65 @@ function SelectedBordPage() {
           >
             {t('BACK')}
           </Button>
+          <Button
+            variant="contained"
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              borderRadius: 4,
+              flexGrow: '0',
+            }}
+            onClick={onAddNewColumn}
+          >
+            {t('Add new column')}
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              display: { xs: 'none', sm: 'block', md: 'none' },
+              borderRadius: 4,
+              flexGrow: '0',
+            }}
+            onClick={onAddNewColumn}
+          >
+            {t('ADD')}
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              borderRadius: 4,
+              flexGrow: '0',
+            }}
+            onClick={onAddNewColumn}
+          >
+            +
+          </Button>
+          {/* {columnsAddNewBoard()} */}
           <Typography
-            variant="h4"
+            variant="h5"
             color="primary"
             fontWeight={700}
             sx={{
-              fontSize: { xs: '24px', md: '36px' },
+              // fontSize: '24px',
               bgcolor: 'secondary.main',
               p: '5px 20px 5px 20px',
               borderRadius: 4,
               cursor: 'pointer',
               overflow: 'hidden',
-              overflowWrap: 'anywhere',
-              whiteSpace: 'pre-wrap',
+              // overflowWrap: 'anywhere',
+              whiteSpace: 'pre-line',
+              flexGrow: '1',
+              maxHeight: '80px',
+              textOverflow: 'ellipsis',
+              maxWidth: {
+                xs: 'calc(100vw - 180px)',
+                sm: 'calc(100vw - 200px)',
+                md: '900px',
+              },
             }}
             onClick={() => onEditBoard()}
           >
-            {t('Current board')} {activeBoard.title}
+            {activeBoard.title}
           </Typography>
         </ListSubheader>
       </ImageListItem>
@@ -364,10 +410,11 @@ function SelectedBordPage() {
               // height: 'calc(100vh - 250px)',
               overflowY: 'hidden',
               overflowAnchor: 'none',
+              minWidth: '95vw',
+              height: 'calc(100vh - 150px)',
             }}
           >
             {columnsRender()}
-            {columnsAddNewBoard()}
           </ImageList>
         </DndColumnsWrapper>
       </DndColumnContext>

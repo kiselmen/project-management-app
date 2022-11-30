@@ -14,7 +14,7 @@
   "Add board": "Создать доску",
   "Edit board": "Редактировать доску",
   "Submit": "Подтвердить",
-  "Add new column": "+ Добавить колонку",
+  "Add new column": "Добавить колонку",
   "Cancel": "Отменить",
   "Title": "Наименование",
   "Subscribe": "Описание",
@@ -55,5 +55,6 @@
   "Are you shure, delete this column with all tasks?": "Вы уверены, удалить колонку со всеми задачами?",
   "Delete task": "Удалить задачу",
   "Are you shure, delete this task?": "Вы уверены, удалить задачу?",
-  "Current board": "Текущая доска"
+  "Current board": "Текущая доска",
+  "ADD": "ДОБАВИТЬ"
 }
