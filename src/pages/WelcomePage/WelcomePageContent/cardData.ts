@@ -5,6 +5,8 @@ import typescript from '../../../assets/typescript.svg';
 import mui from '../../../assets/mui.png';
 import scomp from '../../../assets/scomp.png';
 import formik from '../../../assets/formik.png';
+import reactDndBeautiful from '../../../assets/react-dnd-beautiful.png';
+import reactI18next from '../../../assets/i18next.png';
 
 export const cardData = [
   {
@@ -41,5 +43,15 @@ export const cardData = [
     img: formik,
     text: 'Formik',
     id: 1007,
+  },
+  {
+    img: reactDndBeautiful,
+    text: 'react-dnd-beautiful',
+    id: 1008,
+  },
+  {
+    img: reactI18next,
+    text: 'react-i18next',
+    id: 1009,
   },
 ];

@@ -1,8 +1,8 @@
 {
   "homePage": "BRELLO",
-  "Boards": "Доски", 
-  "NEW BOARD": "Новая доска", 
-  "PROFILE": "Профиль", 
+  "Boards": "Доски",
+  "NEW BOARD": "Новая доска",
+  "PROFILE": "Профиль",
   "LOG OUT": "Выход",
   "LOGIN": "Вход",
   "SIGN UP": "Регистрация",
@@ -55,5 +55,17 @@
   "Are you shure, delete this column with all tasks?": "Вы уверены, удалить колонку со всеми задачами?",
   "Delete task": "Удалить задачу",
   "Are you shure, delete this task?": "Вы уверены, удалить задачу?",
-  "Current board": "Текущая доска"
+  "Current board": "Текущая доска",
+  "The perfect place to organize and manage your tasks.": "Идеальное место для организации и управления своими задачами.",
+  "Start acting yourself or distribute the load among colleagues.": "Начните действовать сами или распределите нагрузку между коллегами.",
+  "Our motto is: ": "Наш девиз: ",
+  "Do it right on time!": "Делать все вовремя!",
+  "Get Started": "Начать",
+  "This project was developed as part of the": "Данный проект был разработан в рамках",
+  "RSSchool React training course": "учебного курса RSSchool React",
+  "- free-of-charge and community-based education program conducted by The Rolling Scopes developer community since 2013.": "- бесплатная образовательная программа, проводимая сообществом разработчиков The Rolling Scopes с 2013 года.",
+  "Everyone can study at RS School, regardless of age, professional employment, or place of residence.": "В RS School могут учиться все желающие, независимо от возраста, профессиональной занятости и места жительства.",
+  "The mentors and trainers of our school are front-end and javascript developers from different companies and countries.": "Наставниками и преподавателями нашей школы являются front-end и javascript-разработчики из разных компаний и стран.",
+  "The following technologies are used in the project:": "В проекте используются следующие технологии:",
+  "The following developers worked on the project:": "Над проектом работали следующие разработчики:"
 }

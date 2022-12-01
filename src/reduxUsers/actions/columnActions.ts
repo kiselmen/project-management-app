@@ -93,7 +93,7 @@ export const moveColumns = (columns: ColumnData[], newState: ColumnData[], token
           Authorization: 'Bearer ' + token,
         },
       });
-      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      // dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
