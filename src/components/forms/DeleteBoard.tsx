@@ -8,6 +8,7 @@ import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { deleteBoard } from '../../reduxUsers/actions/boardActions';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
+import { FormEvent } from 'react';
 
 const DeleteBoard = () => {
   const { t } = useTranslation();
@@ -15,7 +16,8 @@ const DeleteBoard = () => {
   const dispatch = useAppDispatch();
   const { activeBoardId } = useSelector(boardState);
 
-  const onDelete = async () => {
+  const onDelete = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(deleteBoard(activeBoardId as string, localStorage.getItem('token') as string));
   };
@@ -29,7 +31,7 @@ const DeleteBoard = () => {
       <Typography variant="h5" component="h2">
         {t('Delete board')}
       </Typography>
-      <FormStyles onSubmit={() => onDelete()}>
+      <FormStyles onSubmit={(e) => onDelete(e)}>
         <Typography>{t('Are you shure, delete this board with all columns and tasks?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">

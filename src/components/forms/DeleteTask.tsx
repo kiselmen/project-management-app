@@ -10,6 +10,7 @@ import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { deleteTask } from '../../reduxUsers/actions/taskActions';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
+import { FormEvent } from 'react';
 
 const DeleteTask = () => {
   const { t } = useTranslation();
@@ -19,7 +20,8 @@ const DeleteTask = () => {
   const { activeColumnId } = useSelector(columnState);
   const { activeTaskId } = useSelector(taskState);
 
-  const onDelete = async () => {
+  const onDelete = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(
       deleteTask(
@@ -40,7 +42,7 @@ const DeleteTask = () => {
       <Typography variant="h5" component="h2">
         {t('Delete task')}
       </Typography>
-      <FormStyles onSubmit={() => onDelete()}>
+      <FormStyles onSubmit={(e) => onDelete(e)}>
         <Typography>{t('Are you shure, delete this task?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">
