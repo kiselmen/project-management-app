@@ -14,7 +14,7 @@ import store from '../../reduxUsers/store';
 import Routing from '../routing/Routing';
 import ModalWindow from '../modal';
 import { Footer } from '../footer/Footer';
-import StyledMuiContainerAppMain from './StyledMuiContainer';
+import StyledMuiContainerAppMain from '../../styledComponents/styledMuiComponents/StyledMuiContainer';
 
 function App() {
   return (

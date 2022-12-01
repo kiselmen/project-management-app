@@ -1,17 +1,18 @@
-import './SelectedBoardPage.css';
-import './SelectedBoardPage.css';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+import './SelectedBoardPage.css';
+
+import { Box, Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
+
 import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
-  // deleteColumn,
-  // clearColumnData,
   updateActiveColumnId,
   moveColumns,
   clearColumnData,
@@ -21,16 +22,23 @@ import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
+import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
+
 import DndColumnContext from '../../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
 import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
+
 import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
+
 import TaskList from '../../components/taskList';
-import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
-import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { StyledMuiBoxSelectedBordPageMain } from '../../styledComponents/styledMuiComponents/StyledMuiBox';
+import StyledMuiListSubheader from '../../styledComponents/styledMuiComponents/StyledMuiListSubheader';
+import MyStyledButton from './HederSelectedBoard/StyledButtonBack';
+import StyledButtonAddColumn from './HederSelectedBoard/StyledButtonAddColumn';
+import StyledTypographyBoardTitle from './HederSelectedBoard/StyledTypographyBoardTitle';
+import StyledMuiImageListColumns from '../../styledComponents/styledMuiComponents/StyledMuiImageList';
+import HederSelectedBoard from './HederSelectedBoard/HederSelectedBoard';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -73,7 +81,6 @@ function SelectedBordPage() {
   };
 
   const onEditBoard = async () => {
-    // e.stopPropagation();
     dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
   };
 
@@ -101,7 +108,6 @@ function SelectedBordPage() {
     const sourceIndex = source.index;
     const destinationIndex = destination?.index as number;
     if (sourceIndex !== destinationIndex && source.droppableId === 'column') {
-      console.log(' Message from Board section ');
       const items = JSON.parse(JSON.stringify(allColumns));
       const [newOrder] = items.splice(sourceIndex - 1, 1);
       items.splice(destinationIndex - 1, 0, newOrder);
@@ -112,13 +118,11 @@ function SelectedBordPage() {
       const itemsForPatch = items.map((el: ColumnData, index: number) => {
         return { _id: el._id, order: start + index };
       });
-      // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
       dispatch(moveColumns(itemsForPatch, itemsForState, localStorage.getItem('token') as string));
     } else if (source.droppableId !== 'column' && destination) {
       const sourceColumn = source.droppableId;
       const destinationColumn = destination.droppableId;
       if (sourceColumn === destinationColumn) {
-        console.log(sourceColumn, allTasks);
         const items = JSON.parse(JSON.stringify(allTasks[sourceColumn]));
         const [newOrder] = items.splice(sourceIndex - 1, 1);
         items.splice(destinationIndex - 1, 0, newOrder);
@@ -129,7 +133,6 @@ function SelectedBordPage() {
         const itemsForPatch = items.map((el: TaskData, index: number) => {
           return { _id: el._id, order: start + index, columnId: sourceColumn };
         });
-        // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
         dispatch(
           moveTasksInOneColumn(
             sourceColumn,
@@ -156,7 +159,6 @@ function SelectedBordPage() {
         const itemsForPatchDestination = itemsDestination.map((el: TaskData, index: number) => {
           return { _id: el._id, order: start + index, columnId: destinationColumn };
         });
-        // dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
         dispatch(
           moveTasksInOneColumn(
             sourceColumn,
@@ -175,51 +177,6 @@ function SelectedBordPage() {
         );
       }
     }
-  };
-
-  const columnsAddNewBoard = () => {
-    return (
-      // <div>
-      <Box
-        sx={{
-          bgcolor: 'primary.main',
-          width: '280px',
-          maxHeight: '300px',
-          height: '24px',
-          margin: '15px',
-          borderRadius: 4,
-          position: 'relative',
-        }}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            width: '280px',
-            display: 'flex',
-            justifyContent: 'center',
-            // mb: 1,
-            borderRadius: 4,
-            textTransform: 'none',
-          }}
-        >
-          <Typography
-            id="transition-modal-title"
-            variant="h5"
-            textAlign="center"
-            component="h2"
-            sx={{
-              lineHeight: '1',
-              // textAlign: 'center',
-            }}
-            onClick={onAddNewColumn}
-            // onMouseUp={(e) => onEditColumn(e, _id as string)}
-          >
-            {t('Add new column')}
-          </Typography>
-        </Button>
-      </Box>
-      // </div>
-    );
   };
 
   const columnsRender = () => {
@@ -296,129 +253,21 @@ function SelectedBordPage() {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: {
-          xs: 'calc(100vh - 180px)',
-          sm: 'calc(100vh - 176px)',
-          md: 'calc(100vh - 135px)',
-        },
-      }}
-    >
-      <ImageListItem key="Subheader" cols={2}>
-        <ListSubheader
-          component="div"
-          sx={{
-            // background: `${theme.palette.secondary.main}`,
-            textAlign: 'center',
-            padding: '0.5rem 0.5rem 0.5rem 0.5rem',
-            borderRadius: '0px 0px 16px 16px',
-            display: 'flex',
-            width: '100%',
-            gap: '5px',
-            position: 'fixed',
-            top: '70px',
-            // justifyContent: 'space-between',
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              // ml: '20px',
-              // mr: '20px',
-              // width: 100,
-              borderRadius: 4,
-            }}
-            onClick={onBackToList}
-          >
-            {t('BACK')}
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              display: { xs: 'none', md: 'block' },
-              borderRadius: 4,
-              flexGrow: '0',
-            }}
-            onClick={onAddNewColumn}
-          >
-            {t('Add new column')}
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              display: { xs: 'none', sm: 'block', md: 'none' },
-              borderRadius: 4,
-              flexGrow: '0',
-            }}
-            onClick={onAddNewColumn}
-          >
-            {t('ADD')}
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              display: { xs: 'block', sm: 'none' },
-              borderRadius: 4,
-              flexGrow: '0',
-            }}
-            onClick={onAddNewColumn}
-          >
-            +
-          </Button>
-          {/* {columnsAddNewBoard()} */}
-          <Typography
-            variant="h5"
-            color="primary"
-            fontWeight={700}
-            sx={{
-              // fontSize: '24px',
-              bgcolor: 'secondary.main',
-              p: '5px 20px 5px 20px',
-              borderRadius: 4,
-              cursor: 'pointer',
-              overflow: 'hidden',
-              // overflowWrap: 'anywhere',
-              whiteSpace: 'pre-line',
-              flexGrow: '1',
-              maxHeight: '80px',
-              textOverflow: 'ellipsis',
-              maxWidth: {
-                xs: 'calc(100vw - 180px)',
-                sm: 'calc(100vw - 200px)',
-                md: '900px',
-              },
-            }}
-            onClick={() => onEditBoard()}
-          >
-            {activeBoard.title}
-          </Typography>
-        </ListSubheader>
-      </ImageListItem>
+    <StyledMuiBoxSelectedBordPageMain>
+      <HederSelectedBoard />
+      {/* <StyledMuiListSubheader>
+        <MyStyledButton func={onBackToList}>{t('BACK')}</MyStyledButton>
+        <StyledButtonAddColumn func={onAddNewColumn} />
+        <StyledTypographyBoardTitle func={onEditBoard}>
+          {activeBoard.title}
+        </StyledTypographyBoardTitle>
+      </StyledMuiListSubheader> */}
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
-          <ImageList
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              flexWrap: 'nowrap',
-              mt: '0',
-              mb: '0',
-              // height: 'calc(100vh - 250px)',
-              overflowY: 'hidden',
-              overflowAnchor: 'none',
-              minWidth: '95vw',
-              height: 'calc(100vh - 150px)',
-            }}
-          >
-            {columnsRender()}
-          </ImageList>
+          <StyledMuiImageListColumns>{columnsRender()}</StyledMuiImageListColumns>
         </DndColumnsWrapper>
       </DndColumnContext>
-    </Box>
+    </StyledMuiBoxSelectedBordPageMain>
   );
 }
 
