@@ -107,7 +107,7 @@ export const moveTasksInOneColumn = (
           },
         });
       }
-      dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      // dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
