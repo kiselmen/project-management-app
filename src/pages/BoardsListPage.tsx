@@ -27,6 +27,7 @@ import BoardBackGround from '../assets/board.jpg';
 
 import BoardInBoards from '../components/boardInBoards/BoardInBoards';
 import { useTranslation } from 'react-i18next';
+import { AdditionalTools } from './BoardListPage/AdditionalTools';
 
 const BoardsListPage = () => {
   const { t } = useTranslation();
@@ -86,38 +87,41 @@ const BoardsListPage = () => {
   };
 
   return (
-    <CustomizedBoardContainer>
-      <ImageListItem key="Subheader" cols={2}>
-        <ListSubheader
-          component="div"
+    <>
+      <CustomizedBoardContainer>
+        <ImageListItem key="Subheader" cols={2}>
+          <ListSubheader
+            component="div"
+            sx={{
+              background: `${theme.palette.secondary.main}`,
+              textAlign: 'center',
+              padding: '0.5rem 0 0.5rem 0',
+            }}
+          >
+            <Typography variant="h4" color="primary" fontWeight={700}>
+              {t('BOARDS')}
+            </Typography>
+          </ListSubheader>
+          <AdditionalTools />
+        </ImageListItem>
+        <ImageList
+          variant="quilted"
+          gap={10}
           sx={{
-            background: `${theme.palette.secondary.main}`,
-            textAlign: 'center',
-            padding: '0.5rem 0 0.5rem 0',
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr) !important',
+              sm: 'repeat(2, 1fr) !important',
+              md: 'repeat(3, 1fr) !important',
+              lg: 'repeat(4, 1fr) !important',
+            },
+            alignSelf: 'center',
+            alignContent: 'center',
           }}
         >
-          <Typography variant="h4" color="primary" fontWeight={700}>
-            {t('BOARDS')}
-          </Typography>
-        </ListSubheader>
-      </ImageListItem>
-      <ImageList
-        variant="quilted"
-        gap={10}
-        sx={{
-          gridTemplateColumns: {
-            xs: 'repeat(1, 1fr) !important',
-            sm: 'repeat(2, 1fr) !important',
-            md: 'repeat(3, 1fr) !important',
-            lg: 'repeat(4, 1fr) !important',
-          },
-          alignSelf: 'center',
-          alignContent: 'center',
-        }}
-      >
-        {boardsRender()}
-      </ImageList>
-    </CustomizedBoardContainer>
+          {boardsRender()}
+        </ImageList>
+      </CustomizedBoardContainer>
+    </>
   );
 };
 
