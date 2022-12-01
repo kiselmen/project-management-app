@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
 
-interface IMyStyledButton {
+interface IStyledButton {
   children: React.ReactNode;
   func: () => void;
 }
 
-const MyStyledButtonBack = (props: IMyStyledButton) => (
+const StyledButtonBack = (props: IStyledButton) => (
   <Button
     variant="contained"
     sx={{
@@ -17,4 +17,4 @@ const MyStyledButtonBack = (props: IMyStyledButton) => (
   </Button>
 );
 
-export default MyStyledButtonBack;
+export default StyledButtonBack;

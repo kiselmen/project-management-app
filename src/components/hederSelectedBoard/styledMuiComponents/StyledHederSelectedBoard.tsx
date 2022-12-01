@@ -1,10 +1,10 @@
 import ListSubheader from '@mui/material/ListSubheader';
 
-interface IMyStyledListSubheader {
+interface IStyledListSubheader {
   children: React.ReactNode;
 }
 
-const MyStyledListSubheader = (props: IMyStyledListSubheader) => (
+const StyledListSubheader = (props: IStyledListSubheader) => (
   <ListSubheader
     component="div"
     sx={{
@@ -22,4 +22,4 @@ const MyStyledListSubheader = (props: IMyStyledListSubheader) => (
   </ListSubheader>
 );
 
-export default MyStyledListSubheader;
+export default StyledListSubheader;

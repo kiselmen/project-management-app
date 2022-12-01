@@ -16,7 +16,6 @@ const StyledTypographyBoardTitle = (props: IStyledTypographyBoardTitle) => (
       borderRadius: 4,
       cursor: 'pointer',
       overflow: 'hidden',
-      // overflowWrap: 'anywhere',
       whiteSpace: 'pre-line',
       flexGrow: '1',
       maxHeight: '80px',

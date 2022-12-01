@@ -3,16 +3,18 @@ import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { getAllUserBoards, getBoardData } from '../../../reduxUsers/actions/boardActions';
-import { getAllBoardColumns, clearColumnData } from '../../../reduxUsers/actions/columnActions';
-import { setModalState } from '../../../reduxUsers/actions/modalActions';
-import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
-import { state as boardState } from '../../../reduxUsers/slices/boardSlice';
+import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
+import { getAllBoardColumns, clearColumnData } from '../../reduxUsers/actions/columnActions';
+import { setModalState } from '../../reduxUsers/actions/modalActions';
+import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 
-import StyledMuiListSubheader from '../../../styledComponents/styledMuiComponents/StyledMuiListSubheader';
-import MyStyledButton from './StyledButtonBack';
-import StyledButtonAddColumn from './StyledButtonAddColumn';
-import StyledTypographyBoardTitle from './StyledTypographyBoardTitle';
+import {
+  StyledButtonBack,
+  StyledTypographyBoardTitle,
+  StyledListSubheader,
+} from './styledMuiComponents';
+import StyledButtonAddColumn from './ButtonAddColumn';
 
 function HederSelectedBoard() {
   const { id } = useParams();
@@ -55,13 +57,13 @@ function HederSelectedBoard() {
   };
 
   return (
-    <StyledMuiListSubheader>
-      <MyStyledButton func={onBackToList}>{t('BACK')}</MyStyledButton>
+    <StyledListSubheader>
+      <StyledButtonBack func={onBackToList}>{t('BACK')}</StyledButtonBack>
       <StyledButtonAddColumn func={onAddNewColumn} />
       <StyledTypographyBoardTitle func={onEditBoard}>
         {activeBoard.title}
       </StyledTypographyBoardTitle>
-    </StyledMuiListSubheader>
+    </StyledListSubheader>
   );
 }
 

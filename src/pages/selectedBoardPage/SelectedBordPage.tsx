@@ -1,54 +1,37 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
 import './SelectedBoardPage.css';
-
-import { Box, Button } from '@mui/material';
-import Typography from '@mui/material/Typography';
-
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 
 import { getAllUserBoards, getBoardData } from '../../reduxUsers/actions/boardActions';
 import {
   getAllBoardColumns,
-  updateActiveColumnId,
   moveColumns,
   clearColumnData,
 } from '../../reduxUsers/actions/columnActions';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
-import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 
 import DndColumnContext from '../../components/dnd/dndColumnContext';
 import DndColumnsWrapper from '../../components/dnd/dndColumnWrapper';
-import DndColumnItems from '../../components/dnd/dndColumnItems';
 import { DropResult } from 'react-beautiful-dnd';
 
 import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndTypes';
 
-import TaskList from '../../components/taskList';
 import { StyledMuiBoxSelectedBordPageMain } from '../../styledComponents/styledMuiComponents/StyledMuiBox';
-import StyledMuiListSubheader from '../../styledComponents/styledMuiComponents/StyledMuiListSubheader';
-import MyStyledButton from './HederSelectedBoard/StyledButtonBack';
-import StyledButtonAddColumn from './HederSelectedBoard/StyledButtonAddColumn';
-import StyledTypographyBoardTitle from './HederSelectedBoard/StyledTypographyBoardTitle';
 import StyledMuiImageListColumns from '../../styledComponents/styledMuiComponents/StyledMuiImageList';
-import HederSelectedBoard from './HederSelectedBoard/HederSelectedBoard';
+import { HederSelectedBoard, ColumnsRender } from '../../components';
 
 function SelectedBordPage() {
   const { id } = useParams();
-  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const { allColumns } = useSelector(columnState);
-  const { activeBoard } = useSelector(boardState);
   const { allTasks } = useSelector(taskState);
   const _id = localStorage.getItem('userId');
 
@@ -68,39 +51,6 @@ function SelectedBordPage() {
 
   const onClearState = () => {
     dispatch(clearColumnData());
-  };
-
-  const onAddNewColumn = () => {
-    dispatch(setModalState({ isOpen: true, type: 'ADD_COLUMN' }));
-  };
-
-  const onAddNewTask = (columnId: string) => {
-    console.log('Add new task ', columnId);
-    dispatch(updateActiveColumnId(columnId));
-    dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
-  };
-
-  const onEditBoard = async () => {
-    dispatch(setModalState({ isOpen: true, type: 'EDIT_BOARD' }));
-  };
-
-  const onRemoveColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
-    e.stopPropagation();
-    dispatch(updateActiveColumnId(columnId));
-    dispatch(setModalState({ isOpen: true, type: 'DELETE_COLUMN' }));
-  };
-
-  const onEditColumn = async (
-    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
-    columnId: string
-  ) => {
-    e.stopPropagation();
-    dispatch(updateActiveColumnId(columnId));
-    dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
-  };
-
-  const onBackToList = () => {
-    navigate('/boards');
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -179,92 +129,14 @@ function SelectedBordPage() {
     }
   };
 
-  const columnsRender = () => {
-    const items = allColumns?.map(({ _id, title, order }) => {
-      return (
-        <Box key={_id}>
-          <DndColumnItems draggableId={_id as string} index={order as number} key={_id as string}>
-            <Box
-              sx={{
-                bgcolor: 'primary.main',
-                width: '280px',
-                maxHeight: 'calc(100vh - 320px)',
-                margin: '15px',
-                borderRadius: '16px',
-                position: 'relative',
-              }}
-              // key={_id}
-            >
-              <Button
-                component="div"
-                variant="contained"
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  mb: 1,
-                  borderRadius: 4,
-                  textTransform: 'none',
-                }}
-              >
-                <Typography
-                  id="transition-modal-title"
-                  variant="h5"
-                  textAlign="center"
-                  component="h2"
-                  flexGrow={1}
-                  sx={{
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    lineHeight: '1',
-                  }}
-                  onMouseUp={(e) => onEditColumn(e, _id as string)}
-                >
-                  {title}
-                </Typography>
-                <DeleteOutlinedIcon
-                  onClick={(e) => onRemoveColumn(e, _id as string)}
-                  color="error"
-                />
-              </Button>
-              <TaskList columnId={_id as string}></TaskList>
-              <Button
-                component="div"
-                variant="contained"
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  mt: 1,
-                  // mb: 1,
-                  borderRadius: 4,
-                  textTransform: 'none',
-                }}
-                onMouseUp={() => onAddNewTask(_id as string)}
-              >
-                {t('Add task')}
-              </Button>
-            </Box>
-          </DndColumnItems>
-        </Box>
-      );
-    });
-    return <>{items}</>;
-  };
-
   return (
     <StyledMuiBoxSelectedBordPageMain>
       <HederSelectedBoard />
-      {/* <StyledMuiListSubheader>
-        <MyStyledButton func={onBackToList}>{t('BACK')}</MyStyledButton>
-        <StyledButtonAddColumn func={onAddNewColumn} />
-        <StyledTypographyBoardTitle func={onEditBoard}>
-          {activeBoard.title}
-        </StyledTypographyBoardTitle>
-      </StyledMuiListSubheader> */}
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
-          <StyledMuiImageListColumns>{columnsRender()}</StyledMuiImageListColumns>
+          <StyledMuiImageListColumns>
+            <ColumnsRender />
+          </StyledMuiImageListColumns>
         </DndColumnsWrapper>
       </DndColumnContext>
     </StyledMuiBoxSelectedBordPageMain>
