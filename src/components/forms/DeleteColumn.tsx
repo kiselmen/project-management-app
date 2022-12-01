@@ -9,6 +9,7 @@ import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 import { deleteColumn } from '../../reduxUsers/actions/columnActions';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
+import { FormEvent } from 'react';
 
 const DeleteColumn = () => {
   const { t } = useTranslation();
@@ -17,7 +18,8 @@ const DeleteColumn = () => {
   const { activeBoardId } = useSelector(boardState);
   const { activeColumnId } = useSelector(columnState);
 
-  const onDelete = async () => {
+  const onDelete = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     await dispatch(
       deleteColumn(
@@ -37,7 +39,7 @@ const DeleteColumn = () => {
       <Typography variant="h5" component="h2">
         {t('Delete column')}
       </Typography>
-      <FormStyles onSubmit={() => onDelete()}>
+      <FormStyles onSubmit={(e) => onDelete(e)}>
         <Typography>{t('Are you shure, delete this column with all tasks?')}</Typography>
         <Box sx={{ '& button': { m: 1 } }}>
           <Button color="error" size="small" variant="contained" type="submit">

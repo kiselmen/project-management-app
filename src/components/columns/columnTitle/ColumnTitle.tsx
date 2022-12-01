@@ -16,7 +16,7 @@ interface IColumnTitle {
 const ColumnTitle = (props: IColumnTitle) => {
   const dispatch = useAppDispatch();
 
-  const _id = localStorage.getItem('userId');
+  const { _id, title } = props;
 
   const onRemoveColumn = async (e: React.MouseEvent<SVGSVGElement>, columnId: string) => {
     e.stopPropagation();
@@ -36,7 +36,7 @@ const ColumnTitle = (props: IColumnTitle) => {
   return (
     <StyledButtonColumnTitle>
       <StyledTypographyColumnTitleText _id={_id as string} func={onEditColumn}>
-        {props.title}
+        {title}
       </StyledTypographyColumnTitleText>
       <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
     </StyledButtonColumnTitle>
