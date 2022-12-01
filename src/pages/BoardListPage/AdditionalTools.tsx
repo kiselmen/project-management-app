@@ -7,7 +7,9 @@ const ToolsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  column-gap: 20px;
+  column-gap: 30px;
+  row-gap: 10px;
+  flex-wrap: wrap;
 `;
 
 export const AdditionalTools = () => {

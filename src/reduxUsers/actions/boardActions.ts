@@ -16,7 +16,7 @@ import { updateErrorState } from './errorActions';
 import { logout } from '../slices/authSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
 
-export const getAllUserBoards = (userId: string, token: string) => {
+export const getAllUserBoards = (userId: string, token: string, searchValue?: string) => {
   return async (dispatch: AppDispatch) => {
     await axios
       .get<BoardValues[]>(BASE_URL + 'boardsSet/' + userId, {
@@ -25,7 +25,19 @@ export const getAllUserBoards = (userId: string, token: string) => {
         },
       })
       .then((response) => {
-        dispatch(setAllUserBoards(response.data));
+        searchValue
+          ? dispatch(
+              setAllUserBoards(
+                (<BoardData[]>response.data).filter((item) =>
+                  item
+                    .title!.toLowerCase()
+                    .split(/\s+/)
+                    .join('')
+                    .includes(searchValue.toLowerCase().split(/\s+/).join(''))
+                )
+              )
+            )
+          : dispatch(setAllUserBoards(response.data));
         dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       })
       .catch((e) => {

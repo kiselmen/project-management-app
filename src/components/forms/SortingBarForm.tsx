@@ -11,18 +11,15 @@ export const SortingBarForm = () => {
   return (
     <>
       <FormControl sx={{ maxWidth: '200px', width: '100%' }}>
-        <InputLabel id="sort" sx={{ left: '-7px', top: '-10px' }}>
-          Sort
-        </InputLabel>
+        <InputLabel id="sort">Sort</InputLabel>
         <Select
           labelId="sort"
           id="sort-select"
           value={sortVal}
           label="Sort"
           onChange={handleChange}
-          inputProps={{ sx: { padding: '5px 20px 5px 5px' } }}
         >
-          <MenuItem value="">...</MenuItem>
+          {/* <MenuItem value="...">...</MenuItem> */}
           <MenuItem value="descending">By name (A-Z)</MenuItem>
           <MenuItem value="ascending">By name (Z-A)</MenuItem>
         </Select>
