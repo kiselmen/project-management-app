@@ -8,6 +8,7 @@ import {
   setActiveBoard,
   setActiveBoardId,
   setAddNewBoard,
+  setSortValue,
 } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
@@ -16,7 +17,12 @@ import { updateErrorState } from './errorActions';
 import { logout } from '../slices/authSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
 
-export const getAllUserBoards = (userId: string, token: string, searchValue?: string) => {
+export const getAllUserBoards = (
+  userId: string,
+  token: string,
+  searchValue?: string,
+  sortValue?: string
+) => {
   return async (dispatch: AppDispatch) => {
     await axios
       .get<BoardValues[]>(BASE_URL + 'boardsSet/' + userId, {
@@ -25,31 +31,49 @@ export const getAllUserBoards = (userId: string, token: string, searchValue?: st
         },
       })
       .then((response) => {
-        searchValue
-          ? dispatch(
-              setAllUserBoards(
-                (<BoardData[]>response.data).filter((item) =>
-                  item
-                    .title!.toLowerCase()
-                    .split(/\s+/)
-                    .join('')
-                    .includes(searchValue.toLowerCase().split(/\s+/).join(''))
-                )
+        const boardData = [...response.data] as BoardData[];
+        if (sortValue! === 'descending') {
+          dispatch(
+            setAllUserBoards(
+              boardData.sort((a, b) => (a.title!.toLowerCase() < b.title!.toLowerCase() ? -1 : 1))
+            )
+          );
+        } else if (sortValue! === 'ascending') {
+          dispatch(
+            setAllUserBoards(
+              boardData.sort((a, b) => (a.title!.toLowerCase() > b.title!.toLowerCase() ? -1 : 1))
+            )
+          );
+        }
+        if (searchValue!) {
+          dispatch(
+            setAllUserBoards(
+              boardData.filter((item) =>
+                item
+                  .title!.toLowerCase()
+                  .split(/\s+/)
+                  .join('')
+                  .includes(searchValue!.toLowerCase().split(/\s+/).join(''))
               )
             )
-          : dispatch(setAllUserBoards(response.data));
+          );
+        } else {
+          dispatch(setAllUserBoards(boardData));
+        }
         dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
       })
       .catch((e) => {
         if (e.response !== undefined) {
           if (e.response?.data?.message === 'Invalid token') {
             dispatch(logout());
+            dispatch(setSortValue(''));
             dispatch(setErrMessage('Server timed out'));
           } else {
             dispatch(updateErrorState(JSON.stringify(e)));
           }
         } else {
           dispatch(logout());
+          dispatch(setSortValue(''));
           dispatch(setErrMessage('Something went wrong'));
         }
         dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
@@ -82,12 +106,15 @@ export const addNewBoard = (board: BoardData, token: string) => {
           Authorization: 'Bearer ' + token,
         },
       });
+      console.log(response.data);
+
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       if ((<{ response: Response }>e).response !== undefined) {
         if (!(<{ response: Response }>e).response.ok) {
           dispatch(logout());
+          dispatch(setSortValue(''));
           dispatch(setAddNewBoard(false));
           dispatch(setErrMessage('Server timed out'));
         } else {
@@ -95,6 +122,7 @@ export const addNewBoard = (board: BoardData, token: string) => {
         }
       } else {
         dispatch(logout());
+        dispatch(setSortValue(''));
         dispatch(setErrMessage('Something went wrong'));
       }
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));

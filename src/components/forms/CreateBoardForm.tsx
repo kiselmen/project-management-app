@@ -11,7 +11,11 @@ import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './Form.styles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
-import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import {
+  setSortValue,
+  setSearchValue,
+  state as boardState,
+} from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -45,20 +49,24 @@ const CreateForm = () => {
 
   const addPageSubmit = async (values: BoardData) => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    type === 'ADD_BOARD'
-      ? await dispatch(
-          addNewBoard(
-            { title: values.title, subscribe: values.subscribe, owner: _id, users: usersDefault },
-            localStorage.getItem('token') as string
-          )
+    if (type === 'ADD_BOARD') {
+      await dispatch(
+        addNewBoard(
+          { title: values.title, subscribe: values.subscribe, owner: _id, users: usersDefault },
+          localStorage.getItem('token') as string
         )
-      : await dispatch(
-          editActiveBoard(
-            { title: values.title, subscribe: values.subscribe, owner, users },
-            activeBoard._id as string,
-            localStorage.getItem('token') as string
-          )
-        );
+      );
+      dispatch(setSortValue(''));
+      dispatch(setSearchValue(''));
+    } else {
+      await dispatch(
+        editActiveBoard(
+          { title: values.title, subscribe: values.subscribe, owner, users },
+          activeBoard._id as string,
+          localStorage.getItem('token') as string
+        )
+      );
+    }
     dispatch(updateActiveBoardId(''));
   };
 

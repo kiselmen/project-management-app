@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import styled from 'styled-components';
 import { FormStyles } from './Form.styles';
-import { state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { setSearchValue, state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { getAllUserBoards } from '../../reduxUsers/actions/boardActions';
@@ -20,20 +20,19 @@ const SearchBarWrapper = styled.div`
 
 export const SearchBarForm = () => {
   const dispatch = useAppDispatch();
-  const { allBoards } = useSelector(boardState);
+  const { allBoards, sortValue } = useSelector(boardState);
 
   const onSubmit = async (values: { title: string }) => {
+    dispatch(setSearchValue(values.title));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(
+    dispatch(
       getAllUserBoards(
         localStorage.getItem('userId')!,
         localStorage.getItem('token')!,
-        values.title
+        values.title,
+        sortValue
       )
     );
-    if (!allBoards!.length && !formik.values.title) {
-      dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
-    }
   };
 
   const formik = useFormik({
@@ -70,7 +69,6 @@ export const SearchBarForm = () => {
             onChange={formik.handleChange}
           />
           <IconButton
-            // onClick={() => formik.initialValues.title}
             aria-label="reset"
             type="reset"
             size="small"

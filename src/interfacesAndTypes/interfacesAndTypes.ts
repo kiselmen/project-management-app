@@ -37,6 +37,8 @@ export type BoardValues = {
   activeBoardId?: string;
   activeBoard: BoardData;
   addNewBoard: boolean;
+  sortValue: string;
+  searchValue: string;
 };
 
 export type BoardData = {
