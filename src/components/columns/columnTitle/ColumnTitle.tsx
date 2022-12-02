@@ -49,7 +49,8 @@ const ColumnTitle = (props: IColumnTitle) => {
         { title: columnTitle, order: activeColumnData.order },
         activeBoardId as string,
         columnId as string,
-        localStorage.getItem('token') as string
+        localStorage.getItem('token') as string,
+        ''
       )
     );
 

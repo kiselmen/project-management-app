@@ -5,6 +5,7 @@ import { RootStateForSlice } from '../store';
 const initialState: ColumnValues = {
   allColumns: [],
   activeColumnId: '',
+  searchColumnValue: '',
 };
 
 const columnSlice = createSlice({
@@ -25,11 +26,15 @@ const columnSlice = createSlice({
     setActiveColumnId(state, action) {
       state.activeColumnId = action.payload;
     },
+    setSearchColumnValue(state, action) {
+      state.searchColumnValue = action.payload;
+    },
   },
 });
 
 export const state = (state: RootStateForSlice) => state.column;
 
-export const { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } = columnSlice.actions;
+export const { setAllBoardColumns, addColumn, delColumn, setActiveColumnId, setSearchColumnValue } =
+  columnSlice.actions;
 
 export default columnSlice.reducer;
