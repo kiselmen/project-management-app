@@ -46,6 +46,24 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
     }
   };
 
+  const onReset = () => {
+    dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
+    if (boardUrl) {
+      dispatch(setSearchValue(''));
+      dispatch(
+        getAllUserBoards(
+          localStorage.getItem('userId')!,
+          localStorage.getItem('token')!,
+          '',
+          sortValue
+        )
+      );
+    } else {
+      dispatch(setSearchColumnValue(''));
+      dispatch(getAllBoardColumns(id!, localStorage.getItem('token')!, ''));
+    }
+  };
+
   const formik = useFormik({
     initialValues: { title: '' },
     onSubmit: onSubmit,
@@ -83,6 +101,7 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
             onChange={formik.handleChange}
           />
           <IconButton
+            onClick={onReset!}
             aria-label="reset"
             type="reset"
             size="small"
