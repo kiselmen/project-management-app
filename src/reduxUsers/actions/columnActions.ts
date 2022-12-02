@@ -15,8 +15,6 @@ export const getAllBoardColumns = (boardId: string, token: string, searchValue?:
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(response.data, searchValue);
-
       const sorted = response.data.sort((a, b) => <number>a.order - <number>b.order);
       if (searchValue!) {
         dispatch(

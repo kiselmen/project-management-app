@@ -1,11 +1,8 @@
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
-import {
-  setAllUserBoards,
-  setSortValue,
-  state as boardState,
-} from '../../reduxUsers/slices/boardSlice';
+import { setSortValue, state as boardState } from '../../reduxUsers/slices/boardSlice';
+import { sortBoards } from './sortBarForm/sortBarFormHelper';
 
 export const SortingBarForm = () => {
   const dispatch = useAppDispatch();
@@ -14,20 +11,7 @@ export const SortingBarForm = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     dispatch(setSortValue(event.target.value));
-
-    if (event.target.value === 'descending') {
-      dispatch(
-        setAllUserBoards(
-          allBoardsCopy!.sort((a, b) => (a.title!.toLowerCase() < b.title!.toLowerCase() ? -1 : 1))
-        )
-      );
-    } else if (event.target.value === 'ascending') {
-      dispatch(
-        setAllUserBoards(
-          allBoardsCopy!.sort((a, b) => (a.title!.toLowerCase() > b.title!.toLowerCase() ? -1 : 1))
-        )
-      );
-    }
+    sortBoards(event.target.value, dispatch, allBoardsCopy);
   };
 
   return (
@@ -43,6 +27,8 @@ export const SortingBarForm = () => {
         >
           <MenuItem value="descending">By name (A-Z)</MenuItem>
           <MenuItem value="ascending">By name (Z-A)</MenuItem>
+          <MenuItem value="des-subscribe">By subscribe (A-Z)</MenuItem>
+          <MenuItem value="asc-subscribe">By subscribe (Z-A)</MenuItem>
         </Select>
       </FormControl>
     </>

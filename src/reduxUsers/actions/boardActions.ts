@@ -9,6 +9,7 @@ import {
   setActiveBoardId,
   setAddNewBoard,
   setSortValue,
+  setSearchValue,
 } from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setErrMessage } from '../slices/errorSlice';
@@ -16,6 +17,7 @@ import { setIsOpen } from '../slices/modalSlice';
 import { updateErrorState } from './errorActions';
 import { logout } from '../slices/authSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
+import { sortBoards } from '../../components/forms/sortBarForm/sortBarFormHelper';
 
 export const getAllUserBoards = (
   userId: string,
@@ -32,19 +34,7 @@ export const getAllUserBoards = (
       })
       .then((response) => {
         const boardData = [...response.data] as BoardData[];
-        if (sortValue! === 'descending') {
-          dispatch(
-            setAllUserBoards(
-              boardData.sort((a, b) => (a.title!.toLowerCase() < b.title!.toLowerCase() ? -1 : 1))
-            )
-          );
-        } else if (sortValue! === 'ascending') {
-          dispatch(
-            setAllUserBoards(
-              boardData.sort((a, b) => (a.title!.toLowerCase() > b.title!.toLowerCase() ? -1 : 1))
-            )
-          );
-        }
+        sortBoards(sortValue!, dispatch, boardData);
         if (searchValue!) {
           dispatch(
             setAllUserBoards(
@@ -66,6 +56,7 @@ export const getAllUserBoards = (
         if (e.response !== undefined) {
           if (e.response?.data?.message === 'Invalid token') {
             dispatch(logout());
+            dispatch(setSearchValue(''));
             dispatch(setSortValue(''));
             dispatch(setErrMessage('Server timed out'));
           } else {
@@ -73,6 +64,7 @@ export const getAllUserBoards = (
           }
         } else {
           dispatch(logout());
+          dispatch(setSearchValue(''));
           dispatch(setSortValue(''));
           dispatch(setErrMessage('Something went wrong'));
         }
@@ -106,14 +98,13 @@ export const addNewBoard = (board: BoardData, token: string) => {
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(response.data);
-
       dispatch(addBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       if ((<{ response: Response }>e).response !== undefined) {
         if (!(<{ response: Response }>e).response.ok) {
           dispatch(logout());
+          dispatch(setSearchValue(''));
           dispatch(setSortValue(''));
           dispatch(setAddNewBoard(false));
           dispatch(setErrMessage('Server timed out'));
@@ -122,6 +113,7 @@ export const addNewBoard = (board: BoardData, token: string) => {
         }
       } else {
         dispatch(logout());
+        dispatch(setSearchValue(''));
         dispatch(setSortValue(''));
         dispatch(setErrMessage('Something went wrong'));
       }
@@ -130,7 +122,13 @@ export const addNewBoard = (board: BoardData, token: string) => {
   };
 };
 
-export const editActiveBoard = (board: BoardData, boardId: string, token: string) => {
+export const editActiveBoard = (
+  board: BoardData,
+  boardId: string,
+  token: string,
+  searchValue: string,
+  sortValue: string
+) => {
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.put<BoardData>(BASE_URL + 'boards/' + boardId, board, {
@@ -139,7 +137,7 @@ export const editActiveBoard = (board: BoardData, boardId: string, token: string
         },
       });
       const userId = response.data.owner as string;
-      dispatch(getAllUserBoards(userId, token));
+      dispatch(getAllUserBoards(userId, token, searchValue, sortValue));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }

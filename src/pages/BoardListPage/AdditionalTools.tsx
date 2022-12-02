@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { SearchBarForm } from '../../components/forms/SearchBarForm';
 import { SortingBarForm } from '../../components/forms/SortingBarForm';
@@ -13,11 +14,13 @@ const ToolsWrapper = styled.div`
 `;
 
 export const AdditionalTools = () => {
+  const location = useLocation();
+  const boardUrl = location.pathname === '/boards';
   return (
     <>
-      <ToolsWrapper>
-        <SearchBarForm />
-        <SortingBarForm />
+      <ToolsWrapper style={{ padding: !boardUrl ? '60px 0px 10px 0px' : '20px 0px 10px 0px' }}>
+        <SearchBarForm boardUrl={boardUrl} />
+        {boardUrl && <SortingBarForm />}
       </ToolsWrapper>
     </>
   );

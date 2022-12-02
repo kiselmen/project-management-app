@@ -35,7 +35,7 @@ const BoardsListPage = () => {
 
   const _id = localStorage.getItem('userId');
 
-  const { allBoards, addNewBoard } = useSelector(boardState);
+  const { allBoards, addNewBoard, searchValue, sortValue } = useSelector(boardState);
 
   useEffect(() => {
     onLoadBoards();
@@ -48,7 +48,14 @@ const BoardsListPage = () => {
 
   const onLoadBoards = async () => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    await dispatch(getAllUserBoards(_id as string, localStorage.getItem('token') as string));
+    await dispatch(
+      getAllUserBoards(
+        _id as string,
+        localStorage.getItem('token') as string,
+        searchValue,
+        sortValue
+      )
+    );
     if (addNewBoard) {
       dispatch(setModalState({ isOpen: true, type: 'ADD_BOARD' }));
       dispatch(updateAddNewBoard(false));

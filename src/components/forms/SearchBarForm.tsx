@@ -13,18 +13,17 @@ import { setIsOpen } from '../../reduxUsers/slices/modalSlice';
 import { useEffect } from 'react';
 import { setErrMessage } from '../../reduxUsers/slices/errorSlice';
 import { getAllBoardColumns } from '../../reduxUsers/actions/columnActions';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const SearchBarWrapper = styled.div`
   position: relative;
   width: 100%;
 `;
 
-export const SearchBarForm = () => {
+export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
   const dispatch = useAppDispatch();
   const { allBoards, sortValue } = useSelector(boardState);
-  const location = useLocation();
-  const boardUrl = location.pathname === '/boards';
+  const { id } = useParams();
 
   const onSubmit = (values: { title: string }) => {
     dispatch(setSearchValue(values.title));
@@ -39,15 +38,7 @@ export const SearchBarForm = () => {
         )
       );
     } else {
-      console.log('Normal');
-
-      dispatch(
-        getAllBoardColumns(
-          localStorage.getItem('userId')!,
-          localStorage.getItem('token')!,
-          values.title
-        )
-      );
+      dispatch(getAllBoardColumns(id!, localStorage.getItem('token')!, values.title));
     }
   };
 

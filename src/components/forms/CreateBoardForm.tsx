@@ -5,17 +5,14 @@ import { BoardData } from '../../interfacesAndTypes/interfacesAndTypes';
 import {
   addNewBoard,
   editActiveBoard,
+  getAllUserBoards,
   updateActiveBoardId,
 } from '../../reduxUsers/actions/boardActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import { FormContainerStyles, FormStyles } from './Form.styles';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
-import {
-  setSortValue,
-  setSearchValue,
-  state as boardState,
-} from '../../reduxUsers/slices/boardSlice';
+import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +22,7 @@ const CreateForm = () => {
   const usersDefault = [] as string[];
 
   const { type } = useSelector(modalState);
-  const { allBoards, activeBoardId } = useSelector(boardState);
+  const { allBoards, activeBoardId, searchValue, sortValue } = useSelector(boardState);
   const activeBoard = allBoards?.filter((item) => item._id === activeBoardId)[0] as BoardData;
   const title = activeBoard ? activeBoard.title : '';
   const subscribe = activeBoard ? activeBoard.subscribe : '';
@@ -56,14 +53,22 @@ const CreateForm = () => {
           localStorage.getItem('token') as string
         )
       );
-      dispatch(setSortValue(''));
-      dispatch(setSearchValue(''));
+      await dispatch(
+        getAllUserBoards(
+          localStorage.getItem('userId')!,
+          localStorage.getItem('token')!,
+          searchValue,
+          sortValue
+        )
+      );
     } else {
       await dispatch(
         editActiveBoard(
           { title: values.title, subscribe: values.subscribe, owner, users },
           activeBoard._id as string,
-          localStorage.getItem('token') as string
+          localStorage.getItem('token') as string,
+          searchValue,
+          sortValue
         )
       );
     }
