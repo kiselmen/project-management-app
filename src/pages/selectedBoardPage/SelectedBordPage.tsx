@@ -25,6 +25,7 @@ import { ColumnData, TaskData } from '../../interfacesAndTypes/interfacesAndType
 import { StyledMuiBoxSelectedBordPageMain } from '../../styledComponents/styledMuiComponents/StyledMuiBox';
 import StyledMuiImageListColumns from '../../styledComponents/styledMuiComponents/StyledMuiImageList';
 import { HederSelectedBoard, ColumnsRender } from '../../components';
+import { AdditionalTools } from '../BoardListPage/AdditionalTools';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -132,6 +133,7 @@ function SelectedBordPage() {
   return (
     <StyledMuiBoxSelectedBordPageMain>
       <HederSelectedBoard />
+      <AdditionalTools />
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">
           <StyledMuiImageListColumns>
