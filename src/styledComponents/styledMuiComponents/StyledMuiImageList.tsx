@@ -10,8 +10,8 @@ const StyledMuiImageListColumns = styled(ImageList)(
     mb: '0',
     overflowY: 'hidden',
     overflowAnchor: 'none',
-    minWidth: '95vw',
-    height: 'calc(100vh - 150px)',
+    minWidth: '95%',
+    height: 'calc(100vh - 175px)',
   })
 );
 export default StyledMuiImageListColumns;

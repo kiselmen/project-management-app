@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
+import { DeleteOutlined, Check, Clear } from '@mui/icons-material';
 
 import { editActiveColumn, updateActiveColumnId } from '../../../reduxUsers/actions/columnActions';
 import { setModalState } from '../../../reduxUsers/actions/modalActions';
@@ -8,8 +9,13 @@ import { useAppDispatch } from '../../../reduxUsers/hook/reduxCustomHook';
 import { state as boardState } from '../../../reduxUsers/slices/boardSlice';
 import { state as columnState } from '../../../reduxUsers/slices/columnSlice';
 
-import { StyledButtonColumnTitle, StyledTypographyColumnTitleText } from './styledMuiComponents';
-import { useSelector } from 'react-redux';
+import {
+  StyledBoxColumnInput,
+  StyledButtonColumnTitle,
+  StyledTypographyColumnTitleText,
+} from './styledMuiComponents';
+
+import { CustomizedButton, CustomizedInput } from '../../../styledComponents';
 
 interface IColumnTitle {
   _id: string;
@@ -77,14 +83,18 @@ const ColumnTitle = (props: IColumnTitle) => {
         <StyledTypographyColumnTitleText _id={_id as string} func={toggleIsEditNow}>
           {columnTitle}
         </StyledTypographyColumnTitleText>
-        <DeleteOutlinedIcon onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
+        <DeleteOutlined onClick={(e) => onRemoveColumn(e, _id as string)} color="error" />
       </>
     ) : (
-      <>
-        <input onChange={editColumnTitle} value={columnTitle}></input>
-        <button onClick={(e) => updateColumnTitle(e, _id)}>ok</button>
-        <button onClick={cancelEdit}>cancel</button>
-      </>
+      <StyledBoxColumnInput>
+        <CustomizedInput onChange={editColumnTitle} value={columnTitle}></CustomizedInput>
+        <CustomizedButton onClick={(e) => updateColumnTitle(e, _id)}>
+          <Check />
+        </CustomizedButton>
+        <CustomizedButton onClick={cancelEdit}>
+          <Clear />
+        </CustomizedButton>
+      </StyledBoxColumnInput>
     );
   };
 

@@ -14,7 +14,6 @@ const ButtonAddTask = (props: IButtonAddTask) => {
   const dispatch = useAppDispatch();
 
   const onAddNewTask = (columnId: string) => {
-    console.log('Add new task ', columnId);
     dispatch(updateActiveColumnId(columnId));
     dispatch(setModalState({ isOpen: true, type: 'ADD_TASK' }));
   };
