@@ -7,7 +7,7 @@ import { AppDispatch } from '../store';
 import { setIsOpen } from '../slices/modalSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
 
-export const getAllBoardColumns = (boardId: string, token: string) => {
+export const getAllBoardColumns = (boardId: string, token: string, searchValue?: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.get<ColumnData[]>(BASE_URL + 'boards/' + boardId + '/columns', {
@@ -15,8 +15,24 @@ export const getAllBoardColumns = (boardId: string, token: string) => {
           Authorization: 'Bearer ' + token,
         },
       });
+      console.log(response.data, searchValue);
+
       const sorted = response.data.sort((a, b) => <number>a.order - <number>b.order);
-      dispatch(setAllBoardColumns(sorted));
+      if (searchValue!) {
+        dispatch(
+          setAllBoardColumns(
+            sorted.filter((item) =>
+              item
+                .title!.toLowerCase()
+                .split(/\s+/)
+                .join('')
+                .includes(searchValue!.toLowerCase().split(/\s+/).join(''))
+            )
+          )
+        );
+      } else {
+        dispatch(setAllBoardColumns(sorted));
+      }
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));

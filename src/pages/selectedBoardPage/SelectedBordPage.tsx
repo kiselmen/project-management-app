@@ -31,6 +31,7 @@ import { moveTasksInOneColumn } from '../../reduxUsers/actions/taskActions';
 import { ImageList, ImageListItem, ListSubheader } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { AdditionalTools } from '../BoardListPage/AdditionalTools';
 
 function SelectedBordPage() {
   const { id } = useParams();
@@ -351,6 +352,7 @@ function SelectedBordPage() {
             {t('Current board')} {activeBoard.title}
           </Typography>
         </ListSubheader>
+        <AdditionalTools />
       </ImageListItem>
       <DndColumnContext onDragEnd={onDragEnd}>
         <DndColumnsWrapper droppableId="column" directction="horizontal" type="column">

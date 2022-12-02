@@ -12,6 +12,8 @@ import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { setIsOpen } from '../../reduxUsers/slices/modalSlice';
 import { useEffect } from 'react';
 import { setErrMessage } from '../../reduxUsers/slices/errorSlice';
+import { getAllBoardColumns } from '../../reduxUsers/actions/columnActions';
+import { useLocation } from 'react-router-dom';
 
 const SearchBarWrapper = styled.div`
   position: relative;
@@ -21,18 +23,32 @@ const SearchBarWrapper = styled.div`
 export const SearchBarForm = () => {
   const dispatch = useAppDispatch();
   const { allBoards, sortValue } = useSelector(boardState);
+  const location = useLocation();
+  const boardUrl = location.pathname === '/boards';
 
-  const onSubmit = async (values: { title: string }) => {
+  const onSubmit = (values: { title: string }) => {
     dispatch(setSearchValue(values.title));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
-    dispatch(
-      getAllUserBoards(
-        localStorage.getItem('userId')!,
-        localStorage.getItem('token')!,
-        values.title,
-        sortValue
-      )
-    );
+    if (boardUrl) {
+      dispatch(
+        getAllUserBoards(
+          localStorage.getItem('userId')!,
+          localStorage.getItem('token')!,
+          values.title,
+          sortValue
+        )
+      );
+    } else {
+      console.log('Normal');
+
+      dispatch(
+        getAllBoardColumns(
+          localStorage.getItem('userId')!,
+          localStorage.getItem('token')!,
+          values.title
+        )
+      );
+    }
   };
 
   const formik = useFormik({
