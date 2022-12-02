@@ -7,6 +7,7 @@ import { ColumnData } from '../../interfacesAndTypes/interfacesAndTypes';
 import {
   addNewColumn,
   editActiveColumn,
+  getAllBoardColumns,
   updateActiveColumnId,
 } from '../../reduxUsers/actions/columnActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
@@ -21,10 +22,9 @@ import Box from '@mui/material/Box';
 
 const CreateForm = () => {
   const { t } = useTranslation();
-  // const token = localStorage.getItem('token') as string;
   const { type } = useSelector(modalState);
 
-  const { allColumns, activeColumnId } = useSelector(columnState);
+  const { allColumns, activeColumnId, searchColumnValue } = useSelector(columnState);
   const { activeBoardId } = useSelector(boardState);
 
   const activeColumn = allColumns?.filter((item) => item._id === activeColumnId)[0] as ColumnData;
@@ -47,22 +47,28 @@ const CreateForm = () => {
   const addPageSubmit = async (values: ColumnData) => {
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     const newOrder = allColumns ? allColumns.length + 1 : 1;
-    type === 'ADD_COLUMN'
-      ? await dispatch(
-          addNewColumn(
-            { title: values.title, order: newOrder },
-            activeBoardId as string,
-            localStorage.getItem('token') as string
-          )
+    if (type === 'ADD_COLUMN') {
+      await dispatch(
+        addNewColumn(
+          { title: values.title, order: newOrder },
+          activeBoardId as string,
+          localStorage.getItem('token') as string
         )
-      : await dispatch(
-          editActiveColumn(
-            { title: values.title, order },
-            activeBoardId as string,
-            activeColumnId as string,
-            localStorage.getItem('token') as string
-          )
-        );
+      );
+      await dispatch(
+        getAllBoardColumns(activeBoardId!, localStorage.getItem('token')!, searchColumnValue)
+      );
+    } else {
+      await dispatch(
+        editActiveColumn(
+          { title: values.title, order },
+          activeBoardId as string,
+          activeColumnId as string,
+          localStorage.getItem('token') as string,
+          searchColumnValue!
+        )
+      );
+    }
     dispatch(updateActiveColumnId(''));
   };
 

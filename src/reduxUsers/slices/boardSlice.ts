@@ -7,6 +7,8 @@ const initialState: BoardValues = {
   activeBoardId: '',
   activeBoard: {} as BoardData,
   addNewBoard: false,
+  sortValue: '',
+  searchValue: '',
 };
 
 const boardSlice = createSlice({
@@ -31,6 +33,12 @@ const boardSlice = createSlice({
     setAddNewBoard(state, action) {
       state.addNewBoard = action.payload;
     },
+    setSortValue(state, action) {
+      state.sortValue = action.payload;
+    },
+    setSearchValue(state, action) {
+      state.searchValue = action.payload;
+    },
   },
 });
 
@@ -43,6 +51,8 @@ export const {
   setActiveBoard,
   setActiveBoardId,
   setAddNewBoard,
+  setSortValue,
+  setSearchValue,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
