@@ -53,8 +53,8 @@ export const getBoardData = (boardId: string, token: string) => {
           Authorization: 'Bearer ' + token,
         },
       });
-      dispatch(setActiveBoard(response.data));
       dispatch(setActiveBoardId(boardId));
+      dispatch(setActiveBoard(response.data));
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
@@ -98,6 +98,7 @@ export const editActiveBoard = (board: BoardData, boardId: string, token: string
           Authorization: 'Bearer ' + token,
         },
       });
+      dispatch(getBoardData(boardId, token));
       const userId = response.data.owner as string;
       dispatch(getAllUserBoards(userId, token));
     } catch (e) {

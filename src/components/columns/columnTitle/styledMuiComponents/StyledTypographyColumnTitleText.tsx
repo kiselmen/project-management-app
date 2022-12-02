@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 interface IStyledTypographyColumnTitleText {
   children: React.ReactNode;
   _id: string;
-  func: (e: React.MouseEvent<HTMLHeadingElement, MouseEvent>, _id: string) => void;
+  func: () => void;
 }
 
 const StyledTypographyColumnTitleText = (props: IStyledTypographyColumnTitleText) => (
@@ -18,7 +18,7 @@ const StyledTypographyColumnTitleText = (props: IStyledTypographyColumnTitleText
       overflow: 'hidden',
       lineHeight: '1',
     }}
-    onMouseUp={(e) => props.func(e, props._id)}
+    onMouseUp={() => props.func()}
   >
     {props.children}
   </Typography>
