@@ -2,7 +2,12 @@ import axios from 'axios';
 import { BASE_URL } from '../../consts/consts';
 import { ColumnData } from '../../interfacesAndTypes/interfacesAndTypes';
 import { setAllBoardColumns, addColumn, delColumn, setActiveColumnId } from '../slices/columnSlice';
-import { setActiveBoard, setActiveBoardId } from '../slices/boardSlice';
+import {
+  setActiveBoard,
+  setActiveBoardId,
+  setSearchValue,
+  setSortValue,
+} from '../slices/boardSlice';
 import { AppDispatch } from '../store';
 import { setIsOpen } from '../slices/modalSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
@@ -32,6 +37,8 @@ export const getAllBoardColumns = (boardId: string, token: string, searchValue?:
         dispatch(setAllBoardColumns(sorted));
       }
       dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+      dispatch(setSearchValue(''));
+      dispatch(setSortValue(''));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }
@@ -62,7 +69,8 @@ export const editActiveColumn = (
   column: ColumnData,
   boardId: string,
   columnId: string,
-  token: string
+  token: string,
+  searchColumnValue: string
 ) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -71,7 +79,7 @@ export const editActiveColumn = (
           Authorization: 'Bearer ' + token,
         },
       });
-      dispatch(getAllBoardColumns(boardId, token));
+      dispatch(getAllBoardColumns(boardId, token, searchColumnValue));
     } catch (e) {
       checkErrStatus(dispatch, <{ response: Response }>e, JSON.stringify(e));
     }

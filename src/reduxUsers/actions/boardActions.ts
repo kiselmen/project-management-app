@@ -18,6 +18,7 @@ import { updateErrorState } from './errorActions';
 import { logout } from '../slices/authSlice';
 import { checkErrStatus } from './checkErrStatusHelper';
 import { sortBoards } from '../../components/forms/sortBarForm/sortBarFormHelper';
+import { setSearchColumnValue } from '../slices/columnSlice';
 
 export const getAllUserBoards = (
   userId: string,
@@ -51,6 +52,7 @@ export const getAllUserBoards = (
           dispatch(setAllUserBoards(boardData));
         }
         dispatch(setIsOpen({ isOpen: false, type: 'NONE' }));
+        dispatch(setSearchColumnValue(''));
       })
       .catch((e) => {
         if (e.response !== undefined) {

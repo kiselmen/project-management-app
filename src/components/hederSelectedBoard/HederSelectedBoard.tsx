@@ -15,6 +15,7 @@ import {
   StyledListSubheader,
 } from './styledMuiComponents';
 import StyledButtonAddColumn from './ButtonAddColumn';
+// import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 
 function HederSelectedBoard() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ function HederSelectedBoard() {
   const navigate = useNavigate();
 
   const { activeBoard } = useSelector(boardState);
+  // const { searchColumnValue } = useSelector(columnState);
   const _id = localStorage.getItem('userId');
 
   useEffect(() => {

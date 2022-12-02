@@ -14,6 +14,8 @@ import { useEffect } from 'react';
 import { setErrMessage } from '../../reduxUsers/slices/errorSlice';
 import { getAllBoardColumns } from '../../reduxUsers/actions/columnActions';
 import { useParams } from 'react-router-dom';
+import { setSearchColumnValue } from '../../reduxUsers/slices/columnSlice';
+import { state as columnState } from '../../reduxUsers/slices/columnSlice';
 
 const SearchBarWrapper = styled.div`
   position: relative;
@@ -23,12 +25,13 @@ const SearchBarWrapper = styled.div`
 export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
   const dispatch = useAppDispatch();
   const { allBoards, sortValue } = useSelector(boardState);
+  const { allColumns } = useSelector(columnState);
   const { id } = useParams();
 
   const onSubmit = (values: { title: string }) => {
-    dispatch(setSearchValue(values.title));
     dispatch(setModalState({ isOpen: true, type: 'LOADING' }));
     if (boardUrl) {
+      dispatch(setSearchValue(values.title));
       dispatch(
         getAllUserBoards(
           localStorage.getItem('userId')!,
@@ -38,6 +41,7 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
         )
       );
     } else {
+      dispatch(setSearchColumnValue(values.title));
       dispatch(getAllBoardColumns(id!, localStorage.getItem('token')!, values.title));
     }
   };
@@ -48,11 +52,14 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
   });
 
   useEffect(() => {
-    if (!allBoards!.length && formik.values.title) {
+    if (
+      (!allBoards!.length && formik.values.title && boardUrl) ||
+      (!allColumns!.length && formik.values.title && !boardUrl)
+    ) {
       dispatch(setErrMessage('Nothing was found according to your request. Try again'));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
     }
-  }, [allBoards]);
+  }, [allBoards, allColumns]);
 
   return (
     <>

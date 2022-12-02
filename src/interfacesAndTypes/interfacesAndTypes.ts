@@ -52,6 +52,7 @@ export type BoardData = {
 export type ColumnValues = {
   allColumns?: ColumnData[];
   activeColumnId?: string;
+  searchColumnValue?: string;
 };
 
 export type ColumnData = {
