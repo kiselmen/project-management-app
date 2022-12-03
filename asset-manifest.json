@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/kiselmen/project-management-app/static/css/main.66d207c3.css",
-    "main.js": "/kiselmen/project-management-app/static/js/main.300e80ce.js",
-    "static/js/787.6ccdce3c.chunk.js": "/kiselmen/project-management-app/static/js/787.6ccdce3c.chunk.js",
-    "static/media/board.jpg": "/kiselmen/project-management-app/static/media/board.c2ffd70bf6a492b52e0a.jpg",
-    "static/media/welcomePage.png": "/kiselmen/project-management-app/static/media/welcomePage.72c663069cb88d7cf313.png",
-    "static/media/CentraNo2.ttf": "/kiselmen/project-management-app/static/media/CentraNo2.b2bdf0ee70382dbce2a1.ttf",
-    "static/media/react-redux.png": "/kiselmen/project-management-app/static/media/react-redux.b426d97de12d4dab1c06.png",
-    "static/media/i18next.png": "/kiselmen/project-management-app/static/media/i18next.01fa26d69c9cbad5b9dd.png",
-    "static/media/scomp.png": "/kiselmen/project-management-app/static/media/scomp.fedb29267dd012426021.png",
-    "static/media/formik.png": "/kiselmen/project-management-app/static/media/formik.8908f26cca2dd191d7bd.png",
-    "static/media/react.png": "/kiselmen/project-management-app/static/media/react.2fad5f467c7c76cdfa4f.png",
-    "static/media/mui.png": "/kiselmen/project-management-app/static/media/mui.5b2d8a0a309d9f7d47c1.png",
-    "static/media/user.png": "/kiselmen/project-management-app/static/media/user.4d8009992c55f6ef721f.png",
-    "static/media/logo-rsschool3.svg": "/kiselmen/project-management-app/static/media/logo-rsschool3.7c2696a4699ee3ad17deb3e8bcb9a45a.svg",
-    "static/media/typescript.svg": "/kiselmen/project-management-app/static/media/typescript.7c2e5f599fa6ccab4be8a590908ec5bb.svg",
-    "index.html": "/kiselmen/project-management-app/index.html",
-    "main.66d207c3.css.map": "/kiselmen/project-management-app/static/css/main.66d207c3.css.map",
-    "main.300e80ce.js.map": "/kiselmen/project-management-app/static/js/main.300e80ce.js.map",
-    "787.6ccdce3c.chunk.js.map": "/kiselmen/project-management-app/static/js/787.6ccdce3c.chunk.js.map"
+    "main.css": "/project-management-app/static/css/main.66d207c3.css",
+    "main.js": "/project-management-app/static/js/main.807921da.js",
+    "static/js/787.6ccdce3c.chunk.js": "/project-management-app/static/js/787.6ccdce3c.chunk.js",
+    "static/media/board.jpg": "/project-management-app/static/media/board.c2ffd70bf6a492b52e0a.jpg",
+    "static/media/welcomePage.png": "/project-management-app/static/media/welcomePage.72c663069cb88d7cf313.png",
+    "static/media/CentraNo2.ttf": "/project-management-app/static/media/CentraNo2.b2bdf0ee70382dbce2a1.ttf",
+    "static/media/react-redux.png": "/project-management-app/static/media/react-redux.b426d97de12d4dab1c06.png",
+    "static/media/i18next.png": "/project-management-app/static/media/i18next.01fa26d69c9cbad5b9dd.png",
+    "static/media/scomp.png": "/project-management-app/static/media/scomp.fedb29267dd012426021.png",
+    "static/media/formik.png": "/project-management-app/static/media/formik.8908f26cca2dd191d7bd.png",
+    "static/media/react.png": "/project-management-app/static/media/react.2fad5f467c7c76cdfa4f.png",
+    "static/media/mui.png": "/project-management-app/static/media/mui.5b2d8a0a309d9f7d47c1.png",
+    "static/media/user.png": "/project-management-app/static/media/user.4d8009992c55f6ef721f.png",
+    "static/media/logo-rsschool3.svg": "/project-management-app/static/media/logo-rsschool3.7c2696a4699ee3ad17deb3e8bcb9a45a.svg",
+    "static/media/typescript.svg": "/project-management-app/static/media/typescript.7c2e5f599fa6ccab4be8a590908ec5bb.svg",
+    "index.html": "/project-management-app/index.html",
+    "main.66d207c3.css.map": "/project-management-app/static/css/main.66d207c3.css.map",
+    "main.807921da.js.map": "/project-management-app/static/js/main.807921da.js.map",
+    "787.6ccdce3c.chunk.js.map": "/project-management-app/static/js/787.6ccdce3c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.66d207c3.css",
-    "static/js/main.300e80ce.js"
+    "static/js/main.807921da.js"
   ]
 }
