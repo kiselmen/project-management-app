@@ -2,7 +2,6 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteForever';
 import { setModalState } from '../../reduxUsers/actions/modalActions';
 import { useAppDispatch } from '../../reduxUsers/hook/reduxCustomHook';
 import DndColumnsWrapper from '../dnd/dndColumnWrapper';
-// import { state as columnState } from '../../../reduxUsers/slices/columnSlice';
 import { state as boardState } from '../../reduxUsers/slices/boardSlice';
 import { state as taskState } from '../../reduxUsers/slices/taskSlice';
 import { useSelector } from 'react-redux';
@@ -57,24 +56,17 @@ const TaskList = (props: ITaskList) => {
                 width: '95%',
                 display: 'flex',
                 justifyContent: 'space-between',
-                // height: '100px',
                 flexWrap: 'nowrap',
               }}
-              // fullWidth={true}
-              // flexGrow={1}
-              // key={_id}
               onMouseUp={(e) => onEditTask(e, _id as string)}
             >
               <Typography
-                // component="div"
                 variant="body2"
                 textTransform="none"
                 flexGrow={1}
                 textAlign="start"
-                // maxWidth="90%"
                 sx={{
                   overflow: 'hidden',
-                  // height: '100px',
                   overflowWrap: 'anywhere',
                   whiteSpace: 'pre-wrap',
                 }}
@@ -108,7 +100,6 @@ const TaskList = (props: ITaskList) => {
           mr={1}
           maxHeight="calc(100vh - 500px)"
           minHeight={30}
-          // minHeight={50}
           sx={{ overflowY: 'auto', whiteSpace: 'nowrap', overflowAnchor: 'none' }}
         >
           {tasksRender()}

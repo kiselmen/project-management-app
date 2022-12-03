@@ -10,7 +10,6 @@ const getItemStyle = (
   isDragging: boolean,
   draggableStyle: DraggingStyle | NotDraggingStyle | undefined
 ) => ({
-  // background: isDragging ? '#4a2975' : 'white',
   color: isDragging ? '#223059' : 'white',
   ...draggableStyle,
 });

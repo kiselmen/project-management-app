@@ -48,7 +48,6 @@ const ColumnTitle = (props: IColumnTitle) => {
     columnId: string
   ) => {
     e.stopPropagation();
-    // dispatch(updateActiveColumnId(columnId));
     const activeColumnData = allColumns ? allColumns.filter((item) => item._id === _id)[0] : {};
     await dispatch(
       editActiveColumn(
@@ -60,7 +59,6 @@ const ColumnTitle = (props: IColumnTitle) => {
       )
     );
 
-    // dispatch(setModalState({ isOpen: true, type: 'EDIT_COLUMN' }));
     setIsEditNow((state) => !state);
   };
 

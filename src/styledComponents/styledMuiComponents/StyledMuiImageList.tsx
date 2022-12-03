@@ -16,7 +16,6 @@ const StyledMuiImageListColumns = styled(ImageList)(
       sm: 'calc(100vh - 320px)',
       md: 'calc(100vh - 290px)',
     },
-    // 'calc(100vh - 340px)',
   })
 );
 export default StyledMuiImageListColumns;

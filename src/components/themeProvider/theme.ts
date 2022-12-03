@@ -56,7 +56,6 @@ const theme = createTheme({
         '@font-face': {
           fontFamily: 'CentraNo2',
           src: `url(${CentraNo2}) format("truetype")`,
-          // borderRadius: 4,
         },
         body: {
           maxWidth: 1200,
