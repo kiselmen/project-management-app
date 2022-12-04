@@ -31,8 +31,8 @@ const CreateForm = () => {
 
   const dataFormValidation = {
     newBoard: {
-      title: yup.string().required(''),
-      subscribe: yup.string(),
+      title: yup.string().required(t('Please enter a valid title')!),
+      subscribe: yup.string().required(t('Please enter a valid subscribe')!),
     },
     newBoardInitialValue:
       type === 'ADD_BOARD'

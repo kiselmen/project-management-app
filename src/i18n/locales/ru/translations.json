@@ -68,5 +68,7 @@
   "Everyone can study at RS School, regardless of age, professional employment, or place of residence.": "В RS School могут учиться все желающие, независимо от возраста, профессиональной занятости и места жительства.",
   "The mentors and trainers of our school are front-end and javascript developers from different companies and countries.": "Наставниками и преподавателями нашей школы являются front-end и javascript-разработчики из разных компаний и стран.",
   "The following technologies are used in the project:": "В проекте используются следующие технологии:",
-  "The following developers worked on the project:": "Над проектом работали следующие разработчики:"
+  "The following developers worked on the project:": "Над проектом работали следующие разработчики:",
+  "Please enter a valid title": "Пожалуйста введите название доски",
+  "Please enter a valid subscribe": "Пожалуйста введите описание доски"
 }
