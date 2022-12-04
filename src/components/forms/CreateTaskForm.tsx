@@ -41,8 +41,8 @@ const CreateForm = () => {
 
   const dataFormValidation = {
     newColumn: {
-      title: yup.string().required(''),
-      description: yup.string().required(''),
+      title: yup.string().required(t('Please enter a valid title')!),
+      description: yup.string().required(t('Please enter a valid subscribe')!),
     },
     newColumnInitialValue:
       type === 'ADD_TASK'

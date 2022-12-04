@@ -16,6 +16,7 @@ import { getAllBoardColumns } from '../../reduxUsers/actions/columnActions';
 import { useParams } from 'react-router-dom';
 import { setSearchColumnValue } from '../../reduxUsers/slices/columnSlice';
 import { state as columnState } from '../../reduxUsers/slices/columnSlice';
+import { useTranslation } from 'react-i18next';
 
 const SearchBarWrapper = styled.div`
   position: relative;
@@ -23,6 +24,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { allBoards, sortValue } = useSelector(boardState);
   const { allColumns } = useSelector(columnState);
@@ -74,7 +76,7 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
       (!allBoards!.length && formik.values.title && boardUrl) ||
       (!allColumns!.length && formik.values.title && !boardUrl)
     ) {
-      dispatch(setErrMessage('Nothing was found according to your request. Try again'));
+      dispatch(setErrMessage(t('Nothing was found according to your request. Try again')));
       dispatch(setIsOpen({ isOpen: true, type: 'ERROR' }));
     }
   }, [allBoards, allColumns]);
@@ -94,7 +96,7 @@ export const SearchBarForm = ({ boardUrl }: { boardUrl: boolean }) => {
           <TextField
             type="text"
             name="title"
-            placeholder="Search board..."
+            placeholder={t('Search...')!}
             style={{ fontFamily: 'inherit', width: '100%' }}
             inputProps={{ sx: { paddingRight: '80px' } }}
             value={formik.values.title ?? ''}
