@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { ErrorValues } from '../../interfacesAndTypes/interfacesAndTypes';
 import { RootStateForSlice } from '../store';
 
 const initialState = {

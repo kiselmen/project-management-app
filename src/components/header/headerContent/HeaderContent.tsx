@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 
-import {
-  Avatar,
-  Box,
-  Container,
-  IconButton,
-  Menu,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Container, IconButton, Menu, Toolbar, Typography } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
@@ -158,11 +149,9 @@ function HeaderContent() {
           ))}
         </Box>
         <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleChangeLang} sx={{ p: 0, textAlign: 'center' }}>
-              <Avatar sx={{ bgcolor: 'transparent' }}>{langCurrent}</Avatar>
-            </IconButton>
-          </Tooltip>
+          <IconButton onClick={handleChangeLang} sx={{ p: 0, textAlign: 'center' }}>
+            <Avatar sx={{ bgcolor: 'transparent' }}>{langCurrent}</Avatar>
+          </IconButton>
         </Box>
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex', justifyContent: 'center' } }}>
           {pagesAuth.map((page) => (

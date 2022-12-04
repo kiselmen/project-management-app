@@ -13,8 +13,7 @@ interface IColumnWrapper {
 const DndColumnsWrapper = (props: IColumnWrapper) => (
   <Droppable droppableId={props.droppableId} direction={props.directction} type={props.type}>
     {(provided) => (
-      // <Box flexGrow={1} ref={provided.innerRef} {...provided.droppableProps}>
-      <Box ref={provided.innerRef} {...provided.droppableProps}>
+      <Box sx={{ minWidth: '100%' }} ref={provided.innerRef} {...provided.droppableProps}>
         {props.children}
         {provided.placeholder}
       </Box>

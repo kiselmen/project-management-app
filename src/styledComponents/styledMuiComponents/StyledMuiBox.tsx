@@ -7,9 +7,9 @@ const StyledMuiBoxSelectedBordPageMain = styled(Box)(
     flexDirection: 'column',
     width: '100%',
     height: {
-      xs: 'calc(100vh - 190px)',
-      sm: 'calc(100vh - 176px)',
-      md: 'calc(100vh - 145px)',
+      xs: 'calc(100vh - 170px)',
+      sm: 'calc(100vh - 156px)',
+      md: 'calc(100vh - 120px)',
     },
   })
 );

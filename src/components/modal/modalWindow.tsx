@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import { Backdrop, Box, Modal, Fade } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { state as modalState } from '../../reduxUsers/slices/modalSlice';
