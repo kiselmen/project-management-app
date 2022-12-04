@@ -68,7 +68,7 @@ function HeaderContent() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href=""
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -109,7 +109,11 @@ function HeaderContent() {
             }}
           >
             {pagesTotal.map((page) => (
-              <MenuPointLink key={page.name} page={page} handleCloseNavMenu={handleCloseNavMenu} />
+              <MenuPointLink
+                key={page.name}
+                page={page}
+                handleCloseNavMenu={() => handleCloseNavMenu(page.name)}
+              />
             ))}
             {pagesAuth.map((page) => (
               <MenuPointLink
