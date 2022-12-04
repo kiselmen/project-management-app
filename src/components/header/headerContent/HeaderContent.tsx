@@ -24,7 +24,7 @@ function HeaderContent() {
   const { i18n, t } = useTranslation();
   const langLocal = localStorage.getItem('I18N_LANGUAGE')
     ? localStorage.getItem('I18N_LANGUAGE')
-    : 'EN';
+    : 'en';
   const [langCurrent, setLangCurrent] = useState(langLocal);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
