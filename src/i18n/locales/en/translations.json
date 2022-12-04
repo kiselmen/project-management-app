@@ -70,5 +70,12 @@
   "The following technologies are used in the project:": "The following technologies are used in the project:",
   "The following developers worked on the project:": "The following developers worked on the project:",
   "Please enter a valid title": "Please enter a valid title",
-  "Please enter a valid subscribe": "Please enter a valid subscribe"
+  "Please enter a valid subscribe": "Please enter a valid subscribe",
+  "Nothing was found according to your request. Try again": "Nothing was found according to your request. Try again",
+  "Search...": "Search...",
+  "Sort": "Sort",
+  "By name (A-Z)": "By name (A-Z)",
+  "By name (Z-A)": "By name (Z-A)",
+  "By subscribe (A-Z)": "By subscribe (A-Z)",
+  "By subscribe (Z-A)": "By subscribe (Z-A)"
 }

@@ -69,6 +69,13 @@
   "The mentors and trainers of our school are front-end and javascript developers from different companies and countries.": "Наставниками и преподавателями нашей школы являются front-end и javascript-разработчики из разных компаний и стран.",
   "The following technologies are used in the project:": "В проекте используются следующие технологии:",
   "The following developers worked on the project:": "Над проектом работали следующие разработчики:",
-  "Please enter a valid title": "Пожалуйста введите название доски",
-  "Please enter a valid subscribe": "Пожалуйста введите описание доски"
+  "Please enter a valid title": "Пожалуйста введите название",
+  "Please enter a valid subscribe": "Пожалуйста введите описание",
+  "Nothing was found according to your request. Try again": "По Вашему запросу ничего не найдено. Попробуйте снова",
+  "Search...": "Поиск...",
+  "Sort": "Сортировать",
+  "By name (A-Z)": "По имени (А-Я)",
+  "By name (Z-A)": "По имени (Я-А)",
+  "By subscribe (A-Z)": "ПО описанию (А-Я)",
+  "By subscribe (Z-A)": "ПО описанию (Я-А)"
 }
