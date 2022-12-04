@@ -35,7 +35,7 @@ const CreateForm = () => {
 
   const dataFormValidation = {
     newColumn: {
-      title: yup.string().required(''),
+      title: yup.string().required(t('Please enter a valid title')!),
     },
     newColumnInitialValue: type === 'ADD_COLUMN' ? { title: '' } : { title, order, boardId },
   };
